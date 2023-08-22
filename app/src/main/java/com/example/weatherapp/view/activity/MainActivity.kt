@@ -18,7 +18,11 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         lifecycleScope.launch{
+            viewModel.loadWeather()
+            viewModel._liveData.observe(this@MainActivity)
+            {
 
+            }
         }
     }
 }

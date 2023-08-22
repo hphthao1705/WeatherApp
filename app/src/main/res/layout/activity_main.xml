@@ -7,6 +7,9 @@
         <variable
             name="weather"
             type="com.example.weatherapp.data.model.Weather" />
+        <variable
+            name="location"
+            type="com.example.weatherapp.data.model.Location" />
     </data>
 
     <LinearLayout
@@ -37,7 +40,7 @@
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:text="@{weather.location.name}"/>
+                android:text="@{location.name}"/>
 
             <ImageView
                 android:layout_width="120dp"

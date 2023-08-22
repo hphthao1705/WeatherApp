@@ -5,31 +5,23 @@ import com.example.weatherapp.data.remote.APIService
 import com.example.weatherapp.utils.Constants
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
+import retrofit2.await
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
 class WeatherRepository {
     private val apiService: APIService = Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build().create(APIService::class.java)
-    suspend fun loadWeather() = flow<Weather> launch@{
+    suspend fun loadWeather() :Weather? {
         try {
-            val weather = apiService.getWeather(Constants.KEY, "VietNam", "no").awaitResponse()
-            if (weather.isSuccessful)
-            {
-                var list = weather.body()
-                list?.let {
-                    for (i:Weather in list) {
-                        emit(i)
-                    }
-                }
-            }
-            else
-            {
-                throw Exception("Error")
+            val weather = apiService.getWeather(Constants.KEY, "VietNam", "no").await()
+            weather?.let {
+                return weather
             }
         }
         catch (ex: Exception)
         {
-            return@launch error(ex.message ?: ex.toString())
+            return error(ex.message ?: ex.toString())
         }
+        return null
     }
 }

@@ -8,6 +8,6 @@ import retrofit2.http.Query
 
 interface APIService {
     @GET(Constants.END_POINT)
-    fun getWeather(@Query("key") key:String, @Query("q") cityName:String, @Query("aqi") aqi:String): Call<ArrayList<Weather>>
+    fun getWeather(@Query("key") key:String, @Query("q") cityName:String, @Query("aqi") aqi:String): Call<Weather>
 
 }
