@@ -9,25 +9,13 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel : ViewModel(){
     private val repository: WeatherRepository = WeatherRepository()
-    private var list:ArrayList<Weather> = ArrayList()
-    private var liveData: MutableLiveData<ArrayList<Weather>> = MutableLiveData()
+    private var liveData: MutableLiveData<Weather> = MutableLiveData()
     var _liveData = liveData
 
     fun loadWeather()
     {
         viewModelScope.launch {
-            try {
-                var flow = repository.loadWeather()
-                flow.collect(){
-                    it?.let {
-                        list.add(it)
-                    }
-                }
-                liveData.postValue(list)
-            }catch (ex:Exception)
-            {
-                return@launch error(ex.message ?: ex.toString())
-            }
+            liveData.postValue(repository.loadWeather())
         }
     }
 }

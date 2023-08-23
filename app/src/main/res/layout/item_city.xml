@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="city"
+            type="com.example.weatherapp.data.model.Data" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/back_2"
+        android:id="@+id/cardview_city">
+        <TextView
+            android:id="@+id/txt_cityname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{city.city}"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:hint="Ho Phuong Thao"
+            android:textColorHint="@color/white"
+            android:textStyle="bold"/>
+    </androidx.cardview.widget.CardView>
+</layout>

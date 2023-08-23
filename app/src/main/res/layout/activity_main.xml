@@ -5,23 +5,22 @@
 
     <data>
         <variable
-            name="weather"
-            type="com.example.weatherapp.data.model.Weather" />
-        <variable
             name="location"
             type="com.example.weatherapp.data.model.Location" />
+        <variable
+            name="condition"
+            type="com.example.weatherapp.data.model.Condition" />
+        <variable
+            name="current"
+            type="com.example.weatherapp.data.model.Current" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.MainActivity"
+        tools:context=".view.activity.Activity_CityScreen"
         android:orientation="vertical"
         android:background="@color/back_1">
-
-        <androidx.appcompat.widget.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="80dp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -37,14 +36,15 @@
                 android:hint="Ha Noi"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="28sp"
+                android:textSize="35sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:text="@{location.name}"/>
 
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:id="@+id/img_icon"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="55dp"
                 android:layout_marginLeft="130dp"
                 android:src="@drawable/ic_launcher_background" />
@@ -58,8 +58,8 @@
                 android:textColorHint="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="175dp"
-                android:text="@{weather.current.condition.text"/>
+                android:layout_marginTop="130dp"
+                android:text="@{condition.text}"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -68,10 +68,10 @@
                 android:hint="32"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="200dp"
-                android:text="@{weather.current.temp_c}"/>
+                android:layout_marginTop="160dp"
+                android:text="@{current.temp_c}"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_weather_3"
