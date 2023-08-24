@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="location"
+            type="com.example.weatherapp.data.model.Location" />
+        <variable
+            name="condition"
+            type="com.example.weatherapp.data.model.Condition" />
+        <variable
+            name="current"
+            type="com.example.weatherapp.data.model.Current" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.Activity_CityScreen"
+        android:orientation="vertical"
+        android:background="@color/back_1">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:cardCornerRadius="30dp"
+            android:layout_margin="15dp"
+            android:backgroundTint="@color/back_2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:hint="Ha Noi"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:text="@{location.name}"/>
+
+            <ImageView
+                android:id="@+id/img_icon"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="55dp"
+                android:layout_marginLeft="130dp"
+                android:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:hint="Partly Cloudy"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="130dp"
+                android:text="@{condition.text}"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:hint="32"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="160dp"
+                android:text="@{current.temp_c}"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_weather_3"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="280dp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/recyclerview_weather_list"/>
+    </LinearLayout>
+</layout>

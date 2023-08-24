@@ -14,13 +14,6 @@
         android:background="@color/back_1"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchbar"
-            android:textAppearance="@color/white"
-            android:theme="@style/Base.Theme.WeatherApp"
-            android:layout_width="match_parent"
-            android:layout_height="80dp" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_search"
             android:layout_width="match_parent"

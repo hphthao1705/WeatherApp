@@ -9,16 +9,17 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.Fragment_SearchScreen"
-        android:background="@color/back_1">
+        tools:context=".view.fragment.FragmentSearch">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            tools:context=".view.activity.Activity_SearchScreen"
+            android:orientation="vertical"
+            android:background="@color/back_1">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchbar"
+                android:id="@+id/searchbar2"
                 android:textAppearance="@color/white"
                 android:theme="@style/Base.Theme.WeatherApp"
                 android:layout_width="match_parent"

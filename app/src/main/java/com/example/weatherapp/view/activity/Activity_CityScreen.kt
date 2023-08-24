@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
-import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.databinding.ActivityCityScreenBinding
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -19,11 +19,11 @@ import java.net.URL
 
 
 class Activity_CityScreen : AppCompatActivity() {
-    private lateinit var binding:ActivityMainBinding
+    private lateinit var binding:ActivityCityScreenBinding
     private val viewModel by viewModels<WeatherViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_city_screen)
 
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)

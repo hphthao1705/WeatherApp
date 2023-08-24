@@ -15,13 +15,16 @@
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.Activity_HomeScreen"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.Activity_SearchScreen"
             android:exported="false" />
         <activity
             android:name=".view.activity.Activity_CityScreen"
             android:exported="false" />
         <activity
-            android:name=".view.activity.Activity_HomeScreen"
+            android:name=".view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
