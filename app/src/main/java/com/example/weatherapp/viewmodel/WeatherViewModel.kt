@@ -12,10 +12,16 @@ class WeatherViewModel : ViewModel(){
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     var _liveData = liveData
 
-    fun loadWeather()
+    fun loadWeather(cityName:String):Boolean
     {
         viewModelScope.launch {
-            liveData.postValue(repository.loadWeather())
+            repository.loadWeather(cityName)?.let {
+                liveData.postValue(it)
+            }
         }
+        _liveData?.let {
+            return true
+        }
+        return false
     }
 }

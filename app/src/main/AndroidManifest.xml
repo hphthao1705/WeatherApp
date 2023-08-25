@@ -15,6 +15,9 @@
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.ActivityEmptyState"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.Activity_HomeScreen"
             android:exported="false" />
         <activity
