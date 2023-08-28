@@ -10,15 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class WeatherRepository {
     private val apiService: APIService = Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build().create(APIService::class.java)
     suspend fun loadWeather(cityName:String) :Weather? {
-        try {
-            val weather = apiService.getWeather(Constants.KEY, cityName, "no").await()
-            weather?.let {
-                return weather
-            }
-        }
-        catch (ex: Exception)
-        {
-            return error(ex.message ?: ex.toString())
+        val weather = apiService.getWeather(Constants.KEY, cityName, "no").await()
+        weather?.let {
+            return weather
         }
         return null
     }

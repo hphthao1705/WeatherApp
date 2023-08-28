@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +37,12 @@ class Activity_CityScreen : AppCompatActivity() {
 
         var cityName = intent.getStringExtra("cityname")
         loadData(cityName!!)
+//        if(loadData(cityName!!)==0)
+//        {
+//            val intent2 = Intent(this@Activity_CityScreen, ActivityEmptyState::class.java)
+//            finish()
+//            startActivity(intent2)
+//        }
         binding.imgBack.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             finish()
@@ -55,25 +63,29 @@ class Activity_CityScreen : AppCompatActivity() {
     {
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
+        var i = 0
 
-        lifecycleScope.launch{
-            when(viewModel.loadWeather(cityName!!))
+        lifecycleScope.launch {
+            viewModel.loadWeather(cityName)
+            viewModel._liveData.observe(this@Activity_CityScreen)
             {
-                false ->{
+                if(it.error == null)
+                {
+                    binding.location = it.location
+                    binding.condition = it.current?.condition
+                    binding.current = it.current
+                    binding.imgIcon.setImageBitmap(getBitmapFromURL("https:" + it.current?.condition?.icon))
+                    loadWeatherProperties(
+                        it.current?.feelslike_c.toString().trim(),
+                        it.current?.wind_kph.toString().trim(),
+                        it.current?.humidity.toString().trim()
+                    )
+                }
+                else
+                {
                     val intent2 = Intent(this@Activity_CityScreen, ActivityEmptyState::class.java)
                     finish()
                     startActivity(intent2)
-                }
-                else ->
-                {
-                    viewModel._liveData.observe(this@Activity_CityScreen)
-                    {
-                        binding.location = it.location
-                        binding.condition = it.current.condition
-                        binding.current = it.current
-                        binding.imgIcon.setImageBitmap(getBitmapFromURL("https:" + it.current.condition.icon))
-                        loadWeatherProperties(it.current.feelslike_c.toString().trim(),it.current.wind_kph.toString().trim(),it.current.humidity.toString().trim())
-                    }
                 }
             }
         }
