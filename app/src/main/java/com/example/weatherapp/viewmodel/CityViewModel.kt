@@ -14,11 +14,11 @@ class CityViewModel: ViewModel() {
     private var liveData: MutableLiveData<List<Data>> = MutableLiveData()
     var _liveData = liveData
 
-//    private var liveData
-    suspend fun loadCities()
+    private var errorMessage:String = ""
+    suspend fun loadCities(): String
     {
-        viewModelScope.launch {
-            try {
+        try {
+            viewModelScope.launch {
                 var flow = repository.loadCity()
                 flow.collect(){
                     it?.let {
@@ -26,10 +26,15 @@ class CityViewModel: ViewModel() {
                     }
                 }
                 liveData.postValue(list)
-            }catch (ex:Exception)
-            {
-                return@launch error(ex.message ?: ex.toString())
+                repository.error400().collect {
+                    errorMessage = it
+                }
             }
         }
+        catch(ex:Exception)
+        {
+            println(ex.message.toString())
+        }
+        return errorMessage
     }
 }

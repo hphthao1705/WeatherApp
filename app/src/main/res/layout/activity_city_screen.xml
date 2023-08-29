@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.Activity_CityScreen"
+        tools:context=".view.activity.ActivityCityScreen"
         android:orientation="vertical"
         android:background="@color/back_1">
 

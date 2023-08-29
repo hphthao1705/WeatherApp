@@ -5,6 +5,7 @@ import com.example.weatherapp.data.remote.APIService
 import com.example.weatherapp.utils.Constants
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
+import retrofit2.await
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,14 +23,19 @@ class CityRepository {
                     }
                 }
             }
-            else
-            {
-                throw Exception("Error")
-            }
         }
         catch (ex:Exception)
         {
-            return@launch error(ex.message ?: ex.toString())
+            print(ex.toString())
+        }
+    }
+    fun error400() = flow<String> {
+        try {
+            apiService.getCity().awaitResponse()
+        }
+        catch (ex:Exception)
+        {
+            emit(ex.message.toString())
         }
     }
 }

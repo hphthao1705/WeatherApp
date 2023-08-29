@@ -5,6 +5,7 @@ import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.utils.Constants
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
