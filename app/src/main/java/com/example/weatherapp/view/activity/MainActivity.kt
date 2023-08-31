@@ -2,73 +2,38 @@ package com.example.weatherapp.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.view.fragment.FragmentEmptyState
-import com.example.weatherapp.view.fragment.FragmentHome
+import com.example.weatherapp.view.fragment.FragmentEmptyStateCity
+import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
-    private lateinit var toolbar: Toolbar
     private val viewModel by viewModels<CityViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        toolbar = findViewById(R.id.searchbar)
-        setSupportActionBar(toolbar)
 
-        loadWhenAppOpen()
-        binding.bottomNavigation.setOnItemSelectedListener {
-            when(it.itemId)
-            {
-                R.id.home -> {
-                    lifecycleScope.launch {
-                        if(viewModel.loadCities() == "")
-                        {
-                            replaceFragment(FragmentHome())
-                        }
-                        else
-                        {
-                            replaceFragment(FragmentEmptyState())
-                        }
-                    }
-                }
-                R.id.search -> replaceFragment(FragmentSearch())
-                else -> replaceFragment(FragmentHome())
-            }
-            true
+        replaceFragment(FragmentCity())
+        binding.btnListcity.setOnClickListener{
+            loadCities()
         }
-    }
+        searchCity()
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val menuInflater = menuInflater
-        menuInflater.inflate(R.menu.header, menu)
-        return true
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId)
-        {
-            R.id.search_tool -> {
-                actionBar?.hide()
-                replaceFragment(FragmentSearch())
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-    private fun replaceFragment(fragment: Fragment)
+    fun replaceFragment(fragment: Fragment)
     {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -76,17 +41,35 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    private fun loadWhenAppOpen()
+    private fun loadCities()
     {
         lifecycleScope.launch {
             if(viewModel.loadCities() == "")
             {
-                replaceFragment(FragmentHome())
+                replaceFragment(FragmentCity())
             }
             else
             {
-                replaceFragment(FragmentEmptyState())
+                replaceFragment(FragmentEmptyStateCity())
             }
         }
+    }
+    fun searchCity():String
+    {
+        var textSearch:String = ""
+        binding.txtSearch.doAfterTextChanged {
+            textSearch = it.toString()
+            lifecycleScope.launch {
+                viewModel.loadCities()
+                viewModel._liveData.observe(this@MainActivity)
+                {
+                    replaceFragment(FragmentSearch(textSearch, it))
+                }
+            }
+        }
+//        binding.txtSearch.doOnTextChanged { text, start, before, count ->
+//
+//        }
+        return textSearch
     }
 }

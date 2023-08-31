@@ -10,25 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.fragment.FragmentSearch">
-
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.activity.Activity_SearchScreen"
-            android:orientation="vertical"
-            android:background="@color/back_1">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchbar2"
-                android:textAppearance="@color/white"
-                android:theme="@style/Base.Theme.WeatherApp"
-                android:layout_width="match_parent"
-                android:layout_height="80dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+            android:layout_height="match_parent" />
     </FrameLayout>
 </layout>

@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentEmptyStateBinding
 
-class FragmentEmptyState : Fragment() {
+class FragmentEmptyStateCity : Fragment() {
     private lateinit var binding: FragmentEmptyStateBinding
     override fun onCreateView(
         inflater: LayoutInflater,

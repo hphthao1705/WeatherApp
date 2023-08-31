@@ -18,6 +18,7 @@ class WeatherViewModel : ViewModel(){
         viewModelScope.launch {
             repository.loadWeather(cityName)?.let {
                 liveData.postValue(it)
+                errorMessage = ""
             }
         }
         repository.error400(cityName).collect {
