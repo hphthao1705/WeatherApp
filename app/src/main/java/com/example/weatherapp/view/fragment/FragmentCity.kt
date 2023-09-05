@@ -17,7 +17,7 @@ import com.example.weatherapp.view.adapter.CityAdapter
 import com.example.weatherapp.viewmodel.CityViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
-class FragmentCity() : Fragment() {
+class FragmentCity(private var listData: List<Data>) : Fragment() {
     private lateinit var binding: FragmentCityBinding
     private val viewModel by activityViewModels<CityViewModel>()
     private var adapter: CityAdapter = CityAdapter(emptyList())
@@ -36,32 +36,26 @@ class FragmentCity() : Fragment() {
     private fun loadData()
     {
         val activity: MainActivity? = activity as MainActivity
-        lifecycleScope.launch {
-            viewModel.loadCities()
-            viewModel._liveData.observe(viewLifecycleOwner)
-            {
-                binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context,2)
-                adapter = CityAdapter(it)
-                binding.recyclerviewCity.adapter =  adapter
+        binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context,2)
+        adapter = CityAdapter(listData)
+        binding.recyclerviewCity.adapter =  adapter
 
-                adapter.setOnClickListener(object:CityAdapter.OnClickListener{
-                    override fun onClick(city: Data) {
-                        //Toast.makeText(context, city.city, Toast.LENGTH_SHORT).show()
-                        lifecycleScope.launch {
-                            Toast.makeText(context,viewModelWeather.loadWeather(city.city), Toast.LENGTH_SHORT).show()
-                            if(viewModelWeather.loadWeather(city.city) == "")
-                            {
-                                activity?.replaceFragment(FragmentHome(city.city))
-                            }
-                            else
-                            {
-                                activity?.replaceFragment(FragmentEmptyStateWeather())
-                            }
-                        }
-
+        adapter.setOnClickListener(object:CityAdapter.OnClickListener{
+            override fun onClick(city: Data) {
+                //Toast.makeText(context, city.city, Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    Toast.makeText(context,viewModelWeather.loadWeather(city.city), Toast.LENGTH_SHORT).show()
+                    if(viewModelWeather.loadWeather(city.city) == "")
+                    {
+                        activity?.replaceFragment(FragmentHome(city.city))
                     }
-                })
+                    else
+                    {
+                        activity?.replaceFragment(FragmentEmptyStateWeather())
+                    }
+                }
+
             }
-        }
+        })
     }
 }

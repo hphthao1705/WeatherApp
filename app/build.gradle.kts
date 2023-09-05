@@ -69,4 +69,21 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
     //fragment
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+    //room
+    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+    //annotationProcessor "androidx.room:room-compiler:2.5.2"
+    kapt("androidx.room:room-compiler:2.5.2")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.32");
+    // optional - RxJava2 support for Room
+    implementation("androidx.room:room-rxjava2:2.5.0")
+    // optional - RxJava3 support for Room
+    implementation("androidx.room:room-rxjava3:2.5.0")
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation("androidx.room:room-guava:2.5.0")
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:2.5.0")
+    //loading
+    implementation("com.airbnb.android:lottie:3.4.0")
+
 }

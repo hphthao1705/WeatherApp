@@ -12,17 +12,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentSearchBinding
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.SearchAdapter
 import com.example.weatherapp.viewmodel.CityViewModel
+import com.example.weatherapp.viewmodel.SearchViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 
 class FragmentSearch(var text:String, private var listData: List<Data>) : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-    private val viewModel by activityViewModels<CityViewModel>()
+    private val viewModel by activityViewModels<SearchViewModel>()
     private var adapter: SearchAdapter = SearchAdapter(emptyList())
     private val viewModelWeather by activityViewModels<WeatherViewModel>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,6 +49,8 @@ class FragmentSearch(var text:String, private var listData: List<Data>) : Fragme
                     Toast.makeText(context,viewModelWeather.loadWeather(city.city), Toast.LENGTH_SHORT).show()
                     if(viewModelWeather.loadWeather(city.city) == "")
                     {
+                        var p = Search(city.city)
+                        viewModel.addNewCity(p)
                         activity?.replaceFragment(FragmentHome(city.city))
                     }
                     else

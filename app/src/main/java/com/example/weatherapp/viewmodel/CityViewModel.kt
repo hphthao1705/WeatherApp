@@ -19,13 +19,10 @@ class CityViewModel: ViewModel() {
     {
         try {
             viewModelScope.launch {
-                var flow = repository.loadCity()
+                val flow = repository.loadCity()
                 flow.collect(){
-                    it?.let {
-                        list.add(it)
-                    }
+                    liveData.postValue(it)
                 }
-                liveData.postValue(list)
                 repository.error400().collect {
                     errorMessage = it
                 }
