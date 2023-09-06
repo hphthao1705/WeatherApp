@@ -19,7 +19,6 @@ import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 class FragmentCity(private var listData: List<Data>) : Fragment() {
     private lateinit var binding: FragmentCityBinding
-    private val viewModel by activityViewModels<CityViewModel>()
     private var adapter: CityAdapter = CityAdapter(emptyList())
     private val viewModelWeather by activityViewModels<WeatherViewModel>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

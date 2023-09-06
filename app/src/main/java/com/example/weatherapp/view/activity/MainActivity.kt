@@ -18,11 +18,18 @@ import com.example.weatherapp.view.fragment.FragmentEmptyStateCity
 import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.view.fragment.FragmentEmptyFavouriteCity
 import com.example.weatherapp.view.fragment.FragmentFavouriteCity
+import com.example.weatherapp.view.fragment.FragmentLoading
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
 import com.example.weatherapp.viewmodel.SearchViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
@@ -34,14 +41,16 @@ class MainActivity : AppCompatActivity() {
             SearchViewModel.ViewModelFactory(this.application)
         )[SearchViewModel::class.java]
     }
+    private var check:Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        replaceFragment(FragmentLoading())
+        loadCities()
 
-        listData = loadData()
-
-        searchCity()
-
+        lifecycleScope.launch {
+            initControls()
+        }
     }
     fun replaceFragment(fragment: Fragment)
     {
@@ -50,43 +59,33 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(binding.framelayout.id, fragment)
         fragmentTransaction.commit()
     }
-    private fun loadData():ArrayList<Data>
-    {
-        var list:ArrayList<Data> = ArrayList()
+    private fun loadCities() = runBlocking{
         lifecycleScope.launch {
-            var i = viewModel.loadCities()
-            viewModel._liveData.observe(this@MainActivity)
+            if(viewModel.loadCities() == "")
             {
-                list = it as ArrayList<Data>
-//                if(i == "")
-//                {
-//
-//                    //replaceFragment(FragmentCity(it))
-//                    //replaceFragment(FragmentFavouriteCity())
-//                    for (i in it)
-//                    {
-//                        list.add(i)
-//                    }
-//                }
-                binding.btnListcity.setOnClickListener{
-                    if(list.isNotEmpty())
-                    {
-                        replaceFragment(FragmentCity(list))
-                    }
-                    else
-                    {
-                        replaceFragment(FragmentEmptyStateCity())
-                    }
+                viewModel._liveData.observe(this@MainActivity)
+                {
+                    listData = it as ArrayList<Data>
                 }
-//                else
-//                {
-//                    replaceFragment(FragmentEmptyStateCity())
-//                }
             }
         }
-
-        viewModelSearch.getAllNote().observe(this){
-            if(!it.isEmpty())
+    }
+    suspend fun initControls()
+    {
+        delay(5000)
+        binding.btnListcity.setOnClickListener{
+            if(listData.isNotEmpty())
+            {
+                replaceFragment(FragmentCity(listData))
+            }
+            else
+            {
+                replaceFragment(FragmentEmptyStateCity())
+            }
+        }
+        searchCity()
+        viewModelSearch.getAllNote().observe(this@MainActivity){
+            if(it.isNotEmpty())
             {
                 replaceFragment(FragmentFavouriteCity())
             }
@@ -95,11 +94,10 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        return list
     }
     fun searchCity():String
     {
-        var textSearch:String = ""
+        var textSearch = ""
         binding.txtSearch.doAfterTextChanged {
             textSearch = it.toString()
             if(textSearch.equals(""))
