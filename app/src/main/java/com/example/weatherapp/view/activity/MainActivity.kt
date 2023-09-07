@@ -41,16 +41,11 @@ class MainActivity : AppCompatActivity() {
             SearchViewModel.ViewModelFactory(this.application)
         )[SearchViewModel::class.java]
     }
-    private var check:Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         replaceFragment(FragmentLoading())
         loadCities()
-
-        lifecycleScope.launch {
-            initControls()
-        }
     }
     fun replaceFragment(fragment: Fragment)
     {
@@ -66,9 +61,11 @@ class MainActivity : AppCompatActivity() {
                 viewModel._liveData.observe(this@MainActivity)
                 {
                     listData = it as ArrayList<Data>
+//                    replaceFragment(FragmentCity(it))
                 }
             }
         }
+        initControls()
     }
     suspend fun initControls()
     {
@@ -91,9 +88,11 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 replaceFragment(FragmentEmptyFavouriteCity())
-
             }
         }
+//        binding.btnListfavouritecity.setOnClickListener{
+//
+//        }
     }
     fun searchCity():String
     {

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.weatherapp.data.local.SearchDatabase
 import com.example.weatherapp.data.local.dao.SearchDAO
 import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.model.City
 
 class SearchRepository(app: Application) {
     private val dao:SearchDAO
@@ -14,4 +15,5 @@ class SearchRepository(app: Application) {
     }
     fun insertCity(city: Search) = dao.insertCity(city)
     fun getAllCity(): LiveData<List<Search>> = dao.getAllCity()
+    fun deleteCity(city: String) = dao.deleteCity(city)
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.Data
@@ -23,6 +24,7 @@ class FragmentFavouriteCity : Fragment() {
             SearchViewModel.ViewModelFactory(requireActivity().application)
         )[SearchViewModel::class.java]
     }
+    private var adapter:FavouriteCityAdapter = FavouriteCityAdapter(emptyList())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,17 +36,18 @@ class FragmentFavouriteCity : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initControls()
 
     }
     private fun initControls()
     {
-        var adapter = FavouriteCityAdapter(emptyList())
-        binding.recyclerviewFavouritecity.setHasFixedSize(true)
-        binding.recyclerviewFavouritecity.layoutManager = LinearLayoutManager(context)
-        binding.recyclerviewFavouritecity.adapter =  adapter
         viewModel.getAllNote().observe(viewLifecycleOwner){
             adapter = FavouriteCityAdapter(it)
+            binding.recyclerviewFavouritecity.setHasFixedSize(true)
+            binding.recyclerviewFavouritecity.layoutManager = LinearLayoutManager(context)
+            binding.recyclerviewFavouritecity.adapter =  adapter
+            //adapter.notifyDataSetChanged()
         }
     }
 }

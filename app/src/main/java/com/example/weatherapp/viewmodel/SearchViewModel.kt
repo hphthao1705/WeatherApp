@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.repository.SearchRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchViewModel(app: Application):ViewModel() {
@@ -15,7 +16,7 @@ class SearchViewModel(app: Application):ViewModel() {
     fun addNewCity(search: Search) {
         insertCity(search)
     }
-    fun insertCity(item: Search) = viewModelScope.launch {
+    fun insertCity(item: Search) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertCity(item)
     }
     fun getAllNote(): LiveData<List<Search>> = repository.getAllCity()
@@ -28,5 +29,8 @@ class SearchViewModel(app: Application):ViewModel() {
             }
             throw IllegalArgumentException("Unable construct viewmodel")
         }
+    }
+    fun deleteCity(city:String)  = viewModelScope.launch {
+        repository.deleteCity(city)
     }
 }

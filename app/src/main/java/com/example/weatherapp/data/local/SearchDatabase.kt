@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.weatherapp.data.local.dao.SearchDAO
 import com.example.weatherapp.data.local.entities.Search
 
-@Database(entities = [Search::class], version = 2)
+@Database(entities = [Search::class], version = 4)
 abstract class SearchDatabase: RoomDatabase() {
     abstract fun getSearchDao(): SearchDAO
     companion object{
@@ -17,7 +17,9 @@ abstract class SearchDatabase: RoomDatabase() {
         fun getInstance(context: Context):SearchDatabase{
             if(instance == null)
             {
-                instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").build()
+                //instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").allowMainThreadQueries().build() (not recommend - block UI)
+                //instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").fallbackToDestructiveMigration().build()
+                instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").fallbackToDestructiveMigrationOnDowngrade().build()
             }
             return instance!!
         }

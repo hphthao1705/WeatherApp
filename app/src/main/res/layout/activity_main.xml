@@ -26,13 +26,19 @@
                 android:drawablePadding="10dp"
                 android:padding="15dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
-
+                android:layout_marginRight="10dp"
+                android:textColor="@color/dark_gray"/>
             <ImageView
                 android:id="@+id/btn_listcity"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/baseline_list_24"
+                android:layout_gravity="right" />
+            <ImageView
+                android:id="@+id/btn_listfavouritecity"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_replay_10_24"
                 android:layout_gravity="right" />
         </LinearLayout>
 
