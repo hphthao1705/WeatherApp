@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentCityBinding
 import com.example.weatherapp.view.activity.MainActivity
@@ -21,6 +22,7 @@ class FragmentCity(private var listData: List<Data>) : Fragment() {
     private lateinit var binding: FragmentCityBinding
     private var adapter: CityAdapter = CityAdapter(emptyList())
     private val viewModelWeather by activityViewModels<WeatherViewModel>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding= DataBindingUtil.inflate(inflater, com.example.weatherapp.R.layout.fragment_city, container, false)
         val view: View = binding.root
@@ -46,6 +48,12 @@ class FragmentCity(private var listData: List<Data>) : Fragment() {
                     Toast.makeText(context,viewModelWeather.loadWeather(city.city), Toast.LENGTH_SHORT).show()
                     if(viewModelWeather.loadWeather(city.city) == "")
                     {
+//                        if(list.any { it.name == city.city })
+//                        {
+//                            viewModelSearch.deleteCity(city.city)
+//                        }
+//                        var p = Search(city.city)
+//                        viewModelSearch.addNewCity(p)
                         activity?.replaceFragment(FragmentHome(city.city))
                     }
                     else
@@ -57,4 +65,10 @@ class FragmentCity(private var listData: List<Data>) : Fragment() {
             }
         })
     }
+//    fun loadDataFromRoom()
+//    {
+//        viewModelSearch.getAllNote().observe(viewLifecycleOwner){
+//            list = it as ArrayList<Search>
+//        }
+//    }
 }

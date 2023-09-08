@@ -17,9 +17,9 @@ abstract class SearchDatabase: RoomDatabase() {
         fun getInstance(context: Context):SearchDatabase{
             if(instance == null)
             {
-                //instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").allowMainThreadQueries().build() (not recommend - block UI)
+                instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").allowMainThreadQueries().build() //(not recommend - block UI)
                 //instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").fallbackToDestructiveMigration().build()
-                instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").fallbackToDestructiveMigrationOnDowngrade().build()
+                //instance = Room.databaseBuilder(context,SearchDatabase::class.java,"search").fallbackToDestructiveMigrationOnDowngrade().build()
             }
             return instance!!
         }

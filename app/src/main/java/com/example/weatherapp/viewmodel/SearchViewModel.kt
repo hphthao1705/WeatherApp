@@ -30,7 +30,7 @@ class SearchViewModel(app: Application):ViewModel() {
             throw IllegalArgumentException("Unable construct viewmodel")
         }
     }
-    fun deleteCity(city:String)  = viewModelScope.launch {
+    fun deleteCity(city:String)  = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteCity(city)
     }
 }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.processNextEventInCurrentThread
 
 class FragmentLoading : Fragment() {
     private lateinit var binding: FragmentLoadingBinding
-    val handle:Handler = Handler()
+    val handler:Handler = Handler()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,9 +26,8 @@ class FragmentLoading : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.progressBar.isIndeterminate(true)
-//        handle.post(Runnable {
-//
-//        })
+        //binding.progressBar.setProgress(3000,true)
+        //binding.progressBar.postDelayed(Runnable {  },5000)
+        //handler.postDelayed(Runnable { },5000)
     }
 }

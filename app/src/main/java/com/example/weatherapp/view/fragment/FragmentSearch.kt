@@ -21,6 +21,8 @@ import com.example.weatherapp.view.adapter.SearchAdapter
 import com.example.weatherapp.viewmodel.CityViewModel
 import com.example.weatherapp.viewmodel.SearchViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FragmentSearch(var text:String, private var listData: List<Data>) : Fragment() {
@@ -60,11 +62,10 @@ class FragmentSearch(var text:String, private var listData: List<Data>) : Fragme
         val activity: MainActivity? = activity as MainActivity
         adapter.setOnClickListener(object :SearchAdapter.OnClickListener{
             override fun onClick(city: Data) {
-                lifecycleScope.launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(context,viewModelWeather.loadWeather(city.city), Toast.LENGTH_SHORT).show()
                     if(viewModelWeather.loadWeather(city.city) == "")
                     {
-
                         if(list.any { it.name == city.city })
                         {
                             viewModelSearch.deleteCity(city.city)

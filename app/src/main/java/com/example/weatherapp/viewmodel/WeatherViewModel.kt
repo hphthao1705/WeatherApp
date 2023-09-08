@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.Error
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WeatherViewModel : ViewModel(){

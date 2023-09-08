@@ -14,11 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ProgressBar
-                android:id="@+id/progressBar"
-                android:indeterminateDrawable="@drawable/progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:indeterminateDrawable="@drawable/loading"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </FrameLayout>
 </layout>

@@ -2,16 +2,14 @@ package com.example.weatherapp.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.view.fragment.FragmentEmptyStateCity
@@ -22,11 +20,7 @@ import com.example.weatherapp.view.fragment.FragmentLoading
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
 import com.example.weatherapp.viewmodel.SearchViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -41,11 +35,12 @@ class MainActivity : AppCompatActivity() {
             SearchViewModel.ViewModelFactory(this.application)
         )[SearchViewModel::class.java]
     }
+    private var list:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         replaceFragment(FragmentLoading())
-        loadCities()
+        prepareData()
     }
     fun replaceFragment(fragment: Fragment)
     {
@@ -54,23 +49,30 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(binding.framelayout.id, fragment)
         fragmentTransaction.commit()
     }
-    private fun loadCities() = runBlocking{
-        lifecycleScope.launch {
-            if(viewModel.loadCities() == "")
-            {
-                viewModel._liveData.observe(this@MainActivity)
-                {
-                    listData = it as ArrayList<Data>
-//                    replaceFragment(FragmentCity(it))
-                }
-            }
-        }
-        initControls()
-    }
     suspend fun initControls()
     {
         delay(5000)
         binding.btnListcity.setOnClickListener{
+            if(list.isEmpty())
+            {
+                replaceFragment(FragmentEmptyFavouriteCity())
+            }
+            else
+            {
+                replaceFragment(FragmentFavouriteCity())
+            }
+        }
+        searchCity()
+        loadScreenWhenAppStart()
+    }
+    fun loadScreenWhenAppStart()
+    {
+        if(list.isNotEmpty())
+        {
+            replaceFragment(FragmentFavouriteCity())
+        }
+        else
+        {
             if(listData.isNotEmpty())
             {
                 replaceFragment(FragmentCity(listData))
@@ -80,19 +82,6 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(FragmentEmptyStateCity())
             }
         }
-        searchCity()
-        viewModelSearch.getAllNote().observe(this@MainActivity){
-            if(it.isNotEmpty())
-            {
-                replaceFragment(FragmentFavouriteCity())
-            }
-            else{
-                replaceFragment(FragmentEmptyFavouriteCity())
-            }
-        }
-//        binding.btnListfavouritecity.setOnClickListener{
-//
-//        }
     }
     fun searchCity():String
     {
@@ -108,9 +97,39 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(FragmentSearch(textSearch, listData))
             }
         }
-//        binding.txtSearch.doOnTextChanged { text, start, before, count ->
-//
-//        }
         return textSearch
+    }
+    fun loadDataFromRoom()
+    {
+        viewModelSearch.getAllNote().observe(this@MainActivity){
+            list = it as ArrayList<Search>
+        }
+    }
+    fun loadCities()
+    {
+        lifecycleScope.launch {
+            if(viewModel.loadCities() == "")
+            {
+                viewModel._liveData.observe(this@MainActivity)
+                {
+                    listData = it as ArrayList<Data>
+//                    replaceFragment(FragmentCity(it))
+                }
+            }
+        }
+    }
+    private fun prepareData()
+    {
+        val job1 = lifecycleScope.launch {
+            loadCities()
+            loadDataFromRoom()
+        }
+        runBlocking {
+            job1.join()
+            launch(Dispatchers.IO) {
+                initControls()
+            }
+        }
+        //initControls()
     }
 }
