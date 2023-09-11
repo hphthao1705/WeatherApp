@@ -1,12 +1,8 @@
 package com.example.weatherapp.repository
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.remote.APIService
 import com.example.weatherapp.utils.Constants
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
 import retrofit2.await
@@ -28,7 +24,7 @@ class WeatherRepository {
         }
         return null
     }
-    fun error400(cityName: String) = flow<String> {
+    fun error400(cityName: String) = flow {
         try {
             apiService.getWeather(Constants.KEY, cityName, "no").await()
         }

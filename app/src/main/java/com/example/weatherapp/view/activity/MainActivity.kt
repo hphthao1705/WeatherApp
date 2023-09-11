@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         var textSearch = ""
         binding.txtSearch.doAfterTextChanged {
             textSearch = it.toString()
-            if(textSearch.equals(""))
+            if(textSearch.equals("", true))
             {
                 replaceFragment(FragmentCity(listData,listRoom))
             }
