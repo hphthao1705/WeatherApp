@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.WeatherProperties
 import com.example.weatherapp.databinding.InfoWeatherBinding
 

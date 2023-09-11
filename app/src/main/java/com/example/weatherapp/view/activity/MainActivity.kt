@@ -20,10 +20,7 @@ import com.example.weatherapp.view.fragment.FragmentLoading
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
 import com.example.weatherapp.viewmodel.SearchViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
@@ -35,12 +32,13 @@ class MainActivity : AppCompatActivity() {
             SearchViewModel.ViewModelFactory(this.application)
         )[SearchViewModel::class.java]
     }
-    private var list:ArrayList<Search> = ArrayList()
+    private var listRoom:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         replaceFragment(FragmentLoading())
-        prepareData()
+        loadCities()
+        loadDataFromRoom()
     }
     fun replaceFragment(fragment: Fragment)
     {
@@ -49,11 +47,10 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(binding.framelayout.id, fragment)
         fragmentTransaction.commit()
     }
-    suspend fun initControls()
+    fun initControls()
     {
-        delay(5000)
         binding.btnListcity.setOnClickListener{
-            if(list.isEmpty())
+            if(listRoom.isEmpty())
             {
                 replaceFragment(FragmentEmptyFavouriteCity())
             }
@@ -67,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun loadScreenWhenAppStart()
     {
-        if(list.isNotEmpty())
+        if(listRoom.isNotEmpty())
         {
             replaceFragment(FragmentFavouriteCity())
         }
@@ -75,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         {
             if(listData.isNotEmpty())
             {
-                replaceFragment(FragmentCity(listData))
+                replaceFragment(FragmentCity(listData,listRoom))
             }
             else
             {
@@ -90,11 +87,11 @@ class MainActivity : AppCompatActivity() {
             textSearch = it.toString()
             if(textSearch.equals(""))
             {
-                replaceFragment(FragmentCity(listData))
+                replaceFragment(FragmentCity(listData,listRoom))
             }
             else
             {
-                replaceFragment(FragmentSearch(textSearch, listData))
+                replaceFragment(FragmentSearch(textSearch, listData, listRoom))
             }
         }
         return textSearch
@@ -102,34 +99,16 @@ class MainActivity : AppCompatActivity() {
     fun loadDataFromRoom()
     {
         viewModelSearch.getAllNote().observe(this@MainActivity){
-            list = it as ArrayList<Search>
+            listRoom = it as ArrayList<Search>
         }
     }
     fun loadCities()
     {
         lifecycleScope.launch {
-            if(viewModel.loadCities() == "")
-            {
-                viewModel._liveData.observe(this@MainActivity)
-                {
-                    listData = it as ArrayList<Data>
-//                    replaceFragment(FragmentCity(it))
-                }
-            }
-        }
-    }
-    private fun prepareData()
-    {
-        val job1 = lifecycleScope.launch {
-            loadCities()
-            loadDataFromRoom()
-        }
-        runBlocking {
-            job1.join()
-            launch(Dispatchers.IO) {
+            viewModel._liveData.observe(this@MainActivity) {
+                listData = it as ArrayList<Data>
                 initControls()
             }
         }
-        //initControls()
     }
 }

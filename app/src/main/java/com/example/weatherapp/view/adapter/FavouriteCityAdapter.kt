@@ -6,9 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ItemFavouritecityBinding
-import com.example.weatherapp.databinding.ItemSearchBinding
 
 class FavouriteCityAdapter(private var itemList: List<Search>): RecyclerView.Adapter<FavouriteCityAdapter.MyViewHolder>() {
     private var onClickListener: OnClickListener? = null

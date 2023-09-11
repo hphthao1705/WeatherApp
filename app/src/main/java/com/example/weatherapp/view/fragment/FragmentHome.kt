@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.WeatherProperties
 import com.example.weatherapp.databinding.FragmentHomeBinding
-import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.WeatherAdapter
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch

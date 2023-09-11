@@ -5,10 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.data.model.City
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ItemCityBinding
-import com.example.weatherapp.view.activity.MainActivity
 
 class CityAdapter(private var itemList: List<Data>): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
     private var onClickListener: OnClickListener? = null

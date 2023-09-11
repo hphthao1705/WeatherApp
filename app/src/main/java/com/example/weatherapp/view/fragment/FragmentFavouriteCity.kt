@@ -7,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentFavouriteCityBinding
-import com.example.weatherapp.view.adapter.CityAdapter
 import com.example.weatherapp.view.adapter.FavouriteCityAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
 
@@ -36,7 +33,6 @@ class FragmentFavouriteCity : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initControls()
 
     }
