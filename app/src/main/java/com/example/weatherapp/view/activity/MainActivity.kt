@@ -12,6 +12,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.repository.CityRepository
 import com.example.weatherapp.view.fragment.FragmentEmptyStateCity
 import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.view.fragment.FragmentEmptyFavouriteCity
@@ -107,6 +108,9 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel._liveData.observe(this@MainActivity) {
                 listData = it as ArrayList<Data>
+                initControls()
+            }
+            viewModel._liveDataAPI?.observe(this@MainActivity){
                 initControls()
             }
         }

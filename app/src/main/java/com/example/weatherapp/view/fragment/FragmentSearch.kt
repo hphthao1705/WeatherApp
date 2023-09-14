@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
@@ -19,6 +20,7 @@ import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.SearchAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import kotlinx.coroutines.launch
 
 class FragmentSearch(var text:String, private var listData: List<Data>, private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding: FragmentSearchBinding
@@ -52,17 +54,23 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
         val activity: MainActivity? = activity as MainActivity
         adapter.setOnClickListener(object :SearchAdapter.OnClickListener{
             override fun onClick(city: Data) {
-                viewModelWeather._liveDataAPI?.observe(viewLifecycleOwner, Observer {
-                    activity?.replaceFragment(FragmentEmptyStateWeather())
-                })
-                val predicate: (Search) -> Boolean = {it.name == city.city}
-                if(listRoom.any(predicate))
-                {
-                    viewModelSearch.deleteCity(city.city)
+                lifecycleScope.launch {
+                    when(viewModelWeather.loadWeather(city.city)){
+                        "" -> {
+                            val predicate: (Search) -> Boolean = {it.name == city.city}
+                            if(listRoom.any(predicate))
+                            {
+                                viewModelSearch.deleteCity(city.city)
+                            }
+                            var p = Search(city.city)
+                            viewModelSearch.addNewCity(p)
+                            activity?.replaceFragment(FragmentHome(city.city))
+                        }
+                        else -> {
+                            activity?.replaceFragment(FragmentEmptyStateWeather())
+                        }
+                    }
                 }
-                var p = Search(city.city)
-                viewModelSearch.addNewCity(p)
-                activity?.replaceFragment(FragmentHome(city.city))
             }
         })
     }

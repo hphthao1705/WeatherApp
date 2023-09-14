@@ -7,21 +7,24 @@ import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : ViewModel(){
-    private val repository: WeatherRepository = WeatherRepository()
+class WeatherViewModel(val repository: WeatherRepository) : ViewModel(){
+    //private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     val _liveData = liveData
-    private var liveDataAPI: MutableLiveData<String>? = null
-    val _liveDataAPI = liveDataAPI
-    fun loadWeather(cityName:String)
+    var message:String = ""
+    suspend fun loadWeather(cityName:String):String
     {
         viewModelScope.launch {
+
             repository.loadWeather(cityName)?.let {
                 liveData.postValue(it)
-            }
-            repository.error400(cityName).collect {
-                liveDataAPI?.postValue("error")
+                message = ""
             }
         }
+        repository.error400(cityName).collect {
+            message = it
+
+        }
+        return message
     }
 }

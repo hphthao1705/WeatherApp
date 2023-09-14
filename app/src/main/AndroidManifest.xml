@@ -15,18 +15,6 @@
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
         <activity
-            android:name=".view.activity.ActivityEmptyState"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.Activity_HomeScreen"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.Activity_SearchScreen"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.ActivityCityScreen"
-            android:exported="false" />
-        <activity
             android:name=".view.activity.MainActivity"
             android:exported="true">
             <intent-filter>

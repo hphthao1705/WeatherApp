@@ -30,6 +30,7 @@ class CityRepository {
     fun error400() = flow {
         try {
             apiService.getCity().awaitResponse()
+
         }
         catch (ex:Exception)
         {
