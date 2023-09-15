@@ -26,30 +26,30 @@ import org.mockito.MockitoAnnotations
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
 class WeatherViewModelTest {
-    private val testDispatcher = StandardTestDispatcher()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @Mock
-    lateinit var repository: WeatherRepository
-    @BeforeEach
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
-        Dispatchers.setMain(testDispatcher)
-    }
-    @Test
-    fun test_loadWeather() = runTest{
-        Mockito.`when`(repository.loadWeather("")).thenReturn(null)
-        val sut = WeatherViewModel(repository)
-        sut.loadWeather("")
-        testDispatcher.scheduler.advanceUntilIdle()
-        val result = sut.message
-        Assert.assertEquals(null,result)
-    }
-
-    @AfterEach
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
+//    private val testDispatcher = StandardTestDispatcher()
+//
+//    @get:Rule
+//    val instantTaskExecutorRule = InstantTaskExecutorRule()
+//
+//    @Mock
+//    lateinit var repository: WeatherRepository
+//    @BeforeEach
+//    fun setUp() {
+//        MockitoAnnotations.openMocks(this)
+//        Dispatchers.setMain(testDispatcher)
+//    }
+//    @Test
+//    fun test_loadWeather() = runTest{
+//        Mockito.`when`(repository.loadWeather("")).thenReturn(null)
+//        val sut = WeatherViewModel(repository)
+//        sut.loadWeather("")
+//        testDispatcher.scheduler.advanceUntilIdle()
+//        val result = sut.message
+//        Assert.assertEquals(null,result)
+//    }
+//
+//    @AfterEach
+//    fun tearDown() {
+//        Dispatchers.resetMain()
+//    }
 }

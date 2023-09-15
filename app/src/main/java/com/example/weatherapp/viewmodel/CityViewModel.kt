@@ -5,12 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.repository.CityRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CityViewModel(private val repository: CityRepository): ViewModel() {
-    //private val repository: CityRepository = CityRepository()
+class CityViewModel: ViewModel() {
+    private val repository: CityRepository = CityRepository()
     var list:ArrayList<Data> = ArrayList(emptyList())
 
     private var liveData: MutableLiveData<List<Data>> = MutableLiveData()
@@ -18,6 +16,9 @@ class CityViewModel(private val repository: CityRepository): ViewModel() {
 
     private var liveDataAPI:MutableLiveData<String>? = null
     val _liveDataAPI = liveDataAPI
+    init{
+        loadCities()
+    }
     fun loadCities()
     {
         viewModelScope.launch {
@@ -26,7 +27,8 @@ class CityViewModel(private val repository: CityRepository): ViewModel() {
                 liveData.postValue(it)
             }
             repository.error400().collect {
-                if (it != null) {
+                if(it != null)
+                {
                     liveDataAPI?.postValue("error")
                 }
             }

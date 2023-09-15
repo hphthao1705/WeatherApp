@@ -7,8 +7,8 @@ import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.launch
 
-class WeatherViewModel(val repository: WeatherRepository) : ViewModel(){
-    //private val repository: WeatherRepository = WeatherRepository()
+class WeatherViewModel : ViewModel(){
+    private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     val _liveData = liveData
     var message:String = ""
@@ -22,8 +22,10 @@ class WeatherViewModel(val repository: WeatherRepository) : ViewModel(){
             }
         }
         repository.error400(cityName).collect {
-            message = it
-
+            if(it!=null)
+            {
+                message = it
+            }
         }
         return message
     }

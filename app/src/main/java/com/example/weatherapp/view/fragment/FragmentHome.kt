@@ -25,7 +25,7 @@ import java.net.URL
 class FragmentHome(val cityName:String) : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by activityViewModels<WeatherViewModel>()
-    private var list_properties:ArrayList<WeatherProperties> = ArrayList(emptyList())
+    private var listProperties:ArrayList<WeatherProperties> = ArrayList(emptyList())
     private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
 
     override fun onCreateView(
@@ -74,13 +74,13 @@ class FragmentHome(val cityName:String) : Fragment() {
 
     fun loadWeatherProperties(feelslike:String, wind:String, humidity:String)
     {
-        list_properties.add(WeatherProperties(R.drawable.umbrella, feelslike,"Rain"))
-        list_properties.add(WeatherProperties(R.drawable.wind, wind,"Wind"))
-        list_properties.add(WeatherProperties(R.drawable.humidity, humidity,"Humidity"))
+        listProperties.add(WeatherProperties(R.drawable.umbrella, feelslike,"Rain"))
+        listProperties.add(WeatherProperties(R.drawable.wind, wind,"Wind"))
+        listProperties.add(WeatherProperties(R.drawable.humidity, humidity,"Humidity"))
 
         binding.recyclerviewWeather3.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.HORIZONTAL, false)
-        adapter.setData(list_properties)
+        adapter.setData(listProperties)
         binding.recyclerviewWeather3.adapter =  adapter
     }
 }
