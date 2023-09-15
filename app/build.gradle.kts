@@ -108,4 +108,6 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
     //coroutine-testing
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    //volley for json
+    implementation("com.android.volley:volley:1.2.1")
 }

@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CityRepository {
     private val apiService: APIService = Retrofit.Builder().baseUrl(Constants.BASE_URL_CITY).addConverterFactory(GsonConverterFactory.create()).build().create(APIService::class.java)
+    private val jsonData = ""
     suspend fun loadCity() = flow launch@{
         try {
             val user = apiService.getCity().awaitResponse()
@@ -37,4 +38,5 @@ class CityRepository {
             emit(ex.message.toString())
         }
     }
+
 }
