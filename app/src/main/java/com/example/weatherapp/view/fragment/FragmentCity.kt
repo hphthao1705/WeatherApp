@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,17 +20,9 @@ import com.example.weatherapp.viewmodel.SearchViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 
-class FragmentCity(private var listData: List<Data>, private var listRoom:List<Search>) : Fragment() {
+class FragmentCity(private var listData: List<Data>, private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding: FragmentCityBinding
     private var adapter: CityAdapter = CityAdapter(emptyList())
-    private val viewModelWeather by activityViewModels<WeatherViewModel>()
-    private val viewModelSearch: SearchViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchViewModel.ViewModelFactory(requireActivity().application)
-        )[SearchViewModel::class.java]
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,36 +39,59 @@ class FragmentCity(private var listData: List<Data>, private var listRoom:List<S
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        saveCurrentState()
         loadData()
     }
 
     private fun loadData()
     {
         val activity: MainActivity? = activity as MainActivity
-        binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context,2)
-        adapter = CityAdapter(listData)
-        binding.recyclerviewCity.adapter = adapter
-
-        adapter.setOnClickListener(object:CityAdapter.OnClickListener{
-            override fun onClick(city: Data) {
-                lifecycleScope.launch {
-                    when(viewModelWeather.loadWeather(city.city)){
-                        "" -> {
-                            val predicate: (Search) -> Boolean = {it.name == city.city}
-                            if(listRoom.any(predicate))
-                            {
-                                viewModelSearch.deleteCity(city.city)
-                            }
-                            var p = Search(city.city)
-                            viewModelSearch.addNewCity(p)
-                            activity?.replaceFragment(FragmentHome(city.city))
-                        }
-                        else -> {
-                            activity?.replaceFragment(FragmentEmptyStateWeather())
-                        }
-                    }
+        if(listData.isNotEmpty())
+        {
+            binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context,2)
+            adapter = CityAdapter(listData)
+            binding.recyclerviewCity.adapter = adapter
+            adapter.setOnClickListener(object:CityAdapter.OnClickListener{
+                override fun onClick(city: Data) {
+                    activity?.replaceFragment(FragmentHome(city.city, listRoom))
                 }
-            }
-        })
+            })
+            setVisibility(true)
+            binding.loading.visibility = View.GONE
+        }
+        else
+        {
+            setVisibility(false)
+            binding.loading.visibility = View.GONE
+        }
+    }
+    fun setVisibility(bool:Boolean)
+    {
+        if(bool)
+        {
+            binding.layoutCity.visibility = View.VISIBLE
+            binding.empty1.visibility = View.GONE
+            binding.empty2.visibility = View.GONE
+            binding.empty3.visibility = View.GONE
+        }
+        else
+        {
+            binding.layoutCity.visibility = View.GONE
+            binding.empty1.visibility = View.VISIBLE
+            binding.empty2.visibility = View.VISIBLE
+            binding.empty3.visibility = View.VISIBLE
+        }
+    }
+    private fun saveCurrentState()
+    {
+        val activity: MainActivity? = activity as MainActivity
+
+        val sharedPref = activity?.getSharedPreferences("currentState",
+            AppCompatActivity.MODE_PRIVATE
+        ) ?: return
+        with (sharedPref.edit()) {
+            putString("state", "City")
+            commit()
+        }
     }
 }

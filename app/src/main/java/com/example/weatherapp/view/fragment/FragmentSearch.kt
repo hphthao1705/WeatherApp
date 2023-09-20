@@ -54,23 +54,7 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
         val activity: MainActivity? = activity as MainActivity
         adapter.setOnClickListener(object :SearchAdapter.OnClickListener{
             override fun onClick(city: Data) {
-                lifecycleScope.launch {
-                    when(viewModelWeather.loadWeather(city.city)){
-                        "" -> {
-                            val predicate: (Search) -> Boolean = {it.name == city.city}
-                            if(listRoom.any(predicate))
-                            {
-                                viewModelSearch.deleteCity(city.city)
-                            }
-                            var p = Search(city.city)
-                            viewModelSearch.addNewCity(p)
-                            activity?.replaceFragment(FragmentHome(city.city))
-                        }
-                        else -> {
-                            activity?.replaceFragment(FragmentEmptyStateWeather())
-                        }
-                    }
-                }
+                activity?.replaceFragment(FragmentHome(city.city, listRoom))
             }
         })
     }

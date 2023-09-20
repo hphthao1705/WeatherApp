@@ -18,30 +18,52 @@
             tools:context=".view.activity.Activity_HomeScreen"
             android:background="@color/back_1"
             android:orientation="vertical">
-
-<!--            <androidx.appcompat.widget.SearchView-->
-<!--                android:id="@+id/searchbar"-->
-<!--                android:textAppearance="@color/white"-->
-<!--                android:theme="@style/Base.Theme.WeatherApp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="80dp" />-->
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_search"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/empty1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
-
+                android:layout_gravity="center"
+                android:layout_marginTop="270dp"
+                android:src="@drawable/umbrella"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/empty2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OOPS!"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/empty3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Data Found"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"/>
             <ScrollView
+                android:id="@+id/layout_city"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="match_parent"
+                android:visibility="gone">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_city"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </ScrollView>
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_marginTop="325dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/loading"
+                android:layout_gravity="center"/>
         </LinearLayout>
-
     </FrameLayout>
 </layout>

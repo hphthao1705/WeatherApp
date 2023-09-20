@@ -10,7 +10,7 @@ import com.example.weatherapp.data.local.entities.Search
 
 @Dao
 interface SearchDAO {
-    @Query("select * from search order by id desc limit 10;")
+    @Query("select distinct City, id from search order by id desc limit 10;")
     fun getAllCity(): LiveData<List<Search>>
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertCity(city: Search)

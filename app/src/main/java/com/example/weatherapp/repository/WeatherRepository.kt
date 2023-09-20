@@ -27,9 +27,7 @@ class WeatherRepository {
     fun error400(cityName: String) = flow {
         try {
             apiService.getWeather(Constants.KEY, cityName, "no").await()
-        }
-        catch (ex:Exception)
-        {
+        } catch (ex: Exception) {
             emit(ex.message.toString())
         }
     }

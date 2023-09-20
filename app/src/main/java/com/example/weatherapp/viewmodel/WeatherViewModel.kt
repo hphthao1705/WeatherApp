@@ -11,22 +11,21 @@ class WeatherViewModel : ViewModel(){
     private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     val _liveData = liveData
-    var message:String = ""
-    suspend fun loadWeather(cityName:String):String
+    private var error:Boolean = true
+    suspend fun loadWeather(cityName:String):Boolean
     {
         viewModelScope.launch {
-
             repository.loadWeather(cityName)?.let {
                 liveData.postValue(it)
-                message = ""
+                error = false
             }
         }
-        repository.error400(cityName).collect {
-            if(it!=null)
+        repository.error400(cityName).collect{
+            if(it.isNotEmpty())
             {
-                message = it
+                error = true
             }
         }
-        return message
+        return error
     }
 }

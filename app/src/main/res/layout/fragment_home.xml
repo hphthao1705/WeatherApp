@@ -28,12 +28,14 @@
             android:background="@color/back_1">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_city"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 app:cardCornerRadius="30dp"
                 android:layout_margin="15dp"
                 android:backgroundTint="@color/back_2"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -90,7 +92,47 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:id="@+id/recyclerview_weather_list" />
+                android:id="@+id/recyclerview_weather_list"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/empty_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="230dp"
+                android:src="@drawable/sun"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/empty_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO RESULTS"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/empty_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sorry, there are no results for this search.\nPlease try another place"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_marginTop="325dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/loading"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
     </FrameLayout>

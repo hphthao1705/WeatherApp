@@ -9,12 +9,52 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.FragmentFavouriteCity">
+        tools:context=".view.fragment.FragmentFavouriteCity"
+        android:background="@color/back_1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_favouritecity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
 
+        <ImageView
+            android:id="@+id/empty_1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-60dp"
+            android:src="@drawable/heart"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/empty_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO RESULTS"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/empty_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You aren't have favourite city"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/loading"
+            android:layout_gravity="center"/>
     </FrameLayout>
 </layout>

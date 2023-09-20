@@ -1,8 +1,8 @@
 package com.example.weatherapp.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -11,11 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
+import com.example.weatherapp.data.model.State
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.view.fragment.FragmentEmptyStateCity
 import com.example.weatherapp.view.fragment.FragmentCity
-import com.example.weatherapp.view.fragment.FragmentEmptyFavouriteCity
 import com.example.weatherapp.view.fragment.FragmentFavouriteCity
+import com.example.weatherapp.view.fragment.FragmentHome
 import com.example.weatherapp.view.fragment.FragmentLoading
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
@@ -50,14 +50,7 @@ class MainActivity : AppCompatActivity() {
     fun initControls()
     {
         binding.btnListcity.setOnClickListener{
-            if(listRoom.isEmpty())
-            {
-                replaceFragment(FragmentEmptyFavouriteCity())
-            }
-            else
-            {
-                replaceFragment(FragmentFavouriteCity())
-            }
+            replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
         }
         searchCity()
         loadScreenWhenAppStart()
@@ -66,18 +59,11 @@ class MainActivity : AppCompatActivity() {
     {
         if(listRoom.isNotEmpty())
         {
-            replaceFragment(FragmentFavouriteCity())
+            replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
         }
         else
         {
-            if(listData.isNotEmpty())
-            {
-                replaceFragment(FragmentCity(listData,listRoom))
-            }
-            else
-            {
-                replaceFragment(FragmentEmptyStateCity())
-            }
+            replaceFragment(FragmentCity(listData, listRoom))
         }
     }
     fun searchCity():String
@@ -87,7 +73,13 @@ class MainActivity : AppCompatActivity() {
             textSearch = it.toString()
             if(textSearch.equals("", true))
             {
-                replaceFragment(FragmentCity(listData,listRoom))
+                val state = getCurrentState()
+                when(state.state)
+                {
+                    "Home" -> replaceFragment(FragmentHome(state.city, listRoom))
+                    "FavouriteCity" -> replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
+                    "City" -> replaceFragment(FragmentCity(listData, listRoom))
+                }
             }
             else
             {
@@ -113,5 +105,11 @@ class MainActivity : AppCompatActivity() {
                 initControls()
             }
         }
+    }
+    private fun getCurrentState(): State {
+        val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
+        val s1 = sharedPreferences.getString("state", "null roi be oi :(((")!!
+        val s2 = sharedPreferences.getString("city", "null roi be oi :(((")!!
+        return State(s1, s2)
     }
 }
