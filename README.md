@@ -8,6 +8,7 @@
   <li>Data bindings</li>
   <li>Retrofit2</li>
   <li>Room</li>
+  <li>Shared Preferences</li>
 </ul>
 <h1>Architecture</h1>
 <p>The app uses MVVM architecture</p>
