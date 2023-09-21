@@ -65,32 +65,36 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
         //xu ly
         lifecycleScope.launch {
             val check = viewModel.loadWeather(cityName)
-            if (check)
+            //Toast.makeText(context,check,Toast.LENGTH_SHORT).show()
+            if (check.isNotEmpty())
             {
                 setVisibility(false)
             }
-            viewModel._liveData.observe(viewLifecycleOwner)
-            { it ->
-                binding.location = it.location
-                binding.condition = it.current?.condition
-                binding.current = it.current
-                binding.imgIcon.setImageBitmap(getBitmapFromURL("https:" + it.current?.condition?.icon))
-                loadWeatherProperties(
-                    it.current?.feelslike_c.toString().trim(),
-                    it.current?.wind_kph.toString().trim(),
-                    it.current?.humidity.toString().trim()
-                )
-                //luu vao Room
-                val predicate: (Search) -> Boolean = {it.name == cityName}
-                if(listRoom.any(predicate))
-                {
-                    roomData.deleteCity(cityName)
+            else
+            {
+                viewModel._liveData.observe(viewLifecycleOwner)
+                { it ->
+                    binding.location = it.location
+                    binding.condition = it.current?.condition
+                    binding.current = it.current
+                    binding.imgIcon.setImageBitmap(getBitmapFromURL("https:" + it.current?.condition?.icon))
+                    loadWeatherProperties(
+                        it.current?.feelslike_c.toString().trim(),
+                        it.current?.wind_kph.toString().trim(),
+                        it.current?.humidity.toString().trim()
+                    )
+                    //luu vao Room
+                    val predicate: (Search) -> Boolean = {it.name == cityName}
+                    if(listRoom.any(predicate))
+                    {
+                        roomData.deleteCity(cityName)
+                    }
+                    var p = Search(cityName)
+                    roomData.addNewCity(p)
+                    setVisibility(true)
                 }
-                var p = Search(cityName)
-                roomData.addNewCity(p)
-                setVisibility(true)
-                binding.loading.visibility = View.GONE
             }
+            binding.loading.visibility = View.GONE
         }
     }
     private fun loadWeatherProperties(feelslike:String, wind:String, humidity:String)

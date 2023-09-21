@@ -56,7 +56,7 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
                     val activity: MainActivity? = activity as MainActivity
                     adapter.setOnClickListener(object: FavouriteCityAdapter.OnClickListener{
                         override fun onClick(city: Search) {
-                            Toast.makeText(context, city.name, Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(context, city.name, Toast.LENGTH_SHORT).show()
                             activity?.replaceFragment(FragmentHome(city.name!!, listRoom))
                         }
                     })
