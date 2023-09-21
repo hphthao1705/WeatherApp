@@ -70,6 +70,7 @@ class CityViewModelTest {
 
         //Mockito.verify(viewModel)._liveData
         //Mockito.verify(viewModel)._liveDataAPI
+        //
     }
     @AfterEach
     fun tearDown()
