@@ -1,6 +1,7 @@
 package com.example.weatherapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,9 +16,11 @@ class SearchViewModel(app: Application):ViewModel() {
     private val repository: SearchRepository = SearchRepository(app)
     fun addNewCity(search: Search) {
         insertCity(search)
+        Log.i("Check", "1")
     }
     fun insertCity(item: Search) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertCity(item)
+        Log.i("Check", "2")
     }
     fun getAllNote(): LiveData<List<Search>> = repository.getAllCity()
     class ViewModelFactory(private val application: Application): ViewModelProvider.Factory{

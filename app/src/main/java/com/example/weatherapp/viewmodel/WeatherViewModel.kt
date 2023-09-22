@@ -11,7 +11,7 @@ class WeatherViewModel : ViewModel(){
     private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     val _liveData = liveData
-    private var error:String = ""
+    var error:String = ""
     suspend fun loadWeather(cityName:String):String
     {
         viewModelScope.launch {

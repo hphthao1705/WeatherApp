@@ -73,7 +73,7 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
             else
             {
                 viewModel._liveData.observe(viewLifecycleOwner)
-                { it ->
+                {
                     binding.location = it.location
                     binding.condition = it.current?.condition
                     binding.current = it.current
@@ -83,16 +83,15 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
                         it.current?.wind_kph.toString().trim(),
                         it.current?.humidity.toString().trim()
                     )
-                    //luu vao Room
-                    val predicate: (Search) -> Boolean = {it.name == cityName}
-                    if(listRoom.any(predicate))
-                    {
-                        roomData.deleteCity(cityName)
-                    }
-                    var p = Search(cityName)
-                    roomData.addNewCity(p)
-                    setVisibility(true)
                 }
+                //luu vao Room
+                val predicate: (Search) -> Boolean = {it.name == cityName}
+                if(listRoom.any(predicate))
+                {
+                    roomData.deleteCity(cityName)
+                }
+                addCityToRoom()
+                setVisibility(true)
             }
             binding.loading.visibility = View.GONE
         }
@@ -135,5 +134,11 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
         }
+    }
+    private fun addCityToRoom()
+    {
+        var p = Search(cityName)
+        roomData.addNewCity(p)
+        Log.i("Check","A")
     }
 }
