@@ -53,8 +53,8 @@ class CityViewModelTest {
         Assert.assertNotNull(cities)
         Assert.assertNotNull(error)
 
-        //Mockito.verify(viewModel)._liveData
-        //Mockito.verify(viewModel)._liveDataAPI
+        Mockito.verify(viewModel)._liveData
+        Mockito.verify(viewModel)._liveDataAPI
     }
     @Test
     fun whenLiveDataIsEmpty_thenErrorHavaData() = runTest{
@@ -72,7 +72,7 @@ class CityViewModelTest {
         Assert.assertEquals(citiesLiveData,cities)
         Assert.assertEquals(errorLiveData,error)
 
-        //Mockito.verify(viewModel)._liveData
-        //Mockito.verify(viewModel)._liveDataAPI
+        Mockito.verify(viewModel)._liveData
+        Mockito.verify(viewModel)._liveDataAPI
     }
 }

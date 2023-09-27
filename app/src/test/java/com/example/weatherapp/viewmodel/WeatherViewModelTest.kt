@@ -7,6 +7,8 @@ import com.example.weatherapp.data.model.Condition
 import com.example.weatherapp.data.model.Current
 import com.example.weatherapp.data.model.Location
 import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.observeOnce
+import io.mockk.InternalPlatformDsl.toArray
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -48,13 +50,36 @@ class WeatherViewModelTest {
         Mockito.`when`(viewModel._liveData).thenReturn(liveData)
         Mockito.`when`(viewModel.error).thenReturn("")
 
+        viewModel._liveData.observeOnce{
+
+        }
         val getWeather = viewModel._liveData
         val getError = viewModel.error
 
         Assert.assertEquals("", getError)
         Assert.assertNotNull(getWeather)
         //so sanh country
-        Assert.assertEquals(cityName, getWeather.value)
+        val list = getWeather.value?.toArray()?.size
+        Assert.assertEquals(cityName, list)
+
+        Mockito.verify(viewModel)._liveData
+        Mockito.verify(viewModel).error
+    }
+    @Test
+    fun whenLiveDataIsEmpty_thenErrorWillHaveData() = runTest{
+        val weather = Weather(null,null)
+
+        var liveData:MutableLiveData<Weather> = MutableLiveData()
+        liveData.postValue(weather)
+
+        Mockito.`when`(viewModel._liveData).thenReturn(liveData)
+        Mockito.`when`(viewModel.error).thenReturn("error")
+
+        val getWeather = viewModel._liveData
+        val getError = viewModel.error
+
+        Assert.assertEquals("error", getError)
+        Assert.assertNull(getWeather.value?.toArray()?.size)
 
         Mockito.verify(viewModel)._liveData
         Mockito.verify(viewModel).error

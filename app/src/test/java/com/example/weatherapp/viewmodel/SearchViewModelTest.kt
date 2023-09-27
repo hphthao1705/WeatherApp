@@ -1,13 +1,26 @@
 package com.example.weatherapp.viewmodel
 
+import android.app.Application
+import android.content.Context
+import android.os.Build.VERSION_CODES.Q
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.weatherapp.data.local.SearchDatabase
+import com.example.weatherapp.data.local.dao.SearchDAO
 import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Rule
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -15,39 +28,53 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-
-@ExperimentalCoroutinesApi
-@RunWith(JUnit4::class)
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
+import java.io.IOException
+@RunWith(AndroidJUnit4::class)
+@Config(sdk = [Q])
+//@RunWith(RobolectricTestRunner::class)
 class SearchViewModelTest
 {
-    @Mock
-    lateinit var viewModel: SearchViewModel
+    private lateinit var searchDatabase: SearchDatabase
+    private lateinit var searchDAO:SearchDAO
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @BeforeEach
+    @BeforeAll
     fun setUp()
     {
-        MockitoAnnotations.initMocks(this)
+        val context = RuntimeEnvironment.getApplication()
+        searchDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(),SearchDatabase::class.java).allowMainThreadQueries().build()
+        //searchDatabase = Room.inMemoryDatabaseBuilder(context,SearchDatabase::class.java).fallbackToDestructiveMigration().build()
+        searchDAO = searchDatabase.getSearchDao()
+        //MockitoAnnotations.initMocks(this)
     }
     @Test
-    fun whenDatabaseHaveData_thenDisplayTenCitiesRecently() = runTest {
-        val listRoom:ArrayList<Search> = ArrayList()
-        listRoom.add(Search("Ho Phuong Thao"))
-        listRoom.add(Search("Ho Phuong Thao"))
-        listRoom.add(Search("Ho Phuong Thao"))
-        listRoom.add(Search("Ho Phuong Thao"))
-        listRoom.add(Search("Ho Phuong Thao"))
+    fun whenInsertNewCity_thenDatabaseWillHaveThatCity() = runBlocking {
+        val search = Search("Ho Phuong Thao")
+        searchDAO.insertCity(search)
 
-        val liveData:MutableLiveData<List<Search>> = MutableLiveData()
-        liveData.postValue(listRoom)
+        val result = searchDAO.getAllCity().getOrAwaitValue()
 
-        Mockito.`when`(viewModel.getAllNote()).thenReturn(liveData)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals("Ho Phuong Thao", result[0].name)
+    }
 
-        val getFavouriteCity = viewModel.getAllNote()
+    @Test
+    fun whenDeleteCity_thenDatabaseIsEmpty() = runBlocking {
+        val search = "Ho Phuong Thao"
+        searchDAO.deleteCity(search)
 
-        Assert.assertNotNull(getFavouriteCity)
-        Assert.assertEquals(5, getFavouriteCity?.value?.size)
+        val result = searchDAO.getAllCity().getOrAwaitValue()
+
+        Assert.assertEquals(0, result.size)
+    }
+    @AfterEach
+    @Throws(IOException::class)
+    fun closeDb() {
+        searchDatabase.close()
     }
 }

@@ -98,7 +98,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.test:core:1.5.0")
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
-    androidTestImplementation("com.android.support.test:rules:1.0.1")
+//    androidTestImplementation("com.androidx.support.test:rules:1.0.1")
     testImplementation("androidx.arch.core:core-testing:2.1.0") //instantTaskExecutorRule
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -113,5 +113,19 @@ dependencies {
     //coroutine-testing
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
+    //local test
+    testImplementation("org.robolectric:robolectric:4.9")
 
+    //fix: No instrumentation registered! Must run under a registering instrumentation.
+    androidTestImplementation("androidx.test:runner:1.0.2")
+    androidTestImplementation("androidx.test:rules:1.0.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.0.2")
+
+    //test UI
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    //--espresso
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
 }
