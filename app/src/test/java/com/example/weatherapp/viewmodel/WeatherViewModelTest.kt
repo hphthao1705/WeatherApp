@@ -7,7 +7,6 @@ import com.example.weatherapp.data.model.Condition
 import com.example.weatherapp.data.model.Current
 import com.example.weatherapp.data.model.Location
 import com.example.weatherapp.data.model.Weather
-import com.example.weatherapp.observeOnce
 import io.mockk.InternalPlatformDsl.toArray
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -44,23 +43,21 @@ class WeatherViewModelTest {
             0.02,0.0,1012.0,"32",89.6,7.0,10.0,6.0,154,"SSE",3.6,2.2)
         val weather = Weather(current,location)
 
-        var liveData:MutableLiveData<Weather> = MutableLiveData()
+        val liveData:MutableLiveData<Weather> = MutableLiveData()
         liveData.postValue(weather)
 
         Mockito.`when`(viewModel._liveData).thenReturn(liveData)
         Mockito.`when`(viewModel.error).thenReturn("")
 
-        viewModel._liveData.observeOnce{
 
-        }
         val getWeather = viewModel._liveData
         val getError = viewModel.error
 
         Assert.assertEquals("", getError)
         Assert.assertNotNull(getWeather)
         //so sanh country
-        val list = getWeather.value?.toArray()?.size
-        Assert.assertEquals(cityName, list)
+        val list = getWeather.value
+        Assert.assertEquals(cityName, list?.location?.country)
 
         Mockito.verify(viewModel)._liveData
         Mockito.verify(viewModel).error

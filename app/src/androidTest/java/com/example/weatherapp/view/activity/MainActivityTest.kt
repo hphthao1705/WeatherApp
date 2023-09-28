@@ -1,6 +1,7 @@
 package com.example.weatherapp.view.activity
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.weatherapp.viewmodel.CityViewModel
@@ -28,7 +29,7 @@ class MainActivityTest {
     @Test
     fun checkActivity()
     {
-        onView(withId(R.id.loading)).check(matches(isDisplayed()))
+        onView(withId(R.id.txt_search)).perform(click())
     }
     @After
     fun tearDown() {

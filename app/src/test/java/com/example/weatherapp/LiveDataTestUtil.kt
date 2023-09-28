@@ -22,16 +22,10 @@ fun <T> LiveData<T>.getOrAwaitValue(
     }
     this.observeForever(observer)
     afterObserve.invoke()
-    if(!latch.await(time,timeUnit))
-    {
+    if (!latch.await(time, timeUnit)) {
         this.removeObserver(observer)
         throw TimeoutException("LiveData value never set")
     }
     @Suppress("UNCHECKED CAST")
     return data as T
-}
-
-fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
-    val observer = OneTimeObserver(handler = onChangeHandler)
-    observe(observer, observer)
 }
