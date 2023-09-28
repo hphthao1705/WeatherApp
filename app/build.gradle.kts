@@ -128,4 +128,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
+    //test UI 2
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4-android:1.5.1")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.1")
 }
