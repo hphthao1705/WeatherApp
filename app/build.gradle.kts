@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-android")
-    id("de.mannodermaus.android-junit5") version "1.9.3.0"
 }
 
 android {
@@ -39,9 +38,6 @@ android {
     buildFeatures {
         viewBinding=true;
         dataBinding=true;
-    }
-    testOptions {
-        unitTests.isReturnDefaultValues = true
     }
 }
 

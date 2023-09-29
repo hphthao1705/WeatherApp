@@ -36,8 +36,12 @@ class MainActivityTest {
     @Test
     fun testSearch_thenReturnToSearchFragment()
     {
+        Thread.sleep(6000)
         onView(withId(R.id.txt_search)).perform(click())
         onView(withId(R.id.txt_search)).perform(typeText("a"))
+        onView(withId(R.id.txt_search)).perform(typeText("n"))
+        onView(withId(R.id.txt_search)).perform(typeText("a"))
+
         //onView(withId(R.id.framelayout)).check(matches(withId(R.id.fragment_search)))
     }
     @Test
