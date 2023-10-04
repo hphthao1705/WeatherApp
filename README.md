@@ -10,6 +10,7 @@
   <li>Room</li>
   <li>Shared Preferences</li>
   <li>JUnit4</li>
+  <li>Espresso</li>
 </ul>
 <h1>Architecture</h1>
 <p>The app uses MVVM architecture</p>
