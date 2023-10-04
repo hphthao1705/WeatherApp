@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WeatherViewModel : ViewModel(){
@@ -14,7 +15,7 @@ class WeatherViewModel : ViewModel(){
     var error:String = ""
     suspend fun loadWeather(cityName:String):String
     {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.loadWeather(cityName)?.let {
                 error = ""
                 liveData.postValue(it as Weather?)

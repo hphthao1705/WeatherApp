@@ -7,18 +7,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentCityBinding
+import com.example.weatherapp.utils.CountingIdlingResourceSingleton.countingIdlingResource
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
-import com.example.weatherapp.viewmodel.SearchViewModel
-import com.example.weatherapp.viewmodel.WeatherViewModel
-import kotlinx.coroutines.launch
 
 class FragmentCity(private var listData: List<Data>, private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding: FragmentCityBinding
@@ -39,8 +34,10 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        countingIdlingResource.increment()
         saveCurrentState()
         loadData()
+        countingIdlingResource.decrement()
     }
 
     private fun loadData()
@@ -57,16 +54,17 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
                 }
             })
             setVisibility(true)
-            binding.loading.visibility = View.GONE
         }
         else
         {
             setVisibility(false)
-            binding.loading.visibility = View.GONE
+
         }
+        binding.loading.visibility = View.GONE
     }
     fun setVisibility(bool:Boolean)
     {
+
         if(bool)
         {
             binding.layoutCity.visibility = View.VISIBLE
@@ -81,6 +79,7 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
         }
+
     }
     private fun saveCurrentState()
     {

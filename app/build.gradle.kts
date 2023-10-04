@@ -127,4 +127,8 @@ dependencies {
     //test UI 2
     androidTestImplementation("androidx.compose.ui:ui-test-junit4-android:1.5.1")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.1")
+    //scroll recycler
+    androidTestImplementation( "androidx.test.espresso:espresso-contrib:3.3.0") //add bản này để sử dụng // với matchers. Bản cao hơn bị xung đột với matchers.
+    //Espresso idling resources
+    implementation("androidx.test.espresso:espresso-idling-resource:3.1.0")
 }

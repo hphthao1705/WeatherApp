@@ -13,6 +13,7 @@ import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.State
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.utils.CountingIdlingResourceSingleton.countingIdlingResource
 import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.view.fragment.FragmentFavouriteCity
 import com.example.weatherapp.view.fragment.FragmentHome
@@ -35,10 +36,12 @@ class MainActivity : AppCompatActivity() {
     private var listRoom:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        countingIdlingResource.increment()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         replaceFragment(FragmentLoading())
         loadCities()
         loadDataFromRoom()
+        countingIdlingResource.decrement()
     }
     fun replaceFragment(fragment: Fragment)
     {
