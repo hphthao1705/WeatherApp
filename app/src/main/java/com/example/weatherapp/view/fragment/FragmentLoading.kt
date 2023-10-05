@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentLoadingBinding
+import com.example.weatherapp.utils.CountingIdlingResourceSingleton
 
 class FragmentLoading : Fragment() {
     private lateinit var binding: FragmentLoadingBinding

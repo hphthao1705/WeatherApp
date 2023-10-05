@@ -14,6 +14,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentFavouriteCityBinding
+import com.example.weatherapp.utils.CountingIdlingResourceSingleton
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.FavouriteCityAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
@@ -38,11 +39,14 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         saveCurrentState()
         initControls()
+
     }
     private fun initControls()
     {
+        CountingIdlingResourceSingleton.increment()
         when(check)
         {
             true->{
@@ -69,10 +73,12 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
                 binding.loading.visibility = View.GONE
             }
         }
+        CountingIdlingResourceSingleton.decrement()
 
     }
     fun saveCurrentState()
     {
+        CountingIdlingResourceSingleton.increment()
         val activity: MainActivity? = activity as MainActivity
 
         val sharedPref = activity?.getSharedPreferences("currentState", Context.MODE_PRIVATE) ?: return
@@ -80,9 +86,11 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
             putString("state", "FavouriteCity")
             commit()
         }
+        CountingIdlingResourceSingleton.decrement()
     }
     fun setVisibility(bool:Boolean)
     {
+        CountingIdlingResourceSingleton.increment()
         if(bool)
         {
             binding.recyclerviewFavouritecity.visibility = View.VISIBLE
@@ -97,6 +105,6 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
         }
-
+        CountingIdlingResourceSingleton.decrement()
     }
 }

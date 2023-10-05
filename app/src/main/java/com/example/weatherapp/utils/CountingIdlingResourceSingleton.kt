@@ -1,5 +1,6 @@
 package com.example.weatherapp.utils
 
+import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 
 object CountingIdlingResourceSingleton {
@@ -15,5 +16,9 @@ object CountingIdlingResourceSingleton {
         if (!countingIdlingResource.isIdleNow) {
             countingIdlingResource.decrement()
         }
+    }
+    fun getIdlingResouces():IdlingResource
+    {
+        return countingIdlingResource
     }
 }

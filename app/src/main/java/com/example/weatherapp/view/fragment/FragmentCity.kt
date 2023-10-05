@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentCityBinding
+import com.example.weatherapp.utils.CountingIdlingResourceSingleton
 import com.example.weatherapp.utils.CountingIdlingResourceSingleton.countingIdlingResource
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
@@ -34,14 +35,15 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        countingIdlingResource.increment()
+        //countingIdlingResource.increment()
         saveCurrentState()
         loadData()
-        countingIdlingResource.decrement()
+        //countingIdlingResource.decrement()
     }
 
     private fun loadData()
     {
+        //countingIdlingResource.increment()
         val activity: MainActivity? = activity as MainActivity
         if(listData.isNotEmpty())
         {
@@ -61,10 +63,11 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
 
         }
         binding.loading.visibility = View.GONE
+        //countingIdlingResource.decrement()
     }
     fun setVisibility(bool:Boolean)
     {
-
+        //countingIdlingResource.increment()
         if(bool)
         {
             binding.layoutCity.visibility = View.VISIBLE
@@ -79,10 +82,11 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
         }
-
+        //countingIdlingResource.decrement()
     }
     private fun saveCurrentState()
     {
+        //countingIdlingResource.increment()
         val activity: MainActivity? = activity as MainActivity
 
         val sharedPref = activity?.getSharedPreferences("currentState",
@@ -91,6 +95,7 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
         with (sharedPref.edit()) {
             putString("state", "City")
             commit()
+            //countingIdlingResource.decrement()
         }
     }
 }

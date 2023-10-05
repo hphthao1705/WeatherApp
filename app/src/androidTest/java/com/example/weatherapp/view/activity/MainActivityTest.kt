@@ -48,6 +48,7 @@ class MainActivityTest {
         onView(withId(R.id.txt_locationName)).check(matches(withText("Tirana")))
         onView(withId(R.id.btn_listcity)).perform((click()))
         onView(withId(R.id.recyclerview_favouritecity)).check(RecyclerViewItemCountAssertion(1));
+        onView(withText("TIRANA")).check(matches(isDisplayed()))
     }
     @Test
     fun testSearchThreeCity_thenInRoomDatabaseWillHaveThreeCity()
@@ -77,6 +78,9 @@ class MainActivityTest {
 
         onView(withId(R.id.btn_listcity)).perform((click()))
         onView(withId(R.id.recyclerview_favouritecity)).check(RecyclerViewItemCountAssertion(3));
+        onView(withText("TIRANA")).check(matches(isDisplayed()))
+        onView(withText("PARIS")).check(matches(isDisplayed()))
+        onView(withText("LONDON")).check(matches(isDisplayed()))
     }
     @Test
     fun testClickOnCityDoNotHaveWeather_thenScreenDisplayNoData()
@@ -93,7 +97,7 @@ class MainActivityTest {
     @Test
     fun testClickOnCityHaveWeather_thenScreenDisplayWeatherOfCity()
     {
-        //Thread.sleep(9000)
+        Thread.sleep(20000)
         onView(withId(R.id.recyclerview_city)).perform(scrollToPosition<CityAdapter.MyViewHolder>(100))
         Thread.sleep(2000)
         onView(withId(R.id.recyclerview_city)).perform(scrollToPosition<CityAdapter.MyViewHolder>(2))
@@ -101,6 +105,22 @@ class MainActivityTest {
         onView(withText("Annaba")).perform(click())
         Thread.sleep(3000)
         onView(withText("NO RESULTS")).check(matches(not(isDisplayed())))
+    }
+    @Test
+    fun clickACityInFavoriteCity_thenScreenDisplayWeatherOfThatCity()
+    {
+        Thread.sleep(20000)
+        onView(withId(R.id.recyclerview_city)).perform(scrollToPosition<CityAdapter.MyViewHolder>(100))
+        Thread.sleep(2000)
+        onView(withId(R.id.recyclerview_city)).perform(scrollToPosition<CityAdapter.MyViewHolder>(2))
+        Thread.sleep(2000)
+        onView(withText("Annaba")).perform(click())
+        Thread.sleep(3000)
+        onView(withText("NO RESULTS")).check(matches(not(isDisplayed())))
+
+        onView(withId(R.id.btn_listcity)).perform((click()))
+        onView(withText("Annaba")).perform(click())
+        onView(withText("Annaba")).check(matches((isDisplayed())))
     }
     @After
     fun tearDown() {

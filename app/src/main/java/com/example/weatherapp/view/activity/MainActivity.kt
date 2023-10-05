@@ -36,12 +36,12 @@ class MainActivity : AppCompatActivity() {
     private var listRoom:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        countingIdlingResource.increment()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        //countingIdlingResource.increment()
         replaceFragment(FragmentLoading())
         loadCities()
         loadDataFromRoom()
-        countingIdlingResource.decrement()
+        //countingIdlingResource.decrement()
     }
     fun replaceFragment(fragment: Fragment)
     {
@@ -52,25 +52,31 @@ class MainActivity : AppCompatActivity() {
     }
     fun initControls()
     {
+        //countingIdlingResource.increment()
         binding.btnListcity.setOnClickListener{
             replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
         }
         searchCity()
         loadScreenWhenAppStart()
+        //countingIdlingResource.decrement()
     }
     fun loadScreenWhenAppStart()
     {
+        //countingIdlingResource.increment()
         if(listRoom.isNotEmpty())
         {
             replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
+            //countingIdlingResource.decrement()
         }
         else
         {
             replaceFragment(FragmentCity(listData, listRoom))
+            //countingIdlingResource.decrement()
         }
     }
     fun searchCity():String
     {
+        //countingIdlingResource.increment()
         var textSearch = ""
         binding.txtSearch.doAfterTextChanged {
             textSearch = it.toString()
@@ -83,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                     "FavouriteCity" -> replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
                     "City" -> replaceFragment(FragmentCity(listData, listRoom))
                 }
+                //countingIdlingResource.decrement()
             }
             else
             {
@@ -93,12 +100,15 @@ class MainActivity : AppCompatActivity() {
     }
     fun loadDataFromRoom()
     {
+        //countingIdlingResource.increment()
         viewModelSearch.getAllNote().observe(this@MainActivity){
             listRoom = it as ArrayList<Search>
+            //countingIdlingResource.decrement()
         }
     }
     fun loadCities()
     {
+        //countingIdlingResource.increment()
         lifecycleScope.launch {
             viewModel._liveData.observe(this@MainActivity) {
                 listData = it as ArrayList<Data>
@@ -107,12 +117,15 @@ class MainActivity : AppCompatActivity() {
             viewModel._liveDataAPI?.observe(this@MainActivity){
                 initControls()
             }
+            //countingIdlingResource.decrement()
         }
     }
     private fun getCurrentState(): State {
+        //countingIdlingResource.increment()
         val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
         val s1 = sharedPreferences.getString("state", "null roi be oi :(((")!!
         val s2 = sharedPreferences.getString("city", "null roi be oi :(((")!!
+        //countingIdlingResource.decrement()
         return State(s1, s2)
     }
 }
