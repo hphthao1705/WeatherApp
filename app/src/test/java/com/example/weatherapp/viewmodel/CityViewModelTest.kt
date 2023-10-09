@@ -3,7 +3,6 @@ package com.example.weatherapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.jupiter.api.Assertions.*
@@ -14,23 +13,17 @@ import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.PopulationCount
 import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
-@ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
+@RunWith(MockitoJUnitRunner::class)
 class CityViewModelTest {
     @Mock
     lateinit var viewModel:CityViewModel
 
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()
-    @BeforeEach
-    fun setUp()
-    {
-        MockitoAnnotations.initMocks(this)
-        //viewModel = CityViewModel()
-    }
     @Test
     fun whenLiveDataHaveData_thenErrorIsEmpty() = runTest{
         val listPopulationCount:ArrayList<PopulationCount> = ArrayList()

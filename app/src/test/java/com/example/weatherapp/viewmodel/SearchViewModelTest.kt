@@ -17,9 +17,10 @@ import org.junit.Rule
 import org.junit.jupiter.api.Assertions.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 import java.io.IOException
 @RunWith(AndroidJUnit4::class)
-//@RunWith(RobolectricTestRunner::class)
+//@RunWith(MockitoJUnitRunner::class)
 class SearchViewModelTest
 {
     private lateinit var searchDatabase: SearchDatabase

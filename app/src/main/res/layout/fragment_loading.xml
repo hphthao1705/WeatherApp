@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ProgressBar
+                android:id="@+id/progressbar_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:indeterminateDrawable="@drawable/loading"

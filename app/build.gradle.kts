@@ -110,7 +110,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
     //local test
-    testImplementation("org.robolectric:robolectric:4.9")
+    testImplementation("org.robolectric:robolectric:4.9") //cho room test
 
     //fix: No instrumentation registered! Must run under a registering instrumentation.
     androidTestImplementation("androidx.test:runner:1.0.2")
@@ -131,4 +131,6 @@ dependencies {
     androidTestImplementation( "androidx.test.espresso:espresso-contrib:3.3.0") //add bản này để sử dụng // với matchers. Bản cao hơn bị xung đột với matchers.
     //Espresso idling resources
     implementation("androidx.test.espresso:espresso-idling-resource:3.1.0")
+    //UIAutomator
+    androidTestImplementation("com.android.support.test.uiautomator:uiautomator-v18:2.1.3")
 }
