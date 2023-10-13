@@ -24,14 +24,7 @@ import kotlinx.coroutines.launch
 
 class FragmentSearch(var text:String, private var listData: List<Data>, private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-    private val viewModelSearch: SearchViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchViewModel.ViewModelFactory(requireActivity().application)
-        )[SearchViewModel::class.java]
-    }
     private var adapter: SearchAdapter = SearchAdapter(emptyList())
-    private val viewModelWeather by activityViewModels<WeatherViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,10 +59,35 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
            filterList = listData.filter {
                it.city.lowercase().contains(text)
            }
+            if(filterList.size == 0){
+//                Toast.makeText(context, "empty", Toast.LENGTH_SHORT).show()
+                setVisibility(false)
+            }
+            else{
+                setVisibility(true)
+            }
+            binding.loading.visibility = View.GONE
         }
         Toast.makeText(context,filterList.size.toString(),Toast.LENGTH_SHORT).show()
         adapter = SearchAdapter(filterList)
         binding.recyclerviewSearch.adapter = adapter
        //adapter.notifyDataSetChanged()
+    }
+    private fun setVisibility(bool: Boolean)
+    {
+        if(bool)
+        {
+            binding.recyclerviewSearch.visibility = View.VISIBLE
+            binding.empty1.visibility = View.GONE
+            binding.empty2.visibility = View.GONE
+            binding.empty3.visibility = View.GONE
+        }
+        else
+        {
+            binding.recyclerviewSearch.visibility = View.GONE
+            binding.empty1.visibility = View.VISIBLE
+            binding.empty2.visibility = View.VISIBLE
+            binding.empty3.visibility = View.VISIBLE
+        }
     }
 }

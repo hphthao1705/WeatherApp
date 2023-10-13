@@ -8,8 +8,8 @@ import com.example.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : ViewModel(){
-    private val repository: WeatherRepository = WeatherRepository()
+class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(){
+    //private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     val _liveData = liveData
     var error:String = ""

@@ -103,7 +103,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="230dp"
                 android:src="@drawable/sun"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/empty_2"
@@ -115,7 +115,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/empty_3"
@@ -126,7 +126,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
             <ProgressBar
                 android:id="@+id/loading"
                 android:layout_marginTop="325dp"
@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:indeterminateDrawable="@drawable/loading"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
         </LinearLayout>
 
     </FrameLayout>

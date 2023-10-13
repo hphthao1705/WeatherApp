@@ -1,7 +1,6 @@
 package com.example.weatherapp.view.activity
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
@@ -13,13 +12,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import com.example.weatherapp.R
-import com.example.weatherapp.utils.CountingIdlingResourceSingleton
 import com.example.weatherapp.view.RecyclerViewItemCountAssertion
 import com.example.weatherapp.view.adapter.CityAdapter
-import kotlinx.coroutines.delay
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before

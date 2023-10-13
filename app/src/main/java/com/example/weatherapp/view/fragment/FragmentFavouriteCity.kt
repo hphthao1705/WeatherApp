@@ -46,7 +46,7 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
     }
     private fun initControls()
     {
-        CountingIdlingResourceSingleton.increment()
+        //CountingIdlingResourceSingleton.increment()
         when(check)
         {
             true->{
@@ -60,25 +60,26 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
                     val activity: MainActivity? = activity as MainActivity
                     adapter.setOnClickListener(object: FavouriteCityAdapter.OnClickListener{
                         override fun onClick(city: Search) {
-                            //Toast.makeText(context, city.name, Toast.LENGTH_SHORT).show()
                             activity?.replaceFragment(FragmentHome(city.name!!, listRoom))
                         }
                     })
                 }
-                setVisibility(true)
+
                 binding.loading.visibility = View.GONE
+                setVisibility(true)
             }
             else->{
-                setVisibility(false)
+
                 binding.loading.visibility = View.GONE
+                setVisibility(false)
             }
         }
-        CountingIdlingResourceSingleton.decrement()
+        //CountingIdlingResourceSingleton.decrement()
 
     }
     fun saveCurrentState()
     {
-        CountingIdlingResourceSingleton.increment()
+        //CountingIdlingResourceSingleton.increment()
         val activity: MainActivity? = activity as MainActivity
 
         val sharedPref = activity?.getSharedPreferences("currentState", Context.MODE_PRIVATE) ?: return
@@ -86,11 +87,11 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
             putString("state", "FavouriteCity")
             commit()
         }
-        CountingIdlingResourceSingleton.decrement()
+        //CountingIdlingResourceSingleton.decrement()
     }
     fun setVisibility(bool:Boolean)
     {
-        CountingIdlingResourceSingleton.increment()
+        //CountingIdlingResourceSingleton.increment()
         if(bool)
         {
             binding.recyclerviewFavouritecity.visibility = View.VISIBLE
@@ -105,6 +106,6 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
         }
-        CountingIdlingResourceSingleton.decrement()
+        //CountingIdlingResourceSingleton.decrement()
     }
 }

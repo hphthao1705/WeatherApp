@@ -14,23 +14,31 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.WeatherProperties
 import com.example.weatherapp.databinding.FragmentHomeBinding
+import com.example.weatherapp.koin.appModule
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.WeatherAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.compose.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.startKoin
 import java.io.IOException
 import java.net.URL
 
 
 class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel by activityViewModels<WeatherViewModel>()
+    private val viewModel:WeatherViewModel by viewModel()
+    //private val viewModel by activityViewModels<WeatherViewModel>()
     private var listProperties:ArrayList<WeatherProperties> = ArrayList(emptyList())
     private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
     private val roomData by activityViewModels<SearchViewModel>()
@@ -91,9 +99,9 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
                     roomData.deleteCity(cityName)
                 }
                 addCityToRoom()
-                setVisibility(true)
             }
             binding.loading.visibility = View.GONE
+            setVisibility(true)
         }
     }
     private fun loadWeatherProperties(feelslike:String, wind:String, humidity:String)
