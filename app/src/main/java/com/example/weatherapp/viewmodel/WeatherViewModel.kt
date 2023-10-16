@@ -3,11 +3,18 @@ package com.example.weatherapp.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import org.koin.androidx.viewmodel.dsl.viewModel
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.dsl.module
 
+val weatherViewModel = module {
+    viewModel<WeatherViewModel>{
+        WeatherViewModel(get())
+    }
+}
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(){
     //private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()

@@ -20,24 +20,21 @@ import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.WeatherProperties
 import com.example.weatherapp.databinding.FragmentHomeBinding
-import com.example.weatherapp.koin.appModule
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.WeatherAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.androidx.compose.viewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.context.startKoin
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.io.IOException
 import java.net.URL
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel:WeatherViewModel by viewModel()
+    private lateinit var viewModel:WeatherViewModel
+    //private val viewModel:WeatherViewModel by inject()
     //private val viewModel by activityViewModels<WeatherViewModel>()
     private var listProperties:ArrayList<WeatherProperties> = ArrayList(emptyList())
     private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
@@ -54,6 +51,7 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         saveCurrentState()
+        viewModel = getViewModel()
         loadData(cityName)
     }
     private fun getBitmapFromURL(src: String?): Bitmap? {
@@ -100,8 +98,9 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
                 }
                 addCityToRoom()
             }
-            binding.loading.visibility = View.GONE
             setVisibility(true)
+            binding.loading.visibility = View.GONE
+
         }
     }
     private fun loadWeatherProperties(feelslike:String, wind:String, humidity:String)
