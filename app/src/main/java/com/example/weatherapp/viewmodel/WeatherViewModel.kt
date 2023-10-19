@@ -10,11 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 
-val weatherViewModel = module {
-    viewModel<WeatherViewModel>{
-        WeatherViewModel(get())
-    }
-}
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(){
     //private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()

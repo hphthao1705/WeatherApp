@@ -76,8 +76,7 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
             {
                 setVisibility(false)
             }
-            else
-            {
+            else {
                 viewModel._liveData.observe(viewLifecycleOwner)
                 {
                     binding.location = it.location
@@ -91,14 +90,13 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
                     )
                 }
                 //luu vao Room
-                val predicate: (Search) -> Boolean = {it.name == cityName}
-                if(listRoom.any(predicate))
-                {
+                val predicate: (Search) -> Boolean = { it.name == cityName }
+                if (listRoom.any(predicate)) {
                     roomData.deleteCity(cityName)
                 }
                 addCityToRoom()
+                setVisibility(true)
             }
-            setVisibility(true)
             binding.loading.visibility = View.GONE
 
         }

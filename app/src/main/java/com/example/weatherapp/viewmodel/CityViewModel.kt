@@ -8,8 +8,8 @@ import com.example.weatherapp.repository.CityRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CityViewModel: ViewModel() {
-    private val repository: CityRepository = CityRepository()
+class CityViewModel(private val repository: CityRepository): ViewModel() {
+    //private val repository: CityRepository = CityRepository()
     var list:ArrayList<Data> = ArrayList(emptyList())
 
     private var liveData: MutableLiveData<List<Data>> = MutableLiveData()

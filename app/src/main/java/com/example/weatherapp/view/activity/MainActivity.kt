@@ -20,27 +20,29 @@ import com.example.weatherapp.view.fragment.FragmentHome
 import com.example.weatherapp.view.fragment.FragmentLoading
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
+import com.example.weatherapp.viewmodel.SearchText
 import com.example.weatherapp.viewmodel.SearchViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
-    private val viewModel by viewModels<CityViewModel>()
+    private lateinit var viewModel:CityViewModel
     private var listData:ArrayList<Data> = ArrayList()
-    private val viewModelSearch: SearchViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchViewModel.ViewModelFactory(this.application)
-        )[SearchViewModel::class.java]
-    }
+    private lateinit var viewModelSearch: SearchViewModel
+    private lateinit var searchTextViewModel:SearchText
     private var listRoom:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        searchTextViewModel = getViewModel()
+        viewModel = getViewModel()
+        viewModelSearch = getViewModel()
         //countingIdlingResource.increment()
         replaceFragment(FragmentLoading())
         loadCities()
         loadDataFromRoom()
+        hearEventSearchFinish()
         //countingIdlingResource.decrement()
     }
     fun replaceFragment(fragment: Fragment)
@@ -127,5 +129,11 @@ class MainActivity : AppCompatActivity() {
         val s2 = sharedPreferences.getString("city", "null roi be oi :(((")!!
         //countingIdlingResource.decrement()
         return State(s1, s2)
+    }
+    private fun hearEventSearchFinish()
+    {
+        searchTextViewModel.LiveData?.observe(this){
+            binding.txtSearch.text.clear()
+        }
     }
 }

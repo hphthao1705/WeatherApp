@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
@@ -21,12 +22,7 @@ import com.example.weatherapp.viewmodel.SearchViewModel
 
 class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List<Search>) : Fragment() {
     private lateinit var binding:FragmentFavouriteCityBinding
-    private val viewModel: SearchViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchViewModel.ViewModelFactory(requireActivity().application)
-        )[SearchViewModel::class.java]
-    }
+    private val viewModel: SearchViewModel by activityViewModels()
     private var adapter:FavouriteCityAdapter = FavouriteCityAdapter(emptyList())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

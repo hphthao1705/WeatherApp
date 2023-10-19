@@ -1,21 +1,19 @@
 package com.example.weatherapp.repository
 
-import com.example.weatherapp.data.model.Data
-import com.example.weatherapp.data.remote.APIService
+import com.example.weatherapp.data.remote.APIService_City
+import com.example.weatherapp.data.remote.APIService_Weather
 import com.example.weatherapp.utils.Constants
 import kotlinx.coroutines.flow.flow
-import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.await
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class CityRepository {
-    private val apiService: APIService = Retrofit.Builder().baseUrl(Constants.BASE_URL_CITY).addConverterFactory(GsonConverterFactory.create()).build().create(APIService::class.java)
+class CityRepository(private val apiserviceCity: APIService_City) {
+    //private val apiService: APIService_City = Retrofit.Builder().baseUrl(Constants.BASE_URL_CITY).addConverterFactory(GsonConverterFactory.create()).build().create(APIService_City::class.java)
     suspend fun loadCity() = flow launch@{
         try {
-            val user = apiService.getCity().awaitResponse()
+            val user = apiserviceCity.getCity().awaitResponse()
             if (user.isSuccessful)
             {
                 var list = user.body()
@@ -31,7 +29,7 @@ class CityRepository {
     }
     fun error400() = flow {
         try {
-            apiService.getCity().awaitResponse()
+            apiserviceCity.getCity().awaitResponse()
 
         }
         catch (ex:Exception)

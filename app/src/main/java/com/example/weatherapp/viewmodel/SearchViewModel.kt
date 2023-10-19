@@ -12,8 +12,8 @@ import com.example.weatherapp.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel(app: Application):ViewModel() {
-    private val repository: SearchRepository = SearchRepository(app)
+class SearchViewModel(private val repository: SearchRepository):ViewModel() {
+    //private val repository: SearchRepository = SearchRepository(app)
     fun addNewCity(search: Search) {
         insertCity(search)
         Log.i("Check", "1")
@@ -23,12 +23,12 @@ class SearchViewModel(app: Application):ViewModel() {
         Log.i("Check", "2")
     }
     fun getAllNote(): LiveData<List<Search>> = repository.getAllCity()
-    class ViewModelFactory(private val application: Application): ViewModelProvider.Factory{
+    class ViewModelFactory(private val repository: SearchRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SearchViewModel::class.java))
             {
                 @Suppress("UNCHECKED_CAST")
-                return SearchViewModel(application) as T
+                return SearchViewModel(repository) as T
             }
             throw IllegalArgumentException("Unable construct viewmodel")
         }
