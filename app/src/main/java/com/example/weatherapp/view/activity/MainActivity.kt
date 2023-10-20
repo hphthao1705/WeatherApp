@@ -24,12 +24,15 @@ import com.example.weatherapp.viewmodel.SearchText
 import com.example.weatherapp.viewmodel.SearchViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var viewModel:CityViewModel
     private var listData:ArrayList<Data> = ArrayList()
-    private lateinit var viewModelSearch: SearchViewModel
+    private val viewModelSearch: SearchViewModel by lazy {
+        ViewModelProvider(this@MainActivity, SearchViewModel.ViewModelFactory(this.application))[SearchViewModel::class.java]
+    }
     private lateinit var searchTextViewModel:SearchText
     private var listRoom:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         searchTextViewModel = getViewModel()
         viewModel = getViewModel()
-        viewModelSearch = getViewModel()
+        //viewModelSearch = getViewModel()
         //countingIdlingResource.increment()
         replaceFragment(FragmentLoading())
         loadCities()

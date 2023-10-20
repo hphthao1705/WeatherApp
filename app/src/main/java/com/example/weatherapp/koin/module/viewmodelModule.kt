@@ -20,7 +20,7 @@ val viewmodelModule = module {
     viewModel{
         SearchText()
     }
-    viewModel{
-        SearchViewModel(get())
-    }
+//    viewModel{
+//        SearchViewModel(get())
+//    }
 }

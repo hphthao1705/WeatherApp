@@ -7,8 +7,8 @@ import com.example.weatherapp.data.local.dao.SearchDAO
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.City
 
-class SearchRepository(app: Application, private var dao: SearchDAO) {
-    //private val dao:SearchDAO
+class SearchRepository(app: Application) {
+    private val dao:SearchDAO
     init {
         val searchDatabase: SearchDatabase = SearchDatabase.getInstance(app)
         dao = searchDatabase.getSearchDao()

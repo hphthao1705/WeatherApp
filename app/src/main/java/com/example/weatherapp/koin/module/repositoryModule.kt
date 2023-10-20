@@ -13,7 +13,7 @@ val repositoryModule = module {
     single {
         CityRepository(get())
     }
-    single {
-        SearchRepository(Application(), get())
-    }
+//    single {
+//        SearchRepository(Application(), get())
+//    }
 }
