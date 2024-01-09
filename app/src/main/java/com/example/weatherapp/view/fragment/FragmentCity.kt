@@ -93,7 +93,7 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
             AppCompatActivity.MODE_PRIVATE
         ) ?: return
         with (sharedPref.edit()) {
-            putString("state", "City")
+            putString("state", "Cities")
             commit()
             //countingIdlingResource.decrement()
         }

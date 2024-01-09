@@ -118,7 +118,7 @@ class FragmentHome(val cityName:String, private var listRoom: List<Search>) : Fr
 
         val sharedPref = activity?.getSharedPreferences("currentState", MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
-            putString("state", "Home")
+            putString("state", "City")
             putString("city", cityName)
             commit()
         }

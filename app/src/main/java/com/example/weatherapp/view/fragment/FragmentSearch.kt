@@ -71,7 +71,7 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
             }
             binding.loading.visibility = View.GONE
         }
-        Toast.makeText(context,filterList.size.toString(),Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context,filterList.size.toString(), .LENGTH_SHORT).show()
         adapter = SearchAdapter(filterList)
         binding.recyclerviewSearch.adapter = adapter
        //adapter.notifyDataSetChanged()

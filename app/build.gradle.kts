@@ -133,8 +133,13 @@ dependencies {
     implementation("androidx.test.espresso:espresso-idling-resource:3.1.0")
     //UIAutomator
     androidTestImplementation("com.android.support.test.uiautomator:uiautomator-v18:2.1.3")
-
     //Koin
     implementation("io.insert-koin:koin-android:3.2.0-beta-1")
     implementation("io.insert-koin:koin-androidx-compose:3.2.0-beta-1")
+    //navigation bottom
+    implementation("com.google.android.material:material:1.1.0")
+    //Google Play Services
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    //Fused Location Provider for Android
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 }

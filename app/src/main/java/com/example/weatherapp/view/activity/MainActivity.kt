@@ -1,6 +1,7 @@
 package com.example.weatherapp.view.activity
 
 import android.os.Bundle
+import android.os.LocaleList
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -18,6 +19,7 @@ import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.view.fragment.FragmentFavouriteCity
 import com.example.weatherapp.view.fragment.FragmentHome
 import com.example.weatherapp.view.fragment.FragmentLoading
+import com.example.weatherapp.view.fragment.FragmentNavigationBottom
 import com.example.weatherapp.view.fragment.FragmentSearch
 import com.example.weatherapp.viewmodel.CityViewModel
 import com.example.weatherapp.viewmodel.SearchText
@@ -25,28 +27,42 @@ import com.example.weatherapp.viewmodel.SearchViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var viewModel:CityViewModel
     private var listData:ArrayList<Data> = ArrayList()
-    private val viewModelSearch: SearchViewModel by lazy {
-        ViewModelProvider(this@MainActivity, SearchViewModel.ViewModelFactory(this.application))[SearchViewModel::class.java]
-    }
+//    private val viewModelSearch: SearchViewModel by lazy {
+//        ViewModelProvider(this@MainActivity, SearchViewModel.ViewModelFactory(this.application))[SearchViewModel::class.java]
+//    }
+    private lateinit var viewModelSearch:SearchViewModel
     private lateinit var searchTextViewModel:SearchText
     private var listRoom:ArrayList<Search> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        viewModelSearch = getViewModel()
         searchTextViewModel = getViewModel()
-        viewModel = getViewModel()
-        //viewModelSearch = getViewModel()
-        //countingIdlingResource.increment()
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         replaceFragment(FragmentLoading())
+
+        viewModel = getViewModel()
+
         loadCities()
         loadDataFromRoom()
+
         hearEventSearchFinish()
-        //countingIdlingResource.decrement()
+
+//        searchTextViewModel = getViewModel()
+//        //viewMongIdlingResource.increment()
+//        replaceFdelSearch = getViewModel()
+//        //countiragment(FragmentLoading())
+//        loadCities()
+
+//        //countingIdlingResource.decrement()
     }
     fun replaceFragment(fragment: Fragment)
     {
@@ -57,44 +73,40 @@ class MainActivity : AppCompatActivity() {
     }
     fun initControls()
     {
-        //countingIdlingResource.increment()
         binding.btnListcity.setOnClickListener{
-            replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
+            //replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
+            replaceFragment(FragmentNavigationBottom(listData, listRoom, getCurrentState()))
         }
         searchCity()
-        loadScreenWhenAppStart()
-        //countingIdlingResource.decrement()
+        //loadScreenWhenAppStart()
     }
-    fun loadScreenWhenAppStart()
-    {
-        //countingIdlingResource.increment()
-        if(listRoom.isNotEmpty())
-        {
-            replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
-            //countingIdlingResource.decrement()
-        }
-        else
-        {
-            replaceFragment(FragmentCity(listData, listRoom))
-            //countingIdlingResource.decrement()
-        }
-    }
+//    fun loadScreenWhenAppStart()
+//    {
+//        if(listRoom.isNotEmpty())
+//        {
+//            //replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
+//            replaceFragment(FragmentFavouriteCity(listRoom))
+//        }
+//        else
+//        {
+//            replaceFragment(FragmentCity(listData, listRoom))
+//        }
+//    }
     fun searchCity():String
     {
-        //countingIdlingResource.increment()
         var textSearch = ""
         binding.txtSearch.doAfterTextChanged {
+            //binding.txtSearch.setImeHintLocales(LocaleList(Locale("zh", "CN")))
             textSearch = it.toString()
             if(textSearch.equals("", true))
             {
                 val state = getCurrentState()
                 when(state.state)
                 {
-                    "Home" -> replaceFragment(FragmentHome(state.city, listRoom))
-                    "FavouriteCity" -> replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
-                    "City" -> replaceFragment(FragmentCity(listData, listRoom))
+                    "Home" -> replaceFragment(FragmentFavouriteCity(listRoom))
+                    "Cities" -> replaceFragment(FragmentCity(listData, listRoom)) //replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
+                    else -> replaceFragment(FragmentFavouriteCity(listRoom))
                 }
-                //countingIdlingResource.decrement()
             }
             else
             {
@@ -105,32 +117,29 @@ class MainActivity : AppCompatActivity() {
     }
     fun loadDataFromRoom()
     {
-        //countingIdlingResource.increment()
         viewModelSearch.getAllNote().observe(this@MainActivity){
             listRoom = it as ArrayList<Search>
-            //countingIdlingResource.decrement()
         }
     }
     fun loadCities()
     {
-        //countingIdlingResource.increment()
         lifecycleScope.launch {
             viewModel._liveData.observe(this@MainActivity) {
                 listData = it as ArrayList<Data>
                 initControls()
+                replaceFragment(FragmentNavigationBottom(listData, listRoom, getCurrentState()))
             }
             viewModel._liveDataAPI?.observe(this@MainActivity){
                 initControls()
             }
-            //countingIdlingResource.decrement()
         }
+
+
     }
     private fun getCurrentState(): State {
-        //countingIdlingResource.increment()
         val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
         val s1 = sharedPreferences.getString("state", "null roi be oi :(((")!!
         val s2 = sharedPreferences.getString("city", "null roi be oi :(((")!!
-        //countingIdlingResource.decrement()
         return State(s1, s2)
     }
     private fun hearEventSearchFinish()
@@ -139,4 +148,5 @@ class MainActivity : AppCompatActivity() {
             binding.txtSearch.text.clear()
         }
     }
+
 }

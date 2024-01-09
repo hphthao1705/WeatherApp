@@ -19,11 +19,15 @@ import com.example.weatherapp.utils.CountingIdlingResourceSingleton
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.FavouriteCityAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List<Search>) : Fragment() {
+class FragmentFavouriteCity(val list_room: ArrayList<Search>) : Fragment() {
     private lateinit var binding:FragmentFavouriteCityBinding
     private val viewModel: SearchViewModel by activityViewModels()
     private var adapter:FavouriteCityAdapter = FavouriteCityAdapter(emptyList())
+//    private lateinit var viewModelSearch:SearchViewModel
+//    private var listRoom:ArrayList<Search> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,15 +39,18 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loading.visibility = View.VISIBLE
+//        viewModelSearch = getViewModel()
+        //loadDataFromRoom()
 
         saveCurrentState()
         initControls()
 
+        binding.loading.visibility = View.GONE
     }
     private fun initControls()
     {
-        //CountingIdlingResourceSingleton.increment()
-        when(check)
+        when(list_room.isNotEmpty())
         {
             true->{
                 viewModel.getAllNote().observe(viewLifecycleOwner){
@@ -56,7 +63,7 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
                     val activity: MainActivity? = activity as MainActivity
                     adapter.setOnClickListener(object: FavouriteCityAdapter.OnClickListener{
                         override fun onClick(city: Search) {
-                            activity?.replaceFragment(FragmentHome(city.name!!, listRoom))
+                            activity?.replaceFragment(FragmentHome(city.name!!, list_room))
                         }
                     })
                 }
@@ -70,8 +77,6 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
                 setVisibility(false)
             }
         }
-        //CountingIdlingResourceSingleton.decrement()
-
     }
     fun saveCurrentState()
     {
@@ -80,7 +85,7 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
 
         val sharedPref = activity?.getSharedPreferences("currentState", Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
-            putString("state", "FavouriteCity")
+            putString("state", "Home")
             commit()
         }
         //CountingIdlingResourceSingleton.decrement()
@@ -104,4 +109,13 @@ class FragmentFavouriteCity(private val check:Boolean,private var listRoom: List
         }
         //CountingIdlingResourceSingleton.decrement()
     }
+
+//    fun loadDataFromRoom()
+//    {
+//        //countingIdlingResource.increment()
+//        viewModelSearch.getAllNote().observe(viewLifecycleOwner){
+//            list_room = it as ArrayList<Search>
+//            //countingIdlingResource.decrement()
+//        }
+//    }
 }

@@ -3,10 +3,18 @@
     <item
         android:id="@+id/home"
         android:title="Home"
-        android:icon="@drawable/baseline_home_24"/>
+        android:icon="@drawable/baseline_home_24"
+        android:enabled="true"/>
 
     <item
         android:id="@+id/city"
-        android:title="City"
-        android:icon="@drawable/baseline_search_24"/>
+        android:title="List city"
+        android:icon="@drawable/baseline_list_24"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/location"
+        android:title="Current Location"
+        android:icon="@drawable/baseline_location_on_24"
+        android:enabled="true"/>
 </menu>
