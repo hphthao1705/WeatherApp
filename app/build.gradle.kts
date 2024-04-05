@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-android")
+    id("de.mannodermaus.android-junit5") version "1.9.3.0"
 }
 
 android {
@@ -46,7 +47,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("junit:junit:4.12")
@@ -94,7 +94,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.test:core:1.5.0")
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
-//    androidTestImplementation("com.androidx.support.test:rules:1.0.1")
+    androidTestImplementation("com.android.support.test:rules:1.0.1")
     testImplementation("androidx.arch.core:core-testing:2.1.0") //instantTaskExecutorRule
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -142,4 +142,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1")
     //Fused Location Provider for Android
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    //volley for json
+    implementation("com.android.volley:volley:1.2.1")
 }
