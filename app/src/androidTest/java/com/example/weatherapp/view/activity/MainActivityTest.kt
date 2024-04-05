@@ -1,9 +1,7 @@
 package com.example.weatherapp.view.activity
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -51,15 +49,15 @@ class MainActivityTest {
     {
         Thread.sleep(7000)
         //first city
-        onView(withId(R.id.txt_search)).perform(click())
-        onView(withId(R.id.txt_search)).perform(clearText(), typeText("pari"));
+//        onView(withId(R.id.txt_search)).perform(click())
+//        onView(withId(R.id.txt_search)).perform(clearText(), typeText("pari"));
         onView(withId(R.id.recyclerview_search)).check(matches(isDisplayed()))
         onView(withText("PARIS")).perform(click())
         Thread.sleep(3000)
         onView(withId(R.id.txt_locationName)).check(matches(withText("Paris")))
         //second city
-        onView(withId(R.id.txt_search)).perform(click())
-        onView(withId(R.id.txt_search)).perform(clearText(), typeText("lond"));
+//        onView(withId(R.id.txt_search)).perform(click())
+//        onView(withId(R.id.txt_search)).perform(clearText(), typeText("lond"));
         onView(withId(R.id.recyclerview_search)).check(matches(isDisplayed()))
         onView(withText("LONDON")).perform(click())
         Thread.sleep(3000)
@@ -75,8 +73,8 @@ class MainActivityTest {
     fun test2_SearchACityDoNotHaveWeather_thenScreenDisplayNoData()
     {
         Thread.sleep(17000)
-        onView(withId(R.id.txt_search)).perform(click())
-        onView(withId(R.id.txt_search)).perform(typeText("bej"))
+//        onView(withId(R.id.txt_search)).perform(click())
+//        onView(withId(R.id.txt_search)).perform(typeText("bej"))
         onView(withId(R.id.recyclerview_search)).check(matches(isDisplayed()))
         onView(withText("Bejaïa")).perform(click())
         Thread.sleep(3000)

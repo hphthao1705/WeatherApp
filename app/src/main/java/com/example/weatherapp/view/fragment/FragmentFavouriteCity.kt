@@ -2,24 +2,19 @@ package com.example.weatherapp.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentFavouriteCityBinding
-import com.example.weatherapp.utils.CountingIdlingResourceSingleton
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.FavouriteCityAdapter
 import com.example.weatherapp.viewmodel.SearchViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class FragmentFavouriteCity(val list_room: ArrayList<Search>) : Fragment() {
     private lateinit var binding:FragmentFavouriteCityBinding
@@ -63,7 +58,7 @@ class FragmentFavouriteCity(val list_room: ArrayList<Search>) : Fragment() {
                     val activity: MainActivity? = activity as MainActivity
                     adapter.setOnClickListener(object: FavouriteCityAdapter.OnClickListener{
                         override fun onClick(city: Search) {
-                            activity?.replaceFragment(FragmentHome(city.name!!, list_room))
+                            activity?.replaceFragment(FragmentHome())
                         }
                     })
                 }

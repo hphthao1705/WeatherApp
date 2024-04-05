@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentCityBinding
-import com.example.weatherapp.utils.CountingIdlingResourceSingleton
-import com.example.weatherapp.utils.CountingIdlingResourceSingleton.countingIdlingResource
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
 
@@ -52,7 +50,7 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
             binding.recyclerviewCity.adapter = adapter
             adapter.setOnClickListener(object:CityAdapter.OnClickListener{
                 override fun onClick(city: Data) {
-                    activity?.replaceFragment(FragmentHome(city.city, listRoom))
+                    activity?.replaceFragment(FragmentHome())
                 }
             })
             setVisibility(true)
