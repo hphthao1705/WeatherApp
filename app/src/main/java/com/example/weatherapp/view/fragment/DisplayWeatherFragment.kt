@@ -45,6 +45,7 @@ class DisplayWeatherFragment : Fragment() {
 //    private lateinit var viewModelSearch: SearchViewModel
     private var listRoom: ArrayList<Search> = ArrayList()
     private lateinit var mainActivity: MainActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,22 +104,10 @@ class DisplayWeatherFragment : Fragment() {
             binding.rcWeather.adapter = adapter
         }
 
+        saveCurrentState(cityName = cityName.orEmpty())
+
 
 //        viewModelSearch = getViewModel()
-
-        val error = requireArguments().getBoolean("error")
-
-
-//        if (error) {
-//            isError(View.VISIBLE)
-//        } else {
-//            mainActivity.showOrHideLoader(View.VISIBLE)
-//            loadDataFromRoom()
-//            saveCurrentState(cityName.orEmpty())
-//            loadData(cityName.orEmpty())
-//        }
-
-//        mainActivity.showOrHideLoader(View.GONE)
     }
 
     private fun saveCurrentState(cityName: String) {
@@ -126,10 +115,11 @@ class DisplayWeatherFragment : Fragment() {
 
         val sharedPref = activity?.getSharedPreferences("currentState", MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
-            putString("state", "City")
             putString("city", cityName)
             commit()
         }
+
+        activity.showOrHideLoader(View.GONE)
     }
 
 //    private fun addCityToRoom(cityName: String) {

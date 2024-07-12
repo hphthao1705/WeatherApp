@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.view.fragment.CityFragment
 import com.example.weatherapp.view.fragment.DisplayWeatherFragment
-import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.viewmodel.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -31,7 +31,12 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         viewModel.doneAPI.observe(this) {
-            replaceFragment(FragmentCity())
+            val cityName = getCurrentState()
+            if(cityName.isNullOrBlank()) {
+                replaceFragment(CityFragment())
+            } else {
+                replaceFragment(DisplayWeatherFragment.newInstance(cityName = cityName))
+            }
         }
 
         viewModel.loadingVisibility.observe(this) {
@@ -130,12 +135,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 //
-//    private fun getCurrentState(): State {
-//        val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
-//        val s1 = sharedPreferences.getString("state", "null roi be oi :(((")!!
-//        val s2 = sharedPreferences.getString("city", "null roi be oi :(((")!!
-//        return State(s1, s2)
-//    }
+    private fun getCurrentState(): String {
+        val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
+        return sharedPreferences.getString("city", "")!!
+    }
 //
 //    private fun hearEventSearchFinish() {
 //        searchTextViewModel.LiveData?.observe(this) {
@@ -148,8 +151,7 @@ class MainActivity : AppCompatActivity() {
         val city = sharedPreferences.getString("city", "").orEmpty()
         if (!city.isNullOrBlank()) {
             replaceFragment(DisplayWeatherFragment.newInstance(cityName = city))
-        }
-        else {
+        } else {
 //            showOrHideLoader(View.GONE)
             replaceFragment(DisplayWeatherFragment.newInstance(cityName = ""))
         }
