@@ -42,41 +42,34 @@ class FragmentCity : Fragment() {
         //countingIdlingResource.decrement()
     }
 
-    private fun loadData()
-    {
+    private fun loadData() {
         //countingIdlingResource.increment()
         val activity: MainActivity? = activity as MainActivity
-        if(AppUtils.getListCity().isNotEmpty())
-        {
-            binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context,2)
+        if (AppUtils.getListCity().isNotEmpty()) {
+            binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context, 2)
             adapter = CityAdapter(AppUtils.getListCity())
             binding.recyclerviewCity.adapter = adapter
-            adapter.setOnClickListener(object:CityAdapter.OnClickListener{
+            adapter.setOnClickListener(object : CityAdapter.OnClickListener {
                 override fun onClick(city: Data) {
-                    activity?.replaceFragment(DisplayWeatherFragment())
+                    activity?.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
                 }
             })
             setVisibility(true)
-        }
-        else
-        {
+        } else {
             setVisibility(false)
         }
         activity?.showOrHideLoader(View.GONE)
         //countingIdlingResource.decrement()
     }
-    fun setVisibility(bool:Boolean)
-    {
+
+    fun setVisibility(bool: Boolean) {
         //countingIdlingResource.increment()
-        if(bool)
-        {
+        if (bool) {
             binding.layoutCity.visibility = View.VISIBLE
             binding.empty1.visibility = View.GONE
             binding.empty2.visibility = View.GONE
             binding.empty3.visibility = View.GONE
-        }
-        else
-        {
+        } else {
             binding.layoutCity.visibility = View.GONE
             binding.empty1.visibility = View.VISIBLE
             binding.empty2.visibility = View.VISIBLE
@@ -84,15 +77,16 @@ class FragmentCity : Fragment() {
         }
         //countingIdlingResource.decrement()
     }
-    private fun saveCurrentState()
-    {
+
+    private fun saveCurrentState() {
         //countingIdlingResource.increment()
         val activity: MainActivity? = activity as MainActivity
 
-        val sharedPref = activity?.getSharedPreferences("currentState",
+        val sharedPref = activity?.getSharedPreferences(
+            "currentState",
             AppCompatActivity.MODE_PRIVATE
         ) ?: return
-        with (sharedPref.edit()) {
+        with(sharedPref.edit()) {
             putString("state", "Cities")
             commit()
             //countingIdlingResource.decrement()

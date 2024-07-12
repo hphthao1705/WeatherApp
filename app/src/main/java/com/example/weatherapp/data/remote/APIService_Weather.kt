@@ -9,9 +9,9 @@ import retrofit2.http.Query
 
 interface APIService_Weather {
     @GET(Constants.END_POINT)
-    fun getWeather(@Header("key") key:String,
-                   @Query("q") cityName:String,
-                   @Query("aqi") aqi:String): Call<Weather>
-
-
+    fun getWeather(
+        @Header("key") key: String,
+        @Query("q") cityName: String,
+        @Query("aqi") aqi: String
+    ): Call<Weather>
 }
