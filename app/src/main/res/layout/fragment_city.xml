@@ -7,17 +7,18 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/home_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.CityFragment"
-        android:id="@+id/home_framelayout">
+        tools:context=".view.fragment.CityFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.activity.Activity_HomeScreen"
             android:background="@color/back_1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:context=".view.activity.Activity_HomeScreen">
+
             <ImageView
                 android:id="@+id/empty1"
                 android:layout_width="wrap_content"
@@ -25,46 +26,51 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="270dp"
                 android:src="@drawable/umbrella"
-                android:visibility="visible"/>
+                android:visibility="visible" />
+
             <TextView
                 android:id="@+id/empty2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="OOPS!"
+                android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:visibility="visible"/>
+                android:visibility="visible" />
+
             <TextView
                 android:id="@+id/empty3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Data Found"
                 android:layout_gravity="center"
+                android:text="No Data Found"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:visibility="visible"/>
+                android:visibility="visible" />
+
             <ScrollView
                 android:id="@+id/layout_city"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_city"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </ScrollView>
+
             <ProgressBar
                 android:id="@+id/loading"
-                android:layout_marginTop="325dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/loading"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:layout_marginTop="325dp"
+                android:indeterminateDrawable="@drawable/loading"
+                android:visibility="gone" />
         </LinearLayout>
     </FrameLayout>
 </layout>

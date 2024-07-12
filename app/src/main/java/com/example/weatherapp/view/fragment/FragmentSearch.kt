@@ -16,10 +16,14 @@ import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.SearchAdapter
 import com.example.weatherapp.viewmodel.SearchText
 
-class FragmentSearch(var text:String, private var listData: List<Data>, private var listRoom: List<Search>) : Fragment() {
+class FragmentSearch(
+    var text: String,
+    private var listData: List<Data>,
+    private var listRoom: List<Search>
+) : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private var adapter: SearchAdapter = SearchAdapter(emptyList())
-    private val viewModel:SearchText by activityViewModels<SearchText>()
+    private val viewModel: SearchText by activityViewModels<SearchText>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +32,7 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerviewSearch.setHasFixedSize(true)
@@ -37,29 +42,27 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
         searchCity(text)
         clickOnCity()
     }
-    private fun clickOnCity()
-    {
+
+    private fun clickOnCity() {
         val activity: MainActivity? = activity as MainActivity
-        adapter.setOnClickListener(object :SearchAdapter.OnClickListener{
+        adapter.setOnClickListener(object : SearchAdapter.OnClickListener {
             override fun onClick(city: Data) {
                 viewModel.searchDone()
-                activity?.replaceFragment(FragmentHome())
+                activity?.replaceFragment(DisplayWeatherFragment())
             }
         })
     }
-    private fun searchCity(text: String)
-    {
+
+    private fun searchCity(text: String) {
         var filterList = emptyList<Data>()
-        if(text!=null)
-        {
-           filterList = listData.filter {
-               it.city.startsWith(text, true)
-           }
-            if(filterList.size == 0){
+        if (text != null) {
+            filterList = listData.filter {
+                it.city.startsWith(text, true)
+            }
+            if (filterList.size == 0) {
 //                Toast.makeText(context, "empty", Toast.LENGTH_SHORT).show()
                 setVisibility(false)
-            }
-            else{
+            } else {
                 setVisibility(true)
             }
 //            binding.loading.visibility = View.GONE
@@ -67,19 +70,16 @@ class FragmentSearch(var text:String, private var listData: List<Data>, private 
         //Toast.makeText(context,filterList.size.toString(), .LENGTH_SHORT).show()
         adapter = SearchAdapter(filterList)
         binding.recyclerviewSearch.adapter = adapter
-       //adapter.notifyDataSetChanged()
+        //adapter.notifyDataSetChanged()
     }
-    private fun setVisibility(bool: Boolean)
-    {
-        if(bool)
-        {
+
+    private fun setVisibility(bool: Boolean) {
+        if (bool) {
             binding.recyclerviewSearch.visibility = View.VISIBLE
             binding.empty1.visibility = View.GONE
             binding.empty2.visibility = View.GONE
             binding.empty3.visibility = View.GONE
-        }
-        else
-        {
+        } else {
             binding.recyclerviewSearch.visibility = View.GONE
             binding.empty1.visibility = View.VISIBLE
             binding.empty2.visibility = View.VISIBLE
