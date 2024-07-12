@@ -8,15 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentCityBinding
+import com.example.weatherapp.utils.AppUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
 
-class FragmentCity(private var listData: List<Data>, private var listRoom: List<Search>) : Fragment() {
+class FragmentCity : Fragment() {
+
     private lateinit var binding: FragmentCityBinding
     private var adapter: CityAdapter = CityAdapter(emptyList())
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +38,7 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
         //countingIdlingResource.increment()
         saveCurrentState()
         loadData()
+
         //countingIdlingResource.decrement()
     }
 
@@ -43,14 +46,14 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
     {
         //countingIdlingResource.increment()
         val activity: MainActivity? = activity as MainActivity
-        if(listData.isNotEmpty())
+        if(AppUtils.getListCity().isNotEmpty())
         {
             binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context,2)
-            adapter = CityAdapter(listData)
+            adapter = CityAdapter(AppUtils.getListCity())
             binding.recyclerviewCity.adapter = adapter
             adapter.setOnClickListener(object:CityAdapter.OnClickListener{
                 override fun onClick(city: Data) {
-                    activity?.replaceFragment(FragmentHome())
+                    activity?.replaceFragment(DisplayWeatherFragment())
                 }
             })
             setVisibility(true)
@@ -58,9 +61,8 @@ class FragmentCity(private var listData: List<Data>, private var listRoom: List<
         else
         {
             setVisibility(false)
-
         }
-        binding.loading.visibility = View.GONE
+        activity?.showOrHideLoader(View.GONE)
         //countingIdlingResource.decrement()
     }
     fun setVisibility(bool:Boolean)

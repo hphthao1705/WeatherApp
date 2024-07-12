@@ -19,9 +19,9 @@
             android:layout_centerInParent="true"/>
         
         <RelativeLayout
+            android:id="@+id/loading"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.loadingVisibility}">
+            android:layout_height="wrap_content">
             <ProgressBar
                 android:layout_marginTop="325dp"
                 android:layout_width="match_parent"

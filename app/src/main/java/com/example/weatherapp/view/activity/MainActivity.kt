@@ -1,15 +1,14 @@
 package com.example.weatherapp.view.activity
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.view.fragment.FragmentHome
-import com.example.weatherapp.viewmodel.CityViewModel
+import com.example.weatherapp.view.fragment.DisplayWeatherFragment
+import com.example.weatherapp.view.fragment.FragmentCity
 import com.example.weatherapp.viewmodel.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -21,27 +20,35 @@ class MainActivity : AppCompatActivity() {
     //    private val viewModelSearch: SearchViewModel by lazy {
 //        ViewModelProvider(this@MainActivity, SearchViewModel.ViewModelFactory(this.application))[SearchViewModel::class.java]
 //    }
-    private lateinit var viewModelCity: CityViewModel
+//    private lateinit var viewModelCity: CityViewModel
 
     //    private lateinit var searchTextViewModel: SearchText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModelCity = getViewModel()
+//        viewModelCity = getViewModel()
         viewModel = getViewModel()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-//        searchTextViewModel = getViewModel()
-
-        showOrHideLoader(View.VISIBLE)
-
-        loadCities()
 
         viewModel.doneAPI.observe(this) {
-            if (it) {
-                showOrHideLoader(View.GONE)
-                checkSelectedCity()
-            }
+            replaceFragment(FragmentCity())
         }
+
+        viewModel.loadingVisibility.observe(this) {
+            binding.loading.visibility = it
+        }
+//        searchTextViewModel = getViewModel()
+
+//        showOrHideLoader(View.VISIBLE)
+
+//        loadCities()
+
+//        viewModel.doneAPI.observe(this) {
+//            if (it) {
+////                showOrHideLoader(View.GONE)
+//                checkSelectedCity()
+//            }
+//        }
 //
 //        hearEventSearchFinish()
 
@@ -111,17 +118,17 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     //
-    fun loadCities() {
-        viewModelCity._liveData.observe(this) {
-            listData = it as ArrayList<Data>
-            viewModel.doneAPI.value = true
-//            initControls()
-//            replaceFragment(FragmentNavigationBottom(listData, listRoom, getCurrentState()))
-        }
-        viewModelCity._liveDataAPI?.observe(this@MainActivity) {
-//            initControls()
-        }
-    }
+//    fun loadCities() {
+//        viewModelCity._liveData.observe(this) {
+//            listData = it as ArrayList<Data>
+//            viewModel.doneAPI.value = true
+////            initControls()
+////            replaceFragment(FragmentNavigationBottom(listData, listRoom, getCurrentState()))
+//        }
+//        viewModelCity._liveDataAPI?.observe(this@MainActivity) {
+////            initControls()
+//        }
+//    }
 //
 //    private fun getCurrentState(): State {
 //        val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
@@ -140,11 +147,11 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
         val city = sharedPreferences.getString("city", "").orEmpty()
         if (!city.isNullOrBlank()) {
-            replaceFragment(FragmentHome.newInstance(cityName = city))
+            replaceFragment(DisplayWeatherFragment.newInstance(cityName = city))
         }
         else {
-            showOrHideLoader(View.GONE)
-            replaceFragment(FragmentHome.newInstance(cityName = "", error = true))
+//            showOrHideLoader(View.GONE)
+            replaceFragment(DisplayWeatherFragment.newInstance(cityName = ""))
         }
     }
 
