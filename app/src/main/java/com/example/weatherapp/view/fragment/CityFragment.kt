@@ -14,7 +14,7 @@ import com.example.weatherapp.utils.AppUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
 
-class FragmentCity : Fragment() {
+class CityFragment : Fragment() {
 
     private lateinit var binding: FragmentCityBinding
     private var adapter: CityAdapter = CityAdapter(emptyList())
