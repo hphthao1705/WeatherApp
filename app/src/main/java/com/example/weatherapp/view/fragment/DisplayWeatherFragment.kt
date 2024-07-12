@@ -1,0 +1,170 @@
+package com.example.weatherapp.view.fragment
+
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.os.Bundle
+import android.os.StrictMode
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.R
+import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.databinding.FragmentDisplayWeatherBinding
+import com.example.weatherapp.utils.ExploredUtils
+import com.example.weatherapp.view.activity.MainActivity
+import com.example.weatherapp.view.adapter.WeatherAdapter
+import com.example.weatherapp.viewmodel.DisplayWeatherViewModel
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+
+class DisplayWeatherFragment : Fragment() {
+    companion object {
+        fun newInstance(
+            cityName: String? = null,
+        ): DisplayWeatherFragment {
+            val fragment = DisplayWeatherFragment()
+            val bundle = Bundle()
+            bundle.putString("cityName", cityName)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    private lateinit var binding: FragmentDisplayWeatherBinding
+    private lateinit var viewModel: DisplayWeatherViewModel
+
+    //private val viewModel:WeatherViewModel by inject()
+    //private val viewModel by activityViewModels<WeatherViewModel>()
+    private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
+
+    //    private val roomData by activityViewModels<SearchViewModel>()
+//    private lateinit var viewModelSearch: SearchViewModel
+    private var listRoom: ArrayList<Search> = ArrayList()
+    private lateinit var mainActivity: MainActivity
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_display_weather, container, false)
+        val view: View = binding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //ViewModel
+        viewModel = getViewModel()
+
+        val cityName = requireArguments().getString("cityName")
+        cityName?.let {
+            viewModel.loadWeather(city = it)
+        } ?: let {
+            viewModel.errorVisibility.value = View.VISIBLE
+        }
+
+        viewModel.errorVisibility.observe(viewLifecycleOwner) {
+            displayWeather(it)
+        }
+
+        viewModel.cityName.observe(viewLifecycleOwner) {
+            binding.cityName.text = it
+        }
+
+        viewModel.condition.observe(viewLifecycleOwner) {
+            binding.condition.text = it
+        }
+
+        viewModel.tempurature.observe(viewLifecycleOwner) {
+            binding.tempurate.text = it
+        }
+
+        viewModel.imageWeather.observe(viewLifecycleOwner) {
+            //fix loi hinh
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+
+            lifecycleScope.launch {
+                binding.weatherIcon.setImageBitmap(ExploredUtils.getBitmapFromURL("https:$it"))
+            }
+        }
+
+        viewModel.weatherProperties?.observe(viewLifecycleOwner) {
+            binding.rcWeather.layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL, false
+            )
+            adapter.setData(it)
+            binding.rcWeather.adapter = adapter
+        }
+
+
+//        viewModelSearch = getViewModel()
+
+        val error = requireArguments().getBoolean("error")
+
+
+//        if (error) {
+//            isError(View.VISIBLE)
+//        } else {
+//            mainActivity.showOrHideLoader(View.VISIBLE)
+//            loadDataFromRoom()
+//            saveCurrentState(cityName.orEmpty())
+//            loadData(cityName.orEmpty())
+//        }
+
+//        mainActivity.showOrHideLoader(View.GONE)
+    }
+
+    private fun saveCurrentState(cityName: String) {
+        val activity: MainActivity? = activity as MainActivity
+
+        val sharedPref = activity?.getSharedPreferences("currentState", MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("state", "City")
+            putString("city", cityName)
+            commit()
+        }
+    }
+
+//    private fun addCityToRoom(cityName: String) {
+//        var p = Search(cityName)
+//        roomData.addNewCity(p)
+//    }
+
+//    private fun loadDataFromRoom() {
+//        viewModelSearch.getAllNote().observe(this) {
+//            listRoom = it as ArrayList<Search>
+//        }
+//    }
+
+//    fun isError(result: Int) {
+//        viewModel.errorVisibility.value = result
+//        if (result == View.GONE) {
+//            viewModel.weatherVisibility.value = View.VISIBLE
+//        } else {
+//            viewModel.weatherVisibility.value = View.GONE
+//        }
+//    }
+
+    private fun displayWeather(visible: Int) {
+        binding.errorIcon.visibility = visible
+        binding.errorContent.visibility = visible
+        binding.errorTitle.visibility = visible
+        if (visible == View.VISIBLE) {
+            binding.cvCity.visibility = View.GONE
+        } else {
+            binding.cvCity.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
+}

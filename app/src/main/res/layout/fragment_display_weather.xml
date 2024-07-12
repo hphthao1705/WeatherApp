@@ -6,26 +6,15 @@
     <data>
 
         <variable
-            name="location"
-            type="com.example.weatherapp.data.model.Location" />
-
-        <variable
-            name="condition"
-            type="com.example.weatherapp.data.model.Condition" />
-
-        <variable
-            name="current"
-            type="com.example.weatherapp.data.model.Current" />
-        <variable
             name="viewModel"
-            type="com.example.weatherapp.viewmodel.WeatherViewModel" />
+            type="com.example.weatherapp.viewmodel.DisplayWeatherViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.FragmentHome"
-        android:background="@color/back_1">
+        android:background="@color/back_1"
+        tools:context=".view.fragment.DisplayWeatherFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -56,32 +45,30 @@
                 tools:context=".view.activity.ActivityCityScreen">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardview_city"
+                    android:id="@+id/cv_city"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
                     android:backgroundTint="@color/back_2"
-                    app:cardCornerRadius="30dp"
-                    android:visibility="@{viewModel.weatherVisibility}"
-                    app:mutableVisibility="@{viewModel.weatherVisibility}">
+                    app:cardCornerRadius="30dp">
 
                     <TextView
-                        android:id="@+id/txt_locationName"
+                        android:id="@+id/cityName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
                         android:gravity="center"
-                        android:hint="Ha Noi"
-                        android:text="@{location.name}"
+                        mutableText="@{viewModel.cityName}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="40sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:hint="Ha Noi" />
 
                     <ImageView
-                        android:id="@+id/img_icon"
+                        android:id="@+id/weatherIcon"
                         android:layout_width="100dp"
                         android:layout_height="80dp"
                         android:layout_marginLeft="130dp"
@@ -89,23 +76,25 @@
                         android:src="@drawable/ic_launcher_background" />
 
                     <TextView
+                        android:id="@+id/condition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="165dp"
-                        android:hint="Partly Cloudy"
-                        android:text="@{condition.text}"
+                        android:text="@{viewModel.condition}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="Partly Cloudy" />
 
                     <TextView
+                        android:id="@+id/tempurate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="195dp"
-                        android:hint="32"
-                        android:text="@{current.temp_c}"
+                        tools:hint="32"
+                        android:text="@{viewModel.tempurature}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
@@ -113,52 +102,40 @@
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_weather_3"
+                        android:id="@+id/rc_Weather"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_marginTop="250dp" />
                 </androidx.cardview.widget.CardView>
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recyclerview_weather_list"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:visibility="visible" />-->
-
                 <ImageView
-                    android:id="@+id/empty_1"
+                    android:id="@+id/errorIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="230dp"
-                    android:src="@drawable/sun"
-                    android:visibility="@{viewModel.errorVisibility}"
-                    app:mutableVisibility="@{viewModel.errorVisibility}"/>
+                    android:src="@drawable/sun" />
 
                 <TextView
-                    android:id="@+id/empty_2"
+                    android:id="@+id/errorTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
-                    android:text="NO RESULTS"
+                    android:text="@{viewModel.errorTitle}"
                     android:textColor="@color/white"
                     android:textSize="30sp"
-                    android:textStyle="bold"
-                    android:visibility="@{viewModel.errorVisibility}"
-                    app:mutableVisibility="@{viewModel.errorVisibility}"/>
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/empty_3"
+                    android:id="@+id/errorContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Sorry, there are no results for this search.\nPlease try another place"
+                    android:text="@{viewModel.errorContent}"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:visibility="@{viewModel.errorVisibility}"
-                    app:mutableVisibility="@{viewModel.errorVisibility}"/>
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
