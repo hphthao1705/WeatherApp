@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(){
-    //private val repository: WeatherRepository = WeatherRepository()
     private var liveData: MutableLiveData<Weather> = MutableLiveData()
     val errorVisibility:MutableLiveData<Int> = MutableLiveData()
     val weatherVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -25,10 +24,6 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(){
                 weatherVisibility.value = View.VISIBLE
                 errorVisibility.value = View.GONE
             }
-        }
-        repository.error400(cityName).collect{
-            errorVisibility.value = View.VISIBLE
-            weatherVisibility.value = View.GONE
         }
     }
 }

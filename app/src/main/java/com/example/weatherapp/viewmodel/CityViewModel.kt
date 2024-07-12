@@ -27,12 +27,7 @@ class CityViewModel(private val repository: CityRepository): ViewModel() {
             flow.collect(){
                 liveData.postValue(it)
             }
-            repository.error400().collect {
-                if(it != null)
-                {
-                    liveDataAPI?.postValue("error")
-                }
-            }
+
         }
     }
 }
