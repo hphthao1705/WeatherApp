@@ -34,7 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class CityFragment : Fragment() {
 
     private lateinit var binding: FragmentCityBinding
-    private var cityAdapter: CityAdapter = CityAdapter(emptyList())
+    private var cityAdapter: CityAdapter = CityAdapter()
     private var searchAdapter: SearchAdapter = SearchAdapter()
     private lateinit var viewModel: CityViewModel
     private lateinit var mainActivity: MainActivity
@@ -61,9 +61,10 @@ class CityFragment : Fragment() {
         viewModel.checkListCityData()
 
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
-            if(it == View.GONE) {
+            if (it == View.GONE) {
+                binding.recyclerviewCity.setHasFixedSize(true)
                 binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context, 2)
-                cityAdapter = CityAdapter(AppUtils.getListCity())
+                cityAdapter.setDataList(AppUtils.getListCity())
                 binding.recyclerviewCity.adapter = cityAdapter
                 cityAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
                     override fun onClick(city: Data) {
@@ -73,16 +74,17 @@ class CityFragment : Fragment() {
             }
             setErrorVisibility(it)
         }
-        
-      binding.txtSearch.textChanges().debounce(2000).onEach { searchCity(it.toString()) }.launchIn(lifecycleScope)
-//        saveCurrentState()
+
+        binding.txtSearch.textChanges().debounce(2000).onEach { searchCity(it.toString()) }
+            .launchIn(lifecycleScope)
+        mainActivity.saveCurrentState("")
     }
 
     fun setErrorVisibility(visibility: Int) {
         binding.empty1.visibility = visibility
         binding.empty2.visibility = visibility
         binding.empty3.visibility = visibility
-        if(visibility == View.GONE) {
+        if (visibility == View.GONE) {
             binding.layoutCity.visibility = View.VISIBLE
             binding.recyclerviewSearch.visibility = View.GONE
         } else {
@@ -95,7 +97,7 @@ class CityFragment : Fragment() {
         binding.recyclerviewSearch.visibility = visibility
         binding.layoutCity.visibility = View.GONE
 
-        if(visibility == View.GONE) {
+        if (visibility == View.GONE) {
             binding.empty1.visibility = View.VISIBLE
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
@@ -106,21 +108,6 @@ class CityFragment : Fragment() {
         }
     }
 
-//    private fun saveCurrentState() {
-//        //countingIdlingResource.increment()
-//        val activity: MainActivity? = activity as MainActivity
-//
-//        val sharedPref = activity?.getSharedPreferences(
-//            "currentState",
-//            AppCompatActivity.MODE_PRIVATE
-//        ) ?: return
-//        with(sharedPref.edit()) {
-//            putString("state", "Cities")
-//            commit()
-//            //countingIdlingResource.decrement()
-//        }
-//    }
-
     private fun searchCity(text: String) {
         var filterList = emptyList<Data>()
 
@@ -129,7 +116,7 @@ class CityFragment : Fragment() {
                 it.city.startsWith(text, true)
             }
             filterList?.let {
-                if(it.size != 0) {
+                if (it.size != 0) {
                     setSearchVisibility(View.VISIBLE)
                 } else {
                     setSearchVisibility(View.GONE)

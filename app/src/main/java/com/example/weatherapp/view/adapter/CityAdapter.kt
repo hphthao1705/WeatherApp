@@ -8,8 +8,15 @@ import com.example.weatherapp.R
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ItemCityBinding
 
-class CityAdapter(private var itemList: List<Data>): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
+class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
     private var onClickListener: OnClickListener? = null
+    private var itemList: List<Data> = emptyList()
+
+    fun setDataList(list: List<Data>) {
+        this.itemList = list
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val binding:ItemCityBinding = DataBindingUtil.inflate(

@@ -1,7 +1,6 @@
 package com.example.weatherapp.view.fragment
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.LayoutInflater
@@ -102,20 +101,11 @@ class DisplayWeatherFragment : Fragment() {
             mainActivity.replaceFragment(CityFragment())
         }
 
-        saveCurrentState(cityName = cityName.orEmpty())
+        mainActivity.saveCurrentState(cityName = cityName.orEmpty())
 
 
 //        viewModelSearch = getViewModel()
     }
-
-    private fun saveCurrentState(cityName: String) {
-        val sharedPref = activity?.getSharedPreferences("currentState", MODE_PRIVATE) ?: return
-        with(sharedPref.edit()) {
-            putString("city", cityName)
-            commit()
-        }
-    }
-
 //    private fun addCityToRoom(cityName: String) {
 //        var p = Search(cityName)
 //        roomData.addNewCity(p)

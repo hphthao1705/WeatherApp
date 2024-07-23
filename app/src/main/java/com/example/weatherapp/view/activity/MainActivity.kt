@@ -139,6 +139,14 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("currentState", MODE_PRIVATE)
         return sharedPreferences.getString("city", "")!!
     }
+
+    fun saveCurrentState(cityName: String) {
+        val sharedPref = getSharedPreferences("currentState", MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("city", cityName)
+            commit()
+        }
+    }
 //
 //    private fun hearEventSearchFinish() {
 //        searchTextViewModel.LiveData?.observe(this) {
