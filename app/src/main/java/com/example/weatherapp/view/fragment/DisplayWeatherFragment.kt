@@ -109,15 +109,11 @@ class DisplayWeatherFragment : Fragment() {
     }
 
     private fun saveCurrentState(cityName: String) {
-        val activity: MainActivity? = activity as MainActivity
-
         val sharedPref = activity?.getSharedPreferences("currentState", MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
             putString("city", cityName)
             commit()
         }
-
-        activity.showOrHideLoader(View.GONE)
     }
 
 //    private fun addCityToRoom(cityName: String) {
@@ -141,17 +137,23 @@ class DisplayWeatherFragment : Fragment() {
 //    }
 
     private fun displayWeather(visible: Int) {
-        binding.errorIcon.visibility = visible
-        binding.errorContent.visibility = visible
-        binding.errorTitle.visibility = visible
-        if (visible == View.VISIBLE) {
-            binding.cvCity.visibility = View.GONE
-        } else {
-            binding.cvCity.visibility = View.VISIBLE
-        }
+        try {
+            binding.errorIcon.visibility = visible
+            binding.errorContent.visibility = visible
+            binding.errorTitle.visibility = visible
+            if (visible == View.VISIBLE) {
+                binding.cvCity.visibility = View.GONE
+            } else {
+                binding.cvCity.visibility = View.VISIBLE
+            }
 
-        binding.errorTitle.text = viewModel.errorTitle.value
-        binding.errorContent.text = viewModel.errorContent.value
+            binding.errorTitle.text = viewModel.errorTitle.value
+            binding.errorContent.text = viewModel.errorContent.value
+        } catch (ex: Exception) {
+
+        } finally {
+            viewModel.loadingVisibility.postValue(View.GONE)
+        }
     }
 
     override fun onAttach(context: Context) {

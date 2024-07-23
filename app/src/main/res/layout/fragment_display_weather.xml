@@ -115,7 +115,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="230dp"
-                    android:src="@drawable/sun" />
+                    android:src="@drawable/sun"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/errorTitle"

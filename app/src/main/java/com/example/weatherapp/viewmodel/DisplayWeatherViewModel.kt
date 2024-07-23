@@ -22,7 +22,6 @@ class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : View
 
     init {
         loadingVisibility.postValue(View.VISIBLE)
-        errorVisibility.postValue(View.GONE)
     }
 
     fun loadWeather(city: String) {
@@ -32,12 +31,12 @@ class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : View
                     withContext(Dispatchers.Main) {
                         weather.value = it
                     }
+                    errorVisibility.postValue(View.GONE)
                 }
                 it.onLeft {
                     errorVisibility.postValue(View.VISIBLE)
                 }
             }
-            loadingVisibility.postValue(View.GONE)
         }
     }
 }
