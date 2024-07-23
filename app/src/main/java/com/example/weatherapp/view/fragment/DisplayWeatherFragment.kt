@@ -94,7 +94,7 @@ class DisplayWeatherFragment : Fragment() {
             binding.rcWeather.adapter = adapter
         }
         binding.btnListcity.setOnClickListener {
-
+            mainActivity.replaceFragment(CityFragment())
         }
 
         saveCurrentState(cityName = cityName.orEmpty())
