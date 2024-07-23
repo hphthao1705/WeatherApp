@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.entities.Search
 import com.example.weatherapp.databinding.FragmentDisplayWeatherBinding
-import com.example.weatherapp.utils.ExploredUtils
+import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.WeatherAdapter
 import com.example.weatherapp.viewmodel.DisplayWeatherViewModel
@@ -83,7 +83,7 @@ class DisplayWeatherFragment : Fragment() {
             StrictMode.setThreadPolicy(policy)
 
             lifecycleScope.launch {
-                binding.weatherIcon.setImageBitmap(ExploredUtils.getBitmapFromURL("https:${it.image}"))
+                binding.weatherIcon.setImageBitmap(WeatherUtils.getBitmapFromURL("https:${it.image}"))
             }
 
             binding.rcWeather.layoutManager = LinearLayoutManager(

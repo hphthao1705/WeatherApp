@@ -9,7 +9,7 @@ import java.io.IOException
 import java.net.URL
 
 
-object ExploredUtils {
+object WeatherUtils {
     fun getBitmapFromURL(src: String?): Bitmap? {
         return try {
             return BitmapFactory.decodeStream(URL(src).openConnection().getInputStream())

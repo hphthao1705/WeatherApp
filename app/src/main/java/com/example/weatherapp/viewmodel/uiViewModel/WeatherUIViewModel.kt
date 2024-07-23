@@ -2,7 +2,7 @@ package com.example.weatherapp.viewmodel.uiViewModel
 
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherProperties
-import com.example.weatherapp.utils.ExploredUtils
+import com.example.weatherapp.utils.WeatherUtils
 
 data class WeatherUIViewModel (
     val city: String? = "",
@@ -17,7 +17,7 @@ data class WeatherUIViewModel (
             image = weather.current?.condition?.icon.orEmpty(),
             condition = weather.current?.condition?.text.orEmpty(),
             tempurature = weather.current?.temp_c.orEmpty(),
-            properties =  ExploredUtils.loadWeatherProperties(
+            properties =  WeatherUtils.loadWeatherProperties(
                 feelslike = weather.current?.feelslike_c.toString().orEmpty(),
                 wind = weather.current?.wind_dir.orEmpty(),
                 humidity = weather.current?.humidity.toString().orEmpty()

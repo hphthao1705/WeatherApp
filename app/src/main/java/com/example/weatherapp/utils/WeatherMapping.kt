@@ -10,7 +10,7 @@ object WeatherMapping {
             image = weather.current?.condition?.icon.orEmpty(),
             condition = weather.current?.condition?.text.orEmpty(),
             tempurature = weather.current?.temp_c.orEmpty(),
-            properties =  ExploredUtils.loadWeatherProperties(
+            properties =  WeatherUtils.loadWeatherProperties(
                 feelslike = weather.current?.feelslike_c.toString().orEmpty(),
                 wind = weather.current?.wind_dir.orEmpty(),
                 humidity = weather.current?.humidity.toString().orEmpty()
