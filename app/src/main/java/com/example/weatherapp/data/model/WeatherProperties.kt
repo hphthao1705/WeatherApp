@@ -1,5 +1,11 @@
 package com.example.weatherapp.data.model
 
-data class WeatherProperties(   var image:Int?,
-                                var value:String?,
-                                var property:String?)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class WeatherProperties(
+    val image: Int? = 0,
+    val value: String? = "",
+    val property: String? = ""
+) : Parcelable

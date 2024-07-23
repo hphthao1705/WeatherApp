@@ -73,35 +73,28 @@ class DisplayWeatherFragment : Fragment() {
             displayWeather(it)
         }
 
-        viewModel.cityName.observe(viewLifecycleOwner) {
-            binding.cityName.text = it
-        }
+        viewModel.weather.observe(viewLifecycleOwner) {
+            binding.cityName.text = it.city
+            binding.condition.text = it.condition
+            binding.tempurate.text = it.tempurature
 
-        viewModel.condition.observe(viewLifecycleOwner) {
-            binding.condition.text = it
-        }
-
-        viewModel.tempurature.observe(viewLifecycleOwner) {
-            binding.tempurate.text = it
-        }
-
-        viewModel.imageWeather.observe(viewLifecycleOwner) {
             //fix loi hinh
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
 
             lifecycleScope.launch {
-                binding.weatherIcon.setImageBitmap(ExploredUtils.getBitmapFromURL("https:$it"))
+                binding.weatherIcon.setImageBitmap(ExploredUtils.getBitmapFromURL("https:${it.image}"))
             }
-        }
 
-        viewModel.weatherProperties?.observe(viewLifecycleOwner) {
             binding.rcWeather.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.HORIZONTAL, false
             )
-            adapter.setData(it)
+            it.properties?.let { it1 -> adapter.setData(it1) }
             binding.rcWeather.adapter = adapter
+        }
+        binding.btnListcity.setOnClickListener {
+
         }
 
         saveCurrentState(cityName = cityName.orEmpty())

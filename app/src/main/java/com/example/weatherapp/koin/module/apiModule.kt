@@ -1,7 +1,7 @@
 package com.example.weatherapp.koin.module
 
 import com.example.weatherapp.data.remote.APIService_City
-import com.example.weatherapp.data.remote.APIService_Weather
+import com.example.weatherapp.data.remote.WeatherAPI
 import com.example.weatherapp.utils.Constants
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -13,7 +13,7 @@ val apiModule = module{
         baseUrl(Constants.BASE_URL).
         addConverterFactory(GsonConverterFactory.create()).
         build().
-        create(APIService_Weather::class.java)
+        create(WeatherAPI::class.java)
     }
     single{
         Retrofit.Builder().
