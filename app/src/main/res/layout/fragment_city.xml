@@ -19,6 +19,19 @@
             android:orientation="vertical"
             tools:context=".view.activity.Activity_HomeScreen">
 
+            <EditText
+                android:id="@+id/txt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/customsearchtext"
+                android:drawableLeft="@drawable/baseline_search_24"
+                android:drawablePadding="10dp"
+                android:padding="15dp"
+                android:textColor="@color/white" />
+
             <ImageView
                 android:id="@+id/empty1"
                 android:layout_width="wrap_content"
@@ -50,6 +63,12 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
             <ScrollView
                 android:id="@+id/layout_city"
