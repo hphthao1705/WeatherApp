@@ -1,10 +1,10 @@
 package com.example.weatherapp.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,11 +13,15 @@ import com.example.weatherapp.databinding.FragmentCityBinding
 import com.example.weatherapp.utils.AppUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
+import com.example.weatherapp.viewmodel.CityViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class CityFragment : Fragment() {
 
     private lateinit var binding: FragmentCityBinding
     private var adapter: CityAdapter = CityAdapter(emptyList())
+    private lateinit var viewModel: CityViewModel
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,61 +39,55 @@ class CityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //countingIdlingResource.increment()
-        saveCurrentState()
-        loadData()
+        viewModel = getViewModel()
+        mainActivity = activity as MainActivity
 
-        //countingIdlingResource.decrement()
-    }
+        viewModel.checkListCityData()
 
-    private fun loadData() {
-        //countingIdlingResource.increment()
-        val activity: MainActivity? = activity as MainActivity
-        if (AppUtils.getListCity().isNotEmpty()) {
-            binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context, 2)
-            adapter = CityAdapter(AppUtils.getListCity())
-            binding.recyclerviewCity.adapter = adapter
-            adapter.setOnClickListener(object : CityAdapter.OnClickListener {
-                override fun onClick(city: Data) {
-                    activity?.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
-                }
-            })
-            setVisibility(true)
-        } else {
-            setVisibility(false)
+        viewModel.errorVisibility.observe(viewLifecycleOwner) {
+            if(it == View.GONE) {
+                binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context, 2)
+                adapter = CityAdapter(AppUtils.getListCity())
+                binding.recyclerviewCity.adapter = adapter
+                adapter.setOnClickListener(object : CityAdapter.OnClickListener {
+                    override fun onClick(city: Data) {
+                        mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
+                    }
+                })
+            }
+            setVisibility(it)
         }
-        activity?.showOrHideLoader(View.GONE)
-        //countingIdlingResource.decrement()
+//        saveCurrentState()
     }
 
-    fun setVisibility(bool: Boolean) {
-        //countingIdlingResource.increment()
-        if (bool) {
+    fun setVisibility(visibility: Int) {
+        binding.empty1.visibility = visibility
+        binding.empty2.visibility = visibility
+        binding.empty3.visibility = visibility
+        if(visibility == View.GONE) {
             binding.layoutCity.visibility = View.VISIBLE
-            binding.empty1.visibility = View.GONE
-            binding.empty2.visibility = View.GONE
-            binding.empty3.visibility = View.GONE
         } else {
             binding.layoutCity.visibility = View.GONE
-            binding.empty1.visibility = View.VISIBLE
-            binding.empty2.visibility = View.VISIBLE
-            binding.empty3.visibility = View.VISIBLE
         }
-        //countingIdlingResource.decrement()
     }
 
-    private fun saveCurrentState() {
-        //countingIdlingResource.increment()
-        val activity: MainActivity? = activity as MainActivity
+//    private fun saveCurrentState() {
+//        //countingIdlingResource.increment()
+//        val activity: MainActivity? = activity as MainActivity
+//
+//        val sharedPref = activity?.getSharedPreferences(
+//            "currentState",
+//            AppCompatActivity.MODE_PRIVATE
+//        ) ?: return
+//        with(sharedPref.edit()) {
+//            putString("state", "Cities")
+//            commit()
+//            //countingIdlingResource.decrement()
+//        }
+//    }
 
-        val sharedPref = activity?.getSharedPreferences(
-            "currentState",
-            AppCompatActivity.MODE_PRIVATE
-        ) ?: return
-        with(sharedPref.edit()) {
-            putString("state", "Cities")
-            commit()
-            //countingIdlingResource.decrement()
-        }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
     }
 }

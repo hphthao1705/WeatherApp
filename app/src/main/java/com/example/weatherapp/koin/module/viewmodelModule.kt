@@ -9,10 +9,10 @@ import org.koin.dsl.module
 
 val viewmodelModule = module {
     viewModel {
-        CityViewModel(get())
+        CityViewModel()
     }
 
-    viewModel{
+    viewModel {
         SearchText()
     }
 
