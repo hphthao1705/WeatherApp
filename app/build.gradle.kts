@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-android")
     id("de.mannodermaus.android-junit5") version "1.9.3.0"
+    id("kotlin-parcelize")
 }
 
 android {
