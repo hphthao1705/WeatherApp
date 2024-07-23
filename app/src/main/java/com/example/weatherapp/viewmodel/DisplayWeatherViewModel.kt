@@ -11,15 +11,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : ViewModel() {
-    val weather : MutableLiveData<WeatherUIViewModel> = MutableLiveData()
+    val weather: MutableLiveData<WeatherUIViewModel> = MutableLiveData()
+    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
     //error
     val errorVisibility: MutableLiveData<Int> = MutableLiveData()
-    val errorTitle: MutableLiveData<String>? = MutableLiveData("NO RESULTS")
-    val errorContent: MutableLiveData<String>? =
+    val errorTitle: MutableLiveData<String> = MutableLiveData("NO RESULTS")
+    val errorContent: MutableLiveData<String> =
         MutableLiveData("Sorry, there are no results for this search.\nPlease try another place")
 
     init {
+        loadingVisibility.postValue(View.VISIBLE)
         errorVisibility.postValue(View.GONE)
     }
 
@@ -35,6 +37,7 @@ class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : View
                     errorVisibility.postValue(View.VISIBLE)
                 }
             }
+            loadingVisibility.postValue(View.GONE)
         }
     }
 }

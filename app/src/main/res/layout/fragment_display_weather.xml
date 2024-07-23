@@ -51,6 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
                     android:backgroundTint="@color/back_2"
+                    android:visibility="gone"
                     app:cardCornerRadius="30dp">
 
                     <TextView
@@ -93,13 +94,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="195dp"
-                        tools:hint="32"
                         android:text="@{viewModel.weather.tempurature}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:hint="32" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_Weather"
@@ -125,7 +126,8 @@
                     android:text="@{viewModel.errorTitle}"
                     android:textColor="@color/white"
                     android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="NO RESULT" />
 
                 <TextView
                     android:id="@+id/errorContent"
@@ -135,9 +137,9 @@
                     android:text="@{viewModel.errorContent}"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:text="Sorry, there are no results for this search.\nPlease try another place" />
             </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

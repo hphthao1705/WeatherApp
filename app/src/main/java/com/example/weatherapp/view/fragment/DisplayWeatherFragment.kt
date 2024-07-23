@@ -93,6 +93,11 @@ class DisplayWeatherFragment : Fragment() {
             it.properties?.let { it1 -> adapter.setData(it1) }
             binding.rcWeather.adapter = adapter
         }
+
+        viewModel.loadingVisibility.observe(viewLifecycleOwner) {
+            mainActivity.showOrHideLoader(it)
+        }
+
         binding.btnListcity.setOnClickListener {
             mainActivity.replaceFragment(CityFragment())
         }
@@ -144,6 +149,9 @@ class DisplayWeatherFragment : Fragment() {
         } else {
             binding.cvCity.visibility = View.VISIBLE
         }
+
+        binding.errorTitle.text = viewModel.errorTitle.value
+        binding.errorContent.text = viewModel.errorContent.value
     }
 
     override fun onAttach(context: Context) {
