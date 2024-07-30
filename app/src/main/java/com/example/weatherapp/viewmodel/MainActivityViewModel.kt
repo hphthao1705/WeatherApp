@@ -1,6 +1,5 @@
 package com.example.weatherapp.viewmodel
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.repository.CityRepository
 import com.example.weatherapp.utils.AppUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -29,9 +29,11 @@ class MainActivityViewModel(private val cityRepository: CityRepository) : ViewMo
                     it.onRight {
                         withContext(Dispatchers.Main) {
                             it?.data?.let { it1 ->
-                                AppUtils.saveListCity(it1)
+                                val response = async { AppUtils.saveListCity(it1) }
                                 list?.addAll(it1)
-                                Log.d("Thao Ho", "OK")
+                                response.await()?.let {
+                                    doneAPI.postValue(true)
+                                }
                             }
                         }
                     }
@@ -44,7 +46,6 @@ class MainActivityViewModel(private val cityRepository: CityRepository) : ViewMo
         } catch (ex: Exception) {
             errorVisibility.postValue(View.VISIBLE)
         } finally {
-            doneAPI.postValue(true)
         }
     }
 }
