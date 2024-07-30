@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemCityBinding
+import com.example.weatherapp.utils.ImageBlurUtil
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
 
@@ -49,7 +50,9 @@ class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
         {
             binding.city = data
             Log.d("Thao Ho", data.image)
-            binding.backgroundImage.setImageBitmap(WeatherUtils.getBitmapFromURL(data.image))
+            val bitMap = WeatherUtils.getBitmapFromURL(data.image)
+            val blurBitMap = ImageBlurUtil.blur(itemView.context, bitMap!!, 10f)
+            binding.backgroundImage.setImageBitmap(blurBitMap)
             binding.executePendingBindings()
         }
     }

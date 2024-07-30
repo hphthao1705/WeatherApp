@@ -14,7 +14,6 @@ import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.State
 import com.example.weatherapp.databinding.FragmentNavigationBottomBinding
 import com.example.weatherapp.viewmodel.CityViewModel
-import com.example.weatherapp.viewmodel.SearchText
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -24,7 +23,7 @@ class FragmentNavigationBottom(
     val state: State
 ) : Fragment() {
     private lateinit var binding: FragmentNavigationBottomBinding
-    private lateinit var searchTextViewModel: SearchText
+//    private lateinit var searchTextViewModel: SearchText
     private lateinit var viewModel: CityViewModel
 //    private lateinit var viewModelSearch: SearchViewModel
 
@@ -47,7 +46,7 @@ class FragmentNavigationBottom(
 
         replaceFragment(FragmentFavouriteCity(list_room))
 
-        searchTextViewModel = getViewModel()
+//        searchTextViewModel = getViewModel()
         viewModel = getViewModel()
 //        viewModelSearch = getViewModel()
 //

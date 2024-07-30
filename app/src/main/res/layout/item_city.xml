@@ -37,8 +37,8 @@
                 android:gravity="center"
                 android:hint="Ho Phuong Thao"
                 android:text="@{city.city}"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </RelativeLayout>

@@ -41,6 +41,10 @@ android {
         viewBinding=true;
         dataBinding=true;
     }
+    defaultConfig {
+        renderscriptTargetApi = 19
+        renderscriptSupportModeEnabled = true
+    }
 }
 
 dependencies {
@@ -149,4 +153,6 @@ dependencies {
     implementation("io.arrow-kt:arrow-core:1.2.0")
     //Cardview
     implementation("androidx.cardview:cardview:1.0.0")
+    //Image render
+
 }
