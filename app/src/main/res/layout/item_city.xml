@@ -3,31 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="city"
-            type="com.example.weatherapp.data.model.Data" />
+            type="com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_city"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        app:cardCornerRadius="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:backgroundTint="@color/back_2"
-        android:id="@+id/cardview_city">
-        <TextView
-            android:id="@+id/txt_cityname"
+        app:cardCornerRadius="20dp">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@{city.city}"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:hint="Ho Phuong Thao"
-            android:textColorHint="@color/white"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/backgroundImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+            <!-- Add other views on top of the ImageView -->
+            <TextView
+                android:id="@+id/txt_cityname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:hint="Ho Phuong Thao"
+                android:text="@{city.city}"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

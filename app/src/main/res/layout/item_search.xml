@@ -4,7 +4,7 @@
     <data>
         <variable
             name="city"
-            type="com.example.weatherapp.data.model.Data" />
+            type="com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel" />
     </data>
 
     <LinearLayout

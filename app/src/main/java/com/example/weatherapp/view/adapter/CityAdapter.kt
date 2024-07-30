@@ -1,18 +1,20 @@
 package com.example.weatherapp.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ItemCityBinding
+import com.example.weatherapp.utils.WeatherUtils
+import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
 
 class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
     private var onClickListener: OnClickListener? = null
-    private var itemList: List<Data> = emptyList()
+    private var itemList: List<CityUIViewModel> = emptyList()
 
-    fun setDataList(list: List<Data>) {
+    fun setDataList(list: List<CityUIViewModel>) {
         this.itemList = list
         notifyDataSetChanged()
     }
@@ -39,13 +41,15 @@ class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
         }
     }
     interface OnClickListener {
-        fun onClick(city:Data)
+        fun onClick(city:CityUIViewModel)
     }
     inner class MyViewHolder(val binding:ItemCityBinding):RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(data: Data)
+        fun bind(data: CityUIViewModel)
         {
             binding.city = data
+            Log.d("Thao Ho", data.image)
+            binding.backgroundImage.setImageBitmap(WeatherUtils.getBitmapFromURL(data.image))
             binding.executePendingBindings()
         }
     }

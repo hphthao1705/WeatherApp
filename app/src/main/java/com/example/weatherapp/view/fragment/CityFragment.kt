@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.FragmentCityBinding
 import com.example.weatherapp.utils.AppUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
 import com.example.weatherapp.view.adapter.SearchAdapter
 import com.example.weatherapp.viewmodel.CityViewModel
+import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
 import com.google.android.gms.common.internal.Preconditions.checkMainThread
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -67,7 +67,7 @@ class CityFragment : Fragment() {
                 cityAdapter.setDataList(AppUtils.getListCity())
                 binding.recyclerviewCity.adapter = cityAdapter
                 cityAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
-                    override fun onClick(city: Data) {
+                    override fun onClick(city: CityUIViewModel) {
                         mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
                     }
                 })
@@ -109,7 +109,7 @@ class CityFragment : Fragment() {
     }
 
     private fun searchCity(text: String) {
-        var filterList = emptyList<Data>()
+        var filterList = emptyList<CityUIViewModel>()
 
         if (!text.isNullOrBlank()) {
             filterList = AppUtils.getListCity().filter {

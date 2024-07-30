@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ItemSearchBinding
+import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
 
 class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
     private var onClickListener: OnClickListener? = null
-    private var itemList: List<Data> = emptyList()
+    private var itemList: List<CityUIViewModel> = emptyList()
 
-    fun setDataList(list: List<Data>) {
+    fun setDataList(list: List<CityUIViewModel>) {
         this.itemList = list
         notifyDataSetChanged()
     }
@@ -41,12 +42,12 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
     }
 
     interface OnClickListener {
-        fun onClick(city: Data)
+        fun onClick(city: CityUIViewModel)
     }
 
     inner class MyViewHolder(val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Data) {
+        fun bind(data: CityUIViewModel) {
             binding.city = data
             binding.executePendingBindings()
         }
