@@ -1,6 +1,7 @@
 package com.example.weatherapp.koin.module
 
 import com.example.weatherapp.data.remote.CityAPI
+import com.example.weatherapp.data.remote.CityAPI2
 import com.example.weatherapp.data.remote.WeatherAPI
 import com.example.weatherapp.utils.Constants
 import org.koin.dsl.module
@@ -21,5 +22,12 @@ val apiModule = module{
         addConverterFactory(GsonConverterFactory.create()).
         build().
         create(CityAPI::class.java)
+    }
+    single{
+        Retrofit.Builder().
+        baseUrl(Constants.BASE_URL_CITY2).
+        addConverterFactory(GsonConverterFactory.create()).
+        build().
+        create(CityAPI2::class.java)
     }
 }

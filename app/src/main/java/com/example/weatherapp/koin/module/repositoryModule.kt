@@ -1,6 +1,7 @@
 package com.example.weatherapp.koin.module
 
 import com.example.weatherapp.data.remote.CityAPI
+import com.example.weatherapp.data.remote.CityAPI2
 import com.example.weatherapp.data.remote.WeatherAPI
 import com.example.weatherapp.repository.CityRepository
 import com.example.weatherapp.repository.CityRepositoryImp
@@ -22,10 +23,11 @@ val repositoryModule = module {
     single { provideWeatherRepository(get()) }
 
     fun provideCityRepository(
-        cityAPI: CityAPI
+        cityAPI: CityAPI,
+        cityAPI2: CityAPI2
     ): CityRepository {
-        return CityRepositoryImp(cityAPI)
+        return CityRepositoryImp(cityAPI = cityAPI, cityAPI2 = cityAPI2)
     }
 
-    single { provideCityRepository(get()) }
+    single { provideCityRepository(get(), get()) }
 }
