@@ -7,4 +7,7 @@ object Constants {
 
     const val BASE_URL_CITY = "https://countriesnow.space/"
     const val END_POINT_CITY = "api/v0.1/countries/population/cities"
+
+    const val BASE_URL_CITY2 = "https://restcountries.com/v3.1/"
+    const val END_POINT_CITY2 = "all"
 }
