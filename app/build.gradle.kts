@@ -147,4 +147,6 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     //Either / arrow-core
     implementation("io.arrow-kt:arrow-core:1.2.0")
+    //Cardview
+    implementation("androidx.cardview:cardview:1.0.0")
 }
