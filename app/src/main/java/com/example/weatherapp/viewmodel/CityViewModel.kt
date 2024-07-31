@@ -8,10 +8,14 @@ import com.example.weatherapp.utils.AppUtils
 class CityViewModel(): ViewModel() {
     var errorVisibility: MutableLiveData<Int> = MutableLiveData()
 
+    init {
+        checkListCityData()
+    }
+
     fun checkListCityData() {
-        AppUtils.getListCity()?.let {
+        if(AppUtils.checkListCity()) {
             errorVisibility.postValue(View.GONE)
-        } ?: run {
+        } else {
             errorVisibility.postValue(View.VISIBLE)
         }
     }

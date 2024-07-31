@@ -58,8 +58,6 @@ class CityFragment : Fragment() {
         viewModel = getViewModel()
         mainActivity = activity as MainActivity
 
-        viewModel.checkListCityData()
-
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
             if (it == View.GONE) {
                 binding.recyclerviewCity.setHasFixedSize(true)
@@ -114,7 +112,7 @@ class CityFragment : Fragment() {
         if (!text.isNullOrBlank()) {
             filterList = AppUtils.getListCity().filter {
                 it.city.startsWith(text, true)
-            }
+            }.take(8)
             filterList?.let {
                 if (it.size != 0) {
                     setSearchVisibility(View.VISIBLE)
@@ -128,6 +126,11 @@ class CityFragment : Fragment() {
             binding.recyclerviewSearch.layoutManager = LinearLayoutManager(context)
             searchAdapter.setDataList(filterList)
             binding.recyclerviewSearch.adapter = searchAdapter
+            searchAdapter.setOnClickListener(object : SearchAdapter.OnClickListener {
+                override fun onClick(city: CityUIViewModel) {
+                    mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
+                }
+            })
         } else {
             setErrorVisibility(View.GONE)
         }

@@ -14,4 +14,8 @@ object AppUtils {
     fun getListCity(): ArrayList<CityUIViewModel> {
         return cityListData
     }
+
+    fun checkListCity(): Boolean {
+        return cityListData.size != 0
+    }
 }
