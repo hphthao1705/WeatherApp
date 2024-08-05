@@ -1,6 +1,6 @@
 package com.example.weatherapp.utils
 
-import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
+import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 
 object AppUtils {
     private var cityListData: ArrayList<CityUIViewModel> = arrayListOf()

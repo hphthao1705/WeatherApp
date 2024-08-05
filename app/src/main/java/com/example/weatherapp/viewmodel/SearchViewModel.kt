@@ -3,7 +3,6 @@ package com.example.weatherapp.viewmodel
 import android.app.Application
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +26,7 @@ class SearchViewModel(app: Application) : ViewModel() {
         Log.i("Check", "2")
     }
 
-    fun getAllNote(): LiveData<List<Search>> = repository.getAllCity()
+    fun getAllNote(): List<Search> = repository.getAllCity()
     class ViewModelFactory(private val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {

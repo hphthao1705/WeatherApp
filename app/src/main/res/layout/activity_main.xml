@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.weatherapp.viewmodel.MainActivityViewModel" />
+            type="com.example.weatherapp.view.activity.MainActivityViewModel" />
     </data>
 
     <RelativeLayout

@@ -1,4 +1,4 @@
-package com.example.weatherapp.view.fragment
+package com.example.weatherapp.view.displayWeather
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,7 @@ import com.example.weatherapp.databinding.FragmentDisplayWeatherBinding
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.WeatherAdapter
-import com.example.weatherapp.viewmodel.DisplayWeatherViewModel
+import com.example.weatherapp.view.city.CityFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 

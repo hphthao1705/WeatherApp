@@ -5,28 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.view.fragment.CityFragment
-import com.example.weatherapp.view.fragment.DisplayWeatherFragment
-import com.example.weatherapp.viewmodel.MainActivityViewModel
+import com.example.weatherapp.view.city.CityFragment
+import com.example.weatherapp.view.displayWeather.DisplayWeatherFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
-    private var listData: ArrayList<Data> = ArrayList()
-
     //    private val viewModelSearch: SearchViewModel by lazy {
 //        ViewModelProvider(this@MainActivity, SearchViewModel.ViewModelFactory(this.application))[SearchViewModel::class.java]
 //    }
-//    private lateinit var viewModelCity: CityViewModel
-
-    //    private lateinit var searchTextViewModel: SearchText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        viewModelCity = getViewModel()
         viewModel = getViewModel()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -42,28 +33,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.loadingVisibility.observe(this) {
             binding.loading.visibility = it
         }
-//        searchTextViewModel = getViewModel()
-
-//        showOrHideLoader(View.VISIBLE)
-
-//        loadCities()
-
-//        viewModel.doneAPI.observe(this) {
-//            if (it) {
-////                showOrHideLoader(View.GONE)
-//                checkSelectedCity()
-//            }
-//        }
-//
-//        hearEventSearchFinish()
-
-//        searchTextViewModel = getViewModel()
-//        //viewMongIdlingResource.increment()
-//        replaceFdelSearch = getViewModel()
-//        //countiragment(FragmentLoading())
-//        loadCities()
-
-//        //countingIdlingResource.decrement()
     }
 
     fun replaceFragment(fragment: Fragment) {

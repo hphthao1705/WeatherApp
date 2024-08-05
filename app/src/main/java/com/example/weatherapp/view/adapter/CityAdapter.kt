@@ -1,6 +1,5 @@
 package com.example.weatherapp.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,7 +8,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemCityBinding
 import com.example.weatherapp.utils.ImageBlurUtil
 import com.example.weatherapp.utils.WeatherUtils
-import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
+import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 
 class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
     private var onClickListener: OnClickListener? = null
@@ -42,14 +41,13 @@ class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
         }
     }
     interface OnClickListener {
-        fun onClick(city:CityUIViewModel)
+        fun onClick(city: CityUIViewModel)
     }
     inner class MyViewHolder(val binding:ItemCityBinding):RecyclerView.ViewHolder(binding.root)
     {
         fun bind(data: CityUIViewModel)
         {
             binding.city = data
-            Log.d("Thao Ho", data.image)
             val bitMap = WeatherUtils.getBitmapFromURL(data.image)
             val blurBitMap = ImageBlurUtil.blur(itemView.context, bitMap!!, 10f)
             binding.backgroundImage.setImageBitmap(blurBitMap)

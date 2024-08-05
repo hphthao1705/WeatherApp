@@ -6,7 +6,7 @@ import arrow.core.right
 import com.example.weatherapp.data.base.ErrorData
 import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.utils.WeatherMapping
-import com.example.weatherapp.viewmodel.uiViewModel.WeatherUIViewModel
+import com.example.weatherapp.view.displayWeather.uiViewModel.WeatherUIViewModel
 import kotlinx.coroutines.flow.channelFlow
 
 class WeatherUseCase(private val weatherRepository: WeatherRepository) {

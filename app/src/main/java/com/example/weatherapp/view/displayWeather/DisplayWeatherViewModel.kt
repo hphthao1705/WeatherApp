@@ -1,11 +1,11 @@
-package com.example.weatherapp.viewmodel
+package com.example.weatherapp.view.displayWeather
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.usecase.WeatherUseCase
-import com.example.weatherapp.viewmodel.uiViewModel.WeatherUIViewModel
+import com.example.weatherapp.view.displayWeather.uiViewModel.WeatherUIViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -5,7 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.example.weatherapp.data.base.ErrorData
 import com.example.weatherapp.repository.CityRepository
-import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
+import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 import kotlinx.coroutines.flow.channelFlow
 
 class CityUseCase(

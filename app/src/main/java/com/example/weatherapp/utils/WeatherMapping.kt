@@ -1,7 +1,7 @@
 package com.example.weatherapp.utils
 
 import com.example.weatherapp.data.model.Weather
-import com.example.weatherapp.viewmodel.uiViewModel.WeatherUIViewModel
+import com.example.weatherapp.view.displayWeather.uiViewModel.WeatherUIViewModel
 
 object WeatherMapping {
     fun mapWeatherDataToUI(weather: Weather) : WeatherUIViewModel {

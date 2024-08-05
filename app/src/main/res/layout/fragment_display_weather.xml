@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.example.weatherapp.viewmodel.DisplayWeatherViewModel" />
+            type="com.example.weatherapp.view.displayWeather.DisplayWeatherViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/back_1"
-        tools:context=".view.fragment.DisplayWeatherFragment">
+        tools:context=".view.displayWeather.DisplayWeatherFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -1,7 +1,8 @@
-package com.example.weatherapp.view.fragment
+package com.example.weatherapp.view.city
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,16 @@ import androidx.annotation.CheckResult
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.databinding.FragmentCityBinding
 import com.example.weatherapp.utils.AppUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.CityAdapter
 import com.example.weatherapp.view.adapter.SearchAdapter
-import com.example.weatherapp.viewmodel.CityViewModel
-import com.example.weatherapp.viewmodel.uiViewModel.CityUIViewModel
+import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
+import com.example.weatherapp.view.displayWeather.DisplayWeatherFragment
 import com.google.android.gms.common.internal.Preconditions.checkMainThread
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -29,14 +30,15 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class CityFragment : Fragment() {
 
     private lateinit var binding: FragmentCityBinding
     private var cityAdapter: CityAdapter = CityAdapter()
     private var searchAdapter: SearchAdapter = SearchAdapter()
-    private lateinit var viewModel: CityViewModel
+        private val viewModel: CityViewModel by lazy {
+        ViewModelProvider(this, CityViewModel.ViewModelFactory(this.requireActivity().application))[CityViewModel::class.java]
+    }
     private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
@@ -55,14 +57,23 @@ class CityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = getViewModel()
         mainActivity = activity as MainActivity
 
+        viewModel.favoriteCities.observe(viewLifecycleOwner) {
+            Log.d("Thao Ho", it.size.toString())
+            if(it.isNullOrEmpty()) {
+                viewModel.errorVisibility.value = View.GONE
+            } else {
+                viewModel.errorVisibility.value = View.VISIBLE
+            }
+        }
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
             if (it == View.GONE) {
                 binding.recyclerviewCity.setHasFixedSize(true)
-                binding.recyclerviewCity.layoutManager = GridLayoutManager(view?.context, 2)
-                cityAdapter.setDataList(AppUtils.getListCity())
+                binding.recyclerviewCity.layoutManager = LinearLayoutManager(view?.context)
+                cityAdapter.setDataList(viewModel.favoriteCities.value!!.asSequence().map {
+                    CityUIViewModel.from(it)
+                }.toList())
                 binding.recyclerviewCity.adapter = cityAdapter
                 cityAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
                     override fun onClick(city: CityUIViewModel) {
@@ -78,7 +89,7 @@ class CityFragment : Fragment() {
         mainActivity.saveCurrentState("")
     }
 
-    fun setErrorVisibility(visibility: Int) {
+    private fun setErrorVisibility(visibility: Int) {
         binding.empty1.visibility = visibility
         binding.empty2.visibility = visibility
         binding.empty3.visibility = visibility
@@ -89,17 +100,30 @@ class CityFragment : Fragment() {
             binding.layoutCity.visibility = View.GONE
             binding.recyclerviewSearch.visibility = View.GONE
         }
+        setErrorMessageDisplay()
     }
 
-    fun setSearchVisibility(visibility: Int) {
+    private fun setErrorMessageDisplay() {
+        if(viewModel.isSearch.value == true) {
+            binding.empty2.text = viewModel.errorTitle_Search.value
+            binding.empty3.text = viewModel.errorContent_Search.value
+        } else {
+            binding.empty2.text = viewModel.errorTitle_Favorite.value
+            binding.empty3.text = viewModel.errorContent_Favorite.value
+        }
+    }
+
+    private fun setSearchVisibility(visibility: Int) {
         binding.recyclerviewSearch.visibility = visibility
         binding.layoutCity.visibility = View.GONE
 
         if (visibility == View.GONE) {
+            viewModel.isSearch.value = false
             binding.empty1.visibility = View.VISIBLE
             binding.empty2.visibility = View.VISIBLE
             binding.empty3.visibility = View.VISIBLE
         } else {
+            viewModel.isSearch.value = true
             binding.empty1.visibility = View.GONE
             binding.empty2.visibility = View.GONE
             binding.empty3.visibility = View.GONE
