@@ -5,6 +5,7 @@ plugins {
     id("kotlin-android")
     id("de.mannodermaus.android-junit5") version "1.9.3.0"
     id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -155,4 +156,11 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     //Image render
 
+    //Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+}
+kapt {
+    correctErrorTypes = true
 }
