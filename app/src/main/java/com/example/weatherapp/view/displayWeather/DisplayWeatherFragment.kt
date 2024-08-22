@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.databinding.FragmentDisplayWeatherBinding
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activity.MainActivity

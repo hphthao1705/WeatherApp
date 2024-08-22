@@ -1,6 +1,6 @@
 package com.example.weatherapp.view.fragment
 
-//import com.example.weatherapp.viewmodel.SearchViewModel
+//import com.example.weatherapp.view.search.SearchViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.weatherapp.R
-import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.State
 import com.example.weatherapp.databinding.FragmentNavigationBottomBinding
-import com.example.weatherapp.viewmodel.CityViewModel
+import com.example.weatherapp.view.city.CityFragment
+import com.example.weatherapp.view.city.CityViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 

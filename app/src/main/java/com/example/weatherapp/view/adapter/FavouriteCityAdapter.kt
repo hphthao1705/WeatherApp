@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.databinding.ItemFavouritecityBinding
 
 class FavouriteCityAdapter(private var itemList: List<Search>): RecyclerView.Adapter<FavouriteCityAdapter.MyViewHolder>() {
@@ -31,7 +31,7 @@ class FavouriteCityAdapter(private var itemList: List<Search>): RecyclerView.Ada
         }
     }
     interface OnClickListener {
-        fun onClick(city:Search)
+        fun onClick(city: Search)
     }
     inner class MyViewHolder(val binding: ItemFavouritecityBinding):RecyclerView.ViewHolder(binding.root)
     {
