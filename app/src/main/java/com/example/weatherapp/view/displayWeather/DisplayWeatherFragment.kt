@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
@@ -17,6 +18,7 @@ import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.WeatherAdapter
 import com.example.weatherapp.view.city.CityFragment
+import com.example.weatherapp.view.city.CityViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -24,10 +26,12 @@ class DisplayWeatherFragment : Fragment() {
     companion object {
         fun newInstance(
             cityName: String? = null,
+            image: String? = null
         ): DisplayWeatherFragment {
             val fragment = DisplayWeatherFragment()
             val bundle = Bundle()
             bundle.putString("cityName", cityName)
+            bundle.putString("image", image)
             fragment.arguments = bundle
             return fragment
         }
@@ -35,14 +39,10 @@ class DisplayWeatherFragment : Fragment() {
 
     private lateinit var binding: FragmentDisplayWeatherBinding
     private lateinit var viewModel: DisplayWeatherViewModel
-
-    //private val viewModel:WeatherViewModel by inject()
-    //private val viewModel by activityViewModels<WeatherViewModel>()
+    private val searchViewModel: CityViewModel by lazy {
+        ViewModelProvider(this, CityViewModel.ViewModelFactory(this.requireActivity().application))[CityViewModel::class.java]
+    }
     private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
-
-    //    private val roomData by activityViewModels<SearchViewModel>()
-//    private lateinit var viewModelSearch: SearchViewModel
-    private var listRoom: ArrayList<Search> = ArrayList()
     private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
@@ -62,7 +62,11 @@ class DisplayWeatherFragment : Fragment() {
         viewModel = getViewModel()
 
         val cityName = requireArguments().getString("cityName")
+        val image = requireArguments().getString("image")
         cityName?.let {
+            image?.let {
+                addCityToRoom(cityName = cityName, image = image)
+            }
             viewModel.loadWeather(city = it)
         } ?: let {
             viewModel.errorVisibility.value = View.VISIBLE
@@ -102,14 +106,12 @@ class DisplayWeatherFragment : Fragment() {
         }
 
         mainActivity.saveCurrentState(cityName = cityName.orEmpty())
-
-
-//        viewModelSearch = getViewModel()
     }
-//    private fun addCityToRoom(cityName: String) {
-//        var p = Search(cityName)
-//        roomData.addNewCity(p)
-//    }
+
+    private fun addCityToRoom(cityName: String, image: String) {
+        var p = Search(name = cityName, image = image)
+        searchViewModel.addNewCity(p)
+    }
 
 //    private fun loadDataFromRoom() {
 //        viewModelSearch.getAllNote().observe(this) {

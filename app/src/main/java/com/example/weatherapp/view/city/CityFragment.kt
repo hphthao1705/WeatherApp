@@ -36,7 +36,7 @@ class CityFragment : Fragment() {
     private lateinit var binding: FragmentCityBinding
     private var cityAdapter: CityAdapter = CityAdapter()
     private var searchAdapter: SearchAdapter = SearchAdapter()
-        private val viewModel: CityViewModel by lazy {
+    private val viewModel: CityViewModel by lazy {
         ViewModelProvider(this, CityViewModel.ViewModelFactory(this.requireActivity().application))[CityViewModel::class.java]
     }
     private lateinit var mainActivity: MainActivity
@@ -59,9 +59,11 @@ class CityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
 
-        viewModel.favoriteCities.observe(viewLifecycleOwner) {
-            Log.d("Thao Ho", it.size.toString())
-            if(it.isNullOrEmpty()) {
+        viewModel.getAll()
+
+        viewModel.isDone.observe(viewLifecycleOwner) {
+            Log.d("Thao Ho", viewModel.favoriteCities.size.toString())
+            if(viewModel.favoriteCities.isNotEmpty()) {
                 viewModel.errorVisibility.value = View.GONE
             } else {
                 viewModel.errorVisibility.value = View.VISIBLE
@@ -71,13 +73,13 @@ class CityFragment : Fragment() {
             if (it == View.GONE) {
                 binding.recyclerviewCity.setHasFixedSize(true)
                 binding.recyclerviewCity.layoutManager = LinearLayoutManager(view?.context)
-                cityAdapter.setDataList(viewModel.favoriteCities.value!!.asSequence().map {
+                cityAdapter.setDataList(viewModel.favoriteCities.asSequence().map {
                     CityUIViewModel.from(it)
                 }.toList())
                 binding.recyclerviewCity.adapter = cityAdapter
                 cityAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
                     override fun onClick(city: CityUIViewModel) {
-                        mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
+                        mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city, image = city.image))
                     }
                 })
             }
@@ -86,6 +88,7 @@ class CityFragment : Fragment() {
 
         binding.txtSearch.textChanges().debounce(2000).onEach { searchCity(it.toString()) }
             .launchIn(lifecycleScope)
+
         mainActivity.saveCurrentState("")
     }
 
@@ -152,7 +155,7 @@ class CityFragment : Fragment() {
             binding.recyclerviewSearch.adapter = searchAdapter
             searchAdapter.setOnClickListener(object : SearchAdapter.OnClickListener {
                 override fun onClick(city: CityUIViewModel) {
-                    mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city))
+                    mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city, image = city.image))
                 }
             })
         } else {

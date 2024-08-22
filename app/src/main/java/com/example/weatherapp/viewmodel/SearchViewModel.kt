@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

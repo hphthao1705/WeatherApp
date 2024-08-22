@@ -7,9 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.repository.SearchRepository
 import com.example.weatherapp.utils.AppUtils
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,12 +22,13 @@ class CityViewModel(app: Application) : ViewModel() {
     val errorTitle_Search: MutableLiveData<String> = MutableLiveData("NOT FOUND")
     val errorContent_Search : MutableLiveData<String> = MutableLiveData("Please search another city!")
     var isSearch: MutableLiveData<Boolean> = MutableLiveData()
-    var favoriteCities: MutableLiveData<ArrayList<Search>> = MutableLiveData()
+    var favoriteCities: List<Search> = listOf()
+    val isDone: MutableLiveData<Boolean> = MutableLiveData()
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     init {
 //        checkListCityData()
         isSearch.value = false
-        getFavoriteCities()
     }
 
     fun checkListCityData() {
@@ -37,11 +39,10 @@ class CityViewModel(app: Application) : ViewModel() {
         }
     }
 
-    private fun getAll(): List<Search> = repository.getAllCity()
-    fun getFavoriteCities() {
-        favoriteCities.value?.let {
-            favoriteCities.value!!.clear()
-            favoriteCities.value!!.addAll(getAll())
+    fun getAll() {
+        coroutineScope.launch {
+            favoriteCities = repository.getAllCity()
+            isDone.postValue(true)
         }
     }
 

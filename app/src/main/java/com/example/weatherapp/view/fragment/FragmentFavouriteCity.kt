@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
-import com.example.weatherapp.data.local.entities.Search
+import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.databinding.FragmentFavouriteCityBinding
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.adapter.FavouriteCityAdapter
