@@ -45,7 +45,7 @@ class FragmentNavigationBottom(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        replaceFragment(FragmentFavouriteCity(list_room))
+//        replaceFragment(FragmentFavouriteCity(list_room))
 
 //        searchTextViewModel = getViewModel()
         viewModel = getViewModel()
@@ -103,11 +103,11 @@ class FragmentNavigationBottom(
     private fun backToScreenBefore() {
 //        val activity: MainActivity? = activity as MainActivity
         when (state.state) {
-            "Home" -> replaceFragment(FragmentFavouriteCity(list_room))
+//            "Home" -> replaceFragment(FragmentFavouriteCity(list_room))
             "Cities" -> replaceFragment(CityFragment()) //replaceFragment(FragmentFavouriteCity(listRoom.isNotEmpty(), listRoom))
 //            "City" -> activity?.replaceFragment(FragmentHome(state.city, list_room))
 //            "Location" -> replaceFragment(FragmentCity(listData, listRoom))
-            else -> replaceFragment(FragmentFavouriteCity(list_room))
+//            else -> replaceFragment(FragmentFavouriteCity(list_room))
         }
     }
 }
