@@ -5,7 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.example.weatherapp.data.base.ApiHelper
 import com.example.weatherapp.data.base.ErrorData
-import com.example.weatherapp.data.model.City
+import com.example.weatherapp.data.model.city.City
 import com.example.weatherapp.data.model.city2.Country
 import com.example.weatherapp.data.remote.CityAPI
 import com.example.weatherapp.data.remote.CityAPI2

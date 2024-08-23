@@ -16,7 +16,7 @@ import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.databinding.FragmentDisplayWeatherBinding
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.activity.MainActivity
-import com.example.weatherapp.view.adapter.WeatherAdapter
+import com.example.weatherapp.view.displayWeather.adapter.WeatherAdapter
 import com.example.weatherapp.view.city.CityFragment
 import com.example.weatherapp.view.city.CityViewModel
 import kotlinx.coroutines.launch

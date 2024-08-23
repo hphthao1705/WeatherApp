@@ -1,7 +1,7 @@
 package com.example.weatherapp.view.city.uiViewModel
 
 import com.example.weatherapp.data.local.Search
-import com.example.weatherapp.data.model.Data
+import com.example.weatherapp.data.model.city.Data
 import com.example.weatherapp.data.model.city2.Country
 
 data class CityUIViewModel (

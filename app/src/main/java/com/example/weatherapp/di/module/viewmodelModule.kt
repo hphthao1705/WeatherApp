@@ -1,4 +1,4 @@
-package com.example.weatherapp.koin.module
+package com.example.weatherapp.di.module
 
 import com.example.weatherapp.view.activity.MainActivityViewModel
 import com.example.weatherapp.view.city.CityViewModel

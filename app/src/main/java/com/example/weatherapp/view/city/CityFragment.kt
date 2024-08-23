@@ -2,7 +2,6 @@ package com.example.weatherapp.view.city
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.databinding.FragmentCityBinding
 import com.example.weatherapp.utils.AppUtils
 import com.example.weatherapp.view.activity.MainActivity
-import com.example.weatherapp.view.adapter.CityAdapter
-import com.example.weatherapp.view.adapter.SearchAdapter
+import com.example.weatherapp.view.city.adapter.CityAdapter
+import com.example.weatherapp.view.city.adapter.SearchAdapter
 import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 import com.example.weatherapp.view.displayWeather.DisplayWeatherFragment
 import com.google.android.gms.common.internal.Preconditions.checkMainThread
@@ -67,7 +66,6 @@ class CityFragment : Fragment() {
         }
 
         viewModel.isDone.observe(viewLifecycleOwner) {
-            Log.d("Thao Ho", viewModel.favoriteCities.size.toString())
             if(viewModel.favoriteCities.isNotEmpty()) {
                 viewModel.errorVisibility.value = View.GONE
             } else {

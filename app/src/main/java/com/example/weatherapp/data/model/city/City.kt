@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.model
+package com.example.weatherapp.data.model.city
 
 data class City(
     val `data`: List<Data>,

@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.Search
-import com.example.weatherapp.data.model.Data
 import com.example.weatherapp.data.model.State
+import com.example.weatherapp.data.model.city.Data
 import com.example.weatherapp.databinding.FragmentNavigationBottomBinding
 import com.example.weatherapp.view.city.CityFragment
 import com.example.weatherapp.view.city.CityViewModel

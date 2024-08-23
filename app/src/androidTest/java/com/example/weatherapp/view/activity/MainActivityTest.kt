@@ -13,7 +13,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
 import com.example.weatherapp.R
 import com.example.weatherapp.view.RecyclerViewItemCountAssertion
-import com.example.weatherapp.view.adapter.CityAdapter
+import com.example.weatherapp.view.city.adapter.CityAdapter
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before

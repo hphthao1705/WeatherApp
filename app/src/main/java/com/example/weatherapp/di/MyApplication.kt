@@ -1,10 +1,10 @@
-package com.example.weatherapp.koin
+package com.example.weatherapp.di
 
 import android.app.Application
 import com.example.weatherapp.di.module.apiModule
+import com.example.weatherapp.di.module.repositoryModule
 import com.example.weatherapp.di.module.useCaseModule
-import com.example.weatherapp.koin.module.repositoryModule
-import com.example.weatherapp.koin.module.viewmodelModule
+import com.example.weatherapp.di.module.viewmodelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
