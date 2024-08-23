@@ -58,8 +58,13 @@ class CityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
+        mainActivity.showOrHideLoader(View.VISIBLE)
 
         viewModel.getAll()
+
+        AppUtils.cityListData.observe(viewLifecycleOwner) {
+            mainActivity.showOrHideLoader(View.GONE)
+        }
 
         viewModel.isDone.observe(viewLifecycleOwner) {
             Log.d("Thao Ho", viewModel.favoriteCities.size.toString())
@@ -86,7 +91,7 @@ class CityFragment : Fragment() {
             setErrorVisibility(it)
         }
 
-        binding.txtSearch.textChanges().debounce(2000).onEach { searchCity(it.toString()) }
+        binding.txtSearch.textChanges().debounce(500).onEach { searchCity(it.toString()) }
             .launchIn(lifecycleScope)
 
         mainActivity.saveCurrentState("")
@@ -137,9 +142,9 @@ class CityFragment : Fragment() {
         var filterList = emptyList<CityUIViewModel>()
 
         if (!text.isNullOrBlank()) {
-            filterList = AppUtils.getListCity().filter {
+            filterList = AppUtils.getListCity()?.filter {
                 it.city.startsWith(text, true)
-            }.take(8)
+            }?.take(8).orEmpty()
             filterList?.let {
                 if (it.size != 0) {
                     setSearchVisibility(View.VISIBLE)

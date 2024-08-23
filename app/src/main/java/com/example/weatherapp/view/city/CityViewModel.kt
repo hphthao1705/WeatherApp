@@ -1,7 +1,6 @@
 package com.example.weatherapp.view.city
 
 import android.app.Application
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -48,12 +47,10 @@ class CityViewModel(app: Application) : ViewModel() {
 
     fun addNewCity(search: Search) {
         insertCity(search)
-        Log.i("Check", "1")
     }
 
-    fun insertCity(item: Search) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertCity(item: Search) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertCity(item)
-        Log.i("Check", "2")
     }
 
     fun deleteCity(city: String) = viewModelScope.launch(Dispatchers.IO) {

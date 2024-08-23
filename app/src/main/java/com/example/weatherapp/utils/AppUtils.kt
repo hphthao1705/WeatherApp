@@ -1,21 +1,24 @@
 package com.example.weatherapp.utils
 
+import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 
 object AppUtils {
-    private var cityListData: ArrayList<CityUIViewModel> = arrayListOf()
+    var cityListData: MutableLiveData<ArrayList<CityUIViewModel>> = MutableLiveData(
+        arrayListOf()
+    )
     fun saveListCity(list: List<CityUIViewModel?>) {
         if(list.isNotEmpty()) {
-            cityListData.clear()
-            cityListData.addAll(list.filterNotNull())
+            cityListData.value?.clear()
+            cityListData.value?.addAll(list.filterNotNull())
         }
     }
 
-    fun getListCity(): ArrayList<CityUIViewModel> {
-        return cityListData
+    fun getListCity(): ArrayList<CityUIViewModel>? {
+        return cityListData.value
     }
 
     fun checkListCity(): Boolean {
-        return cityListData.size != 0
+        return cityListData.value?.size != 0
     }
 }
