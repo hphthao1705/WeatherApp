@@ -153,13 +153,6 @@ dependencies {
     implementation("io.arrow-kt:arrow-core:1.2.0")
     //Cardview
     implementation("androidx.cardview:cardview:1.0.0")
-    //Image render
-
-    //Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-
-}
-kapt {
-    correctErrorTypes = true
+    //UIL
+    implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
 }
