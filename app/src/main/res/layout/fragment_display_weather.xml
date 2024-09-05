@@ -37,8 +37,10 @@
                 tools:ignore="MissingConstraints" />
 
             <LinearLayout
+                mutableVisibility="@{viewModel.dataVisibility}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_listcity"
@@ -51,94 +53,85 @@
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
                     android:backgroundTint="@color/back_2"
-                    android:visibility="gone"
                     app:cardCornerRadius="30dp">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/cityName"
+                        style="@style/TextBold.White.48sp"
+                        mutableText="@{viewModel.city}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
                         android:gravity="center"
-                        android:text="@{viewModel.weather.city}"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="40sp"
-                        android:textStyle="bold"
-                        tools:hint="Ha Noi" />
+                        tools:text="Ha Noi" />
 
                     <ImageView
                         android:id="@+id/weatherIcon"
+                        mutableImage="@{viewModel.imageWeather}"
                         android:layout_width="100dp"
                         android:layout_height="80dp"
-                        android:layout_marginLeft="130dp"
-                        android:layout_marginTop="90dp"
-                        android:src="@drawable/ic_launcher_background" />
+                        android:layout_marginLeft="140dp"
+                        android:layout_marginTop="100dp" />
 
                     <TextView
                         android:id="@+id/condition"
+                        style="@style/TextRegular.White.24sp"
+                        mutableText="@{viewModel.condition}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="165dp"
-                        android:text="@{viewModel.weather.condition}"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
+                        android:layout_marginTop="180dp"
+                        android:gravity="center"
                         tools:text="Partly Cloudy" />
 
                     <TextView
                         android:id="@+id/tempurate"
+                        style="@style/TextRegular.White.24sp"
+                        mutableText="@{viewModel.tempurature}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="195dp"
-                        android:text="@{viewModel.weather.tempurature}"
+                        android:layout_marginTop="210dp"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        tools:hint="32" />
+                        tools:text="32" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_Weather"
+                        adapter="@{viewModel.weatherAdapter}"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:layout_marginTop="250dp" />
+                        android:layout_marginTop="270dp" />
                 </androidx.cardview.widget.CardView>
 
                 <ImageView
                     android:id="@+id/errorIcon"
+                    mutableVisibility="@{viewModel.errorVisibility}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="230dp"
-                    android:src="@drawable/sun"
-                    android:visibility="gone"/>
+                    android:src="@drawable/sun" />
 
                 <TextView
                     android:id="@+id/errorTitle"
+                    style="@style/TextRegular.White.30sp"
+                    mutableText="@{viewModel.errorTitle}"
+                    mutableVisibility="@{viewModel.errorVisibility}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
-                    android:text="@{viewModel.errorTitle}"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
                     android:textStyle="bold"
                     tools:text="NO RESULT" />
 
                 <TextView
                     android:id="@+id/errorContent"
+                    style="@style/TextRegular.White.17sp"
+                    mutableText="@{viewModel.errorContent}"
+                    mutableVisibility="@{viewModel.errorVisibility}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{viewModel.errorContent}"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
                     tools:text="Sorry, there are no results for this search.\nPlease try another place" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

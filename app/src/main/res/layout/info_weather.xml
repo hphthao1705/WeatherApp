@@ -21,23 +21,19 @@
             android:gravity="center"/>
 
         <TextView
+            style="@style/TextRegular.White.17sp"
             android:id="@+id/txt_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="22%"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/black"
             android:text="@{property.value}"
             android:gravity="center"/>
 
         <TextView
+            style="@style/TextRegular.White.17sp"
             android:id="@+id/txt_property"
             android:layout_width="wrap_content"
-            android:textSize="18sp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textColorHint="@color/black"
             android:hint="Humidity"
             android:text="@{property.property}"
             android:gravity="center"/>
