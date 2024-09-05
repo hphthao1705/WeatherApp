@@ -38,8 +38,8 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        viewBinding=true;
-        dataBinding=true;
+        dataBinding = true
+        viewBinding = true
     }
     defaultConfig {
         renderscriptTargetApi = 19
