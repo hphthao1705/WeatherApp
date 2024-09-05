@@ -8,4 +8,56 @@
     <style name="Theme.WeatherApp" parent="Base.Theme.WeatherApp">
         <item name="android:editTextColor">@color/white</item>
     </style>
+
+    <style name="TextRegular">
+        <item name="android:fontFamily">@font/cera_pro_regular</item>
+    </style>
+
+    <style name="TextMedium">
+        <item name="android:fontFamily">@font/cera_pro_medium</item>
+    </style>
+
+    <style name="TextBold">
+        <item name="android:fontFamily">@font/cera_pro_bold</item>
+    </style>
+
+    <style name="TextRegular.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextBold.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextRegular.White.14sp">
+        <item name="android:textSize">@dimen/text_14sp</item>
+    </style>
+
+    <style name="TextRegular.White.17sp">
+        <item name="android:textSize">@dimen/text_17sp</item>
+    </style>
+
+    <style name="TextRegular.White.24sp">
+        <item name="android:textSize">@dimen/text_24sp</item>
+    </style>
+
+    <style name="TextRegular.White.30sp">
+        <item name="android:textSize">@dimen/text_30sp</item>
+    </style>
+
+    <style name="TextBold.White.30sp">
+        <item name="android:textSize">@dimen/text_30sp</item>
+    </style>
+
+    <style name="TextRegular.White.34sp">
+        <item name="android:textSize">@dimen/text_34sp</item>
+    </style>
+
+    <style name="TextRegular.White.48sp">
+        <item name="android:textSize">@dimen/text_48sp</item>
+    </style>
+
+    <style name="TextBold.White.48sp">
+        <item name="android:textSize">@dimen/text_48sp</item>
+    </style>
 </resources>
