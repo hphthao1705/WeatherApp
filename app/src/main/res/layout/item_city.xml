@@ -30,17 +30,14 @@
                 android:scaleType="centerCrop" />
             <!-- Add other views on top of the ImageView -->
             <TextView
+                style="@style/TextBold.Black.17sp"
                 android:id="@+id/txt_cityname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:hint="Ho Phuong Thao"
-                android:text="@{city.city}"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:text="@{city.city}" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

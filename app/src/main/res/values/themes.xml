@@ -29,6 +29,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="TextBold.Black">
+        <item name="android:textColor">@color/back_1</item>
+    </style>
+
     <style name="TextRegular.White.14sp">
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
@@ -41,6 +45,14 @@
         <item name="android:textSize">@dimen/text_17sp</item>
     </style>
 
+    <style name="TextBold.Black.17sp">
+        <item name="android:textSize">@dimen/text_17sp</item>
+    </style>
+
+    <style name="TextRegular.White.20sp">
+        <item name="android:textSize">@dimen/text_20sp</item>
+    </style>
+
     <style name="TextRegular.White.24sp">
         <item name="android:textSize">@dimen/text_24sp</item>
     </style>
@@ -49,11 +61,19 @@
         <item name="android:textSize">@dimen/text_24sp</item>
     </style>
 
+    <style name="TextBold.Black.24sp">
+        <item name="android:textSize">@dimen/text_24sp</item>
+    </style>
+
     <style name="TextRegular.White.30sp">
         <item name="android:textSize">@dimen/text_30sp</item>
     </style>
 
     <style name="TextBold.White.30sp">
+        <item name="android:textSize">@dimen/text_30sp</item>
+    </style>
+
+    <style name="TextBold.Black.30sp">
         <item name="android:textSize">@dimen/text_30sp</item>
     </style>
 

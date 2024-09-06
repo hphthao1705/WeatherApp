@@ -23,6 +23,7 @@
             tools:context=".view.activity.Activity_HomeScreen">
 
             <EditText
+                style="@style/TextRegular.White.20sp"
                 android:id="@+id/txt_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,8 +33,7 @@
                 android:background="@drawable/customsearchtext"
                 android:drawableLeft="@drawable/baseline_search_24"
                 android:drawablePadding="10dp"
-                android:padding="15dp"
-                android:textColor="@color/white" />
+                android:padding="15dp" />
 
             <ImageView
                 android:id="@+id/empty1"

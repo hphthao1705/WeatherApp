@@ -14,13 +14,11 @@
         android:background="@color/back_1">
 
         <TextView
+            style="@style/TextRegular.White.24sp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="VietNam"
-            android:textSize="20sp"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
