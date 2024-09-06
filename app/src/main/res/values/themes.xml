@@ -37,7 +37,15 @@
         <item name="android:textSize">@dimen/text_17sp</item>
     </style>
 
+    <style name="TextBold.White.17sp">
+        <item name="android:textSize">@dimen/text_17sp</item>
+    </style>
+
     <style name="TextRegular.White.24sp">
+        <item name="android:textSize">@dimen/text_24sp</item>
+    </style>
+
+    <style name="TextBold.White.24sp">
         <item name="android:textSize">@dimen/text_24sp</item>
     </style>
 

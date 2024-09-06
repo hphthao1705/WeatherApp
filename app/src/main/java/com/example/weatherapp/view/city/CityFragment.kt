@@ -33,10 +33,11 @@ import kotlinx.coroutines.flow.onStart
 class CityFragment : Fragment() {
 
     private lateinit var binding: FragmentCityBinding
-    private var cityAdapter: CityAdapter = CityAdapter()
-    private var searchAdapter: SearchAdapter = SearchAdapter()
     private val viewModel: CityViewModel by lazy {
-        ViewModelProvider(this, CityViewModel.ViewModelFactory(this.requireActivity().application))[CityViewModel::class.java]
+        ViewModelProvider(
+            this,
+            CityViewModel.ViewModelFactory(this.requireActivity().application)
+        )[CityViewModel::class.java]
     }
     private lateinit var mainActivity: MainActivity
 
@@ -57,112 +58,125 @@ class CityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
-        mainActivity.showOrHideLoader(View.VISIBLE)
+        binding.lifecycleOwner = this
 
         viewModel.getAll()
 
         AppUtils.cityListData.observe(viewLifecycleOwner) {
-            mainActivity.showOrHideLoader(View.GONE)
+//            mainActivity.showOrHideLoader(View.GONE)
         }
 
         viewModel.isDone.observe(viewLifecycleOwner) {
-            if(viewModel.favoriteCities.isNotEmpty()) {
+            if (viewModel.favoriteCities.isNotEmpty()) {
+                setUpFavoriteRecyclerView()
+                viewModel.favoriteAdapter.setDataList(viewModel.favoriteCities.asSequence().map {
+                    CityUIViewModel.from(it)
+                }.toList())
+                viewModel.favoriteAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
+                    override fun onClick(city: CityUIViewModel) {
+                        mainActivity.replaceFragment(
+                            DisplayWeatherFragment.newInstance(
+                                cityName = city.city,
+                                image = city.image
+                            )
+                        )
+                    }
+                })
                 viewModel.errorVisibility.value = View.GONE
             } else {
                 viewModel.errorVisibility.value = View.VISIBLE
             }
         }
+
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
             if (it == View.GONE) {
-                binding.recyclerviewCity.setHasFixedSize(true)
-                binding.recyclerviewCity.layoutManager = LinearLayoutManager(view?.context)
-                cityAdapter.setDataList(viewModel.favoriteCities.asSequence().map {
-                    CityUIViewModel.from(it)
-                }.toList())
-                binding.recyclerviewCity.adapter = cityAdapter
-                cityAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
-                    override fun onClick(city: CityUIViewModel) {
-                        mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city, image = city.image))
-                    }
-                })
+                viewModel.isSearch.value?.let { it1 -> setVisibility(it1) }
+                    ?: run { setVisibility(false) }
+            } else {
+                setErrorMessageDisplay()
+                viewModel.searchVisibility.value = View.GONE
+                viewModel.favoriteVisibility.value = View.GONE
             }
-            setErrorVisibility(it)
+            viewModel.loadingVisibility.value = View.GONE
+        }
+
+        viewModel.loadingVisibility.observe(viewLifecycleOwner) {
+            mainActivity.showOrHideLoader(it)
         }
 
         binding.txtSearch.textChanges().debounce(500).onEach { searchCity(it.toString()) }
             .launchIn(lifecycleScope)
 
         mainActivity.saveCurrentState("")
-    }
 
-    private fun setErrorVisibility(visibility: Int) {
-        binding.empty1.visibility = visibility
-        binding.empty2.visibility = visibility
-        binding.empty3.visibility = visibility
-        if (visibility == View.GONE) {
-            binding.layoutCity.visibility = View.VISIBLE
-            binding.recyclerviewSearch.visibility = View.GONE
-        } else {
-            binding.layoutCity.visibility = View.GONE
-            binding.recyclerviewSearch.visibility = View.GONE
-        }
-        setErrorMessageDisplay()
-    }
-
-    private fun setErrorMessageDisplay() {
-        if(viewModel.isSearch.value == true) {
-            binding.empty2.text = viewModel.errorTitle_Search.value
-            binding.empty3.text = viewModel.errorContent_Search.value
-        } else {
-            binding.empty2.text = viewModel.errorTitle_Favorite.value
-            binding.empty3.text = viewModel.errorContent_Favorite.value
-        }
-    }
-
-    private fun setSearchVisibility(visibility: Int) {
-        binding.recyclerviewSearch.visibility = visibility
-        binding.layoutCity.visibility = View.GONE
-
-        if (visibility == View.GONE) {
-            viewModel.isSearch.value = false
-            binding.empty1.visibility = View.VISIBLE
-            binding.empty2.visibility = View.VISIBLE
-            binding.empty3.visibility = View.VISIBLE
-        } else {
-            viewModel.isSearch.value = true
-            binding.empty1.visibility = View.GONE
-            binding.empty2.visibility = View.GONE
-            binding.empty3.visibility = View.GONE
-        }
+        binding.viewModel = viewModel
     }
 
     private fun searchCity(text: String) {
         var filterList = emptyList<CityUIViewModel>()
 
         if (!text.isNullOrBlank()) {
+            viewModel.isSearch.value = true
             filterList = AppUtils.getListCity()?.filter {
                 it.city.startsWith(text, true)
             }?.take(8).orEmpty()
-            filterList?.let {
-                if (it.size != 0) {
-                    setSearchVisibility(View.VISIBLE)
-                } else {
-                    setSearchVisibility(View.GONE)
-                }
-            } ?: run {
-                setSearchVisibility(View.VISIBLE)
-            }
-            binding.recyclerviewSearch.setHasFixedSize(true)
-            binding.recyclerviewSearch.layoutManager = LinearLayoutManager(context)
-            searchAdapter.setDataList(filterList)
-            binding.recyclerviewSearch.adapter = searchAdapter
-            searchAdapter.setOnClickListener(object : SearchAdapter.OnClickListener {
+
+            setUpSearchRecyclerView()
+            viewModel.searchAdapter.setDataList(filterList)
+            viewModel.searchAdapter.setOnClickListener(object : SearchAdapter.OnClickListener {
                 override fun onClick(city: CityUIViewModel) {
-                    mainActivity.replaceFragment(DisplayWeatherFragment.newInstance(cityName = city.city, image = city.image))
+                    mainActivity.replaceFragment(
+                        DisplayWeatherFragment.newInstance(
+                            cityName = city.city,
+                            image = city.image
+                        )
+                    )
                 }
             })
+
+            filterList?.let {
+                if (it.isNotEmpty()) {
+                    viewModel.errorVisibility.value = View.GONE
+                } else {
+                    viewModel.errorVisibility.value = View.VISIBLE
+                }
+            } ?: run {
+                viewModel.errorVisibility.value = View.VISIBLE
+            }
         } else {
-            setErrorVisibility(View.GONE)
+            //If user is not search anymore, back to favorite list
+            viewModel.isSearch.value = false
+            viewModel.errorVisibility.value = View.GONE
+        }
+    }
+
+    private fun setUpFavoriteRecyclerView() {
+        binding.recyclerviewCity.setHasFixedSize(true)
+        binding.recyclerviewCity.layoutManager = LinearLayoutManager(view?.context)
+    }
+
+    private fun setUpSearchRecyclerView() {
+        binding.recyclerviewSearch.setHasFixedSize(true)
+        binding.recyclerviewSearch.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun setVisibility(isSearch: Boolean) {
+        if (isSearch) {
+            viewModel.searchVisibility.value = View.VISIBLE
+            viewModel.favoriteVisibility.value = View.GONE
+        } else {
+            viewModel.favoriteVisibility.value = View.VISIBLE
+            viewModel.searchVisibility.value = View.GONE
+        }
+    }
+
+    private fun setErrorMessageDisplay() {
+        if (viewModel.isSearch.value == true) {
+            viewModel.errorTitle.value = viewModel.emptyTitleSearch.value
+            viewModel.errorContent.value = viewModel.emptyContentSearch.value
+        } else {
+            viewModel.errorTitle.value = viewModel.emptyTitleFavorite.value
+            viewModel.errorContent.value = viewModel.emptyContentFavorite.value
         }
     }
 

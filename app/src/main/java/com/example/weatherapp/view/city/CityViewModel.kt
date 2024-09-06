@@ -5,21 +5,26 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.local.Search
 import com.example.weatherapp.repository.SearchRepository
-import com.example.weatherapp.utils.AppUtils
+import com.example.weatherapp.view.city.adapter.CityAdapter
+import com.example.weatherapp.view.city.adapter.SearchAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class CityViewModel(app: Application) : ViewModel() {
     private val repository: SearchRepository = SearchRepository(app)
     var errorVisibility: MutableLiveData<Int> = MutableLiveData()
-    val errorTitle_Favorite: MutableLiveData<String> = MutableLiveData("OOPS")
-    val errorContent_Favorite: MutableLiveData<String> = MutableLiveData("No Data Found")
-    val errorTitle_Search: MutableLiveData<String> = MutableLiveData("NOT FOUND")
-    val errorContent_Search : MutableLiveData<String> = MutableLiveData("Please search another city!")
+    val searchVisibility: MutableLiveData<Int> = MutableLiveData()
+    val favoriteVisibility: MutableLiveData<Int> = MutableLiveData()
+    val emptyTitleFavorite: MutableLiveData<String> = MutableLiveData()
+    val emptyContentFavorite: MutableLiveData<String> = MutableLiveData()
+    val emptyTitleSearch: MutableLiveData<String> = MutableLiveData()
+    val emptyContentSearch: MutableLiveData<String> = MutableLiveData()
+    val errorTitle: MutableLiveData<String> = MutableLiveData()
+    val errorContent: MutableLiveData<String> = MutableLiveData()
     var isSearch: MutableLiveData<Boolean> = MutableLiveData()
     var favoriteCities: List<Search> = listOf()
     val isDone: MutableLiveData<Boolean> = MutableLiveData()
@@ -30,22 +35,35 @@ class CityViewModel(app: Application) : ViewModel() {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     init {
+        searchVisibility.value = View.GONE
+        errorVisibility.value = View.GONE
+        favoriteVisibility.value = View.GONE
 //        checkListCityData()
         isSearch.value = false
+        emptyTitleFavorite.value = "OOPS"
+        emptyContentFavorite.value = "No Data Found"
+        emptyTitleSearch.value = "NOT FOUND"
+        emptyContentSearch.value = "Please search another city!"
+        loadingVisibility.value = View.VISIBLE
     }
 
-    fun checkListCityData() {
-        if (AppUtils.checkListCity()) {
-            errorVisibility.postValue(View.GONE)
-        } else {
-            errorVisibility.postValue(View.VISIBLE)
-        }
-    }
+//    fun checkListCityData() {
+//        if (AppUtils.checkListCity()) {
+//            errorVisibility.postValue(View.GONE)
+//        } else {
+//            errorVisibility.postValue(View.VISIBLE)
+//        }
+//    }
 
     fun getAll() {
         coroutineScope.launch {
-            favoriteCities = repository.getAllCity()
-            isDone.postValue(true)
+            val result = async {
+                favoriteCities = repository.getAllCity()
+                return@async true
+            }
+            if(result.await()) {
+                isDone.postValue(true)
+            }
         }
     }
 

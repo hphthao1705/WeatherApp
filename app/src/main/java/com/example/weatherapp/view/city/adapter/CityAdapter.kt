@@ -10,7 +10,7 @@ import com.example.weatherapp.utils.ImageBlurUtil
 import com.example.weatherapp.utils.WeatherUtils
 import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 
-class CityAdapter(): RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
+class CityAdapter: RecyclerView.Adapter<CityAdapter.MyViewHolder>(){
     private var onClickListener: OnClickListener? = null
     private var itemList: List<CityUIViewModel> = emptyList()
 

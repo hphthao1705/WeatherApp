@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.weatherapp.view.city.CityViewModel" />
     </data>
 
     <FrameLayout
@@ -34,50 +37,52 @@
 
             <ImageView
                 android:id="@+id/empty1"
+                mutableVisibility="@{viewModel.errorVisibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="270dp"
-                android:src="@drawable/umbrella"
-                android:visibility="visible" />
+                android:src="@drawable/umbrella" />
 
             <TextView
                 android:id="@+id/empty2"
+                style="@style/TextBold.White.30sp"
+                mutableText="@{viewModel.errorTitle}"
+                mutableVisibility="@{viewModel.errorVisibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                tools:text="OOPS!"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
+                tools:text="OOPS!" />
 
             <TextView
                 android:id="@+id/empty3"
+                style="@style/TextRegular.White.17sp"
+                mutableText="@{viewModel.errorContent}"
+                mutableVisibility="@{viewModel.errorVisibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="No Data Found"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:visibility="visible" />
+                tools:text="No Data Found" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_search"
+                adapter="@{viewModel.searchAdapter}"
+                mutableVisibility="@{viewModel.searchVisibility}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
 
             <ScrollView
                 android:id="@+id/layout_city"
+                mutableVisibility="@{viewModel.favoriteVisibility}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
+                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_city"
+                    adapter="@{viewModel.favoriteAdapter}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </ScrollView>
