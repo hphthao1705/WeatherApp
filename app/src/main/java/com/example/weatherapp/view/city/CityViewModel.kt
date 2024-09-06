@@ -23,7 +23,11 @@ class CityViewModel(app: Application) : ViewModel() {
     var isSearch: MutableLiveData<Boolean> = MutableLiveData()
     var favoriteCities: List<Search> = listOf()
     val isDone: MutableLiveData<Boolean> = MutableLiveData()
-    val coroutineScope = CoroutineScope(Dispatchers.IO)
+    val isDoneDelete: MutableLiveData<Boolean> = MutableLiveData()
+    var favoriteAdapter: CityAdapter = CityAdapter()
+    var searchAdapter: SearchAdapter = SearchAdapter()
+    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     init {
 //        checkListCityData()
@@ -45,16 +49,24 @@ class CityViewModel(app: Application) : ViewModel() {
         }
     }
 
-    fun addNewCity(search: Search) {
-        insertCity(search)
-    }
-
-    private fun insertCity(item: Search) = viewModelScope.launch(Dispatchers.IO) {
+    fun addNewCity(item: Search) = coroutineScope.launch {
         repository.insertCity(item)
     }
 
-    fun deleteCity(city: String) = viewModelScope.launch(Dispatchers.IO) {
+    private fun deleteCity(city: String) = coroutineScope.launch {
         repository.deleteCity(city)
+    }
+
+    fun checkExistence(search: Search) {
+        coroutineScope.launch {
+            search?.let {
+                val result = repository.checkExistence(search.name.orEmpty())
+                if (result != 0) {
+                    deleteCity(search.name.orEmpty())
+                }
+            }
+        }
+        isDoneDelete.value = true
     }
 
     class ViewModelFactory(private val app: Application) : ViewModelProvider.Factory {

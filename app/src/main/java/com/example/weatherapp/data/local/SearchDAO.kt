@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.weatherapp.data.local.Search
 
 @Dao
 interface SearchDAO {
@@ -14,4 +13,6 @@ interface SearchDAO {
     fun insertCity(city: Search)
     @Query("delete from search where city = :city")
     fun deleteCity(city: String)
+    @Query("SELECT COUNT(city) FROM search WHERE city = :city")
+    fun checkExistence(city: String) : Int
 }

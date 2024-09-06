@@ -88,6 +88,11 @@ class DisplayWeatherFragment : Fragment() {
             mainActivity.showOrHideLoader(it)
         }
 
+        searchViewModel.isDoneDelete.observe(viewLifecycleOwner) {
+            var p = Search(name = cityName, image = image)
+            searchViewModel.addNewCity(p)
+        }
+
         binding.btnListcity.setOnClickListener {
             mainActivity.replaceFragment(CityFragment())
         }
@@ -98,7 +103,7 @@ class DisplayWeatherFragment : Fragment() {
 
     private fun addCityToRoom(cityName: String, image: String) {
         var p = Search(name = cityName, image = image)
-        searchViewModel.addNewCity(p)
+        searchViewModel.checkExistence(p)
     }
 
     private fun setUpRecyclerView() {
