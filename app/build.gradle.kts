@@ -32,10 +32,7 @@ android {
             buildConfigField("String" ,"CITY_URL_2", "\"https://restcountries.com/v3.1/\"")
 
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         debug {
             val weatherKey = "\"e0f033957e784ed999e34806242406\""
@@ -47,10 +44,7 @@ android {
             buildConfigField("String" ,"CITY_URL_2", "\"https://restcountries.com/v3.1/\"")
 
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
