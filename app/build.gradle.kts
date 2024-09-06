@@ -23,6 +23,29 @@ android {
 
     buildTypes {
         release {
+            val weatherKey = "\"e0f033957e784ed999e34806242406\""
+            buildConfigField("String", "WEATHER_KEY", weatherKey)
+
+            buildConfigField("String" ,"WEATHER_URL", "\"https://api.weatherapi.com/\"")
+
+            buildConfigField("String" ,"CITY_URL", "\"https://countriesnow.space/\"")
+            buildConfigField("String" ,"CITY_URL_2", "\"https://restcountries.com/v3.1/\"")
+
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
+            val weatherKey = "\"e0f033957e784ed999e34806242406\""
+            buildConfigField("String", "WEATHER_KEY", weatherKey)
+
+            buildConfigField("String" ,"WEATHER_URL", "\"https://api.weatherapi.com/\"")
+
+            buildConfigField("String" ,"CITY_URL", "\"https://countriesnow.space/\"")
+            buildConfigField("String" ,"CITY_URL_2", "\"https://restcountries.com/v3.1/\"")
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -40,6 +63,7 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
     }
     defaultConfig {
         renderscriptTargetApi = 19

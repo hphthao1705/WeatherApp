@@ -4,11 +4,11 @@ package com.example.weatherapp.repository
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.data.base.ApiHelper
 import com.example.weatherapp.data.base.ErrorData
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.remote.WeatherAPI
-import com.example.weatherapp.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -27,7 +27,7 @@ class WeatherRepositoryImp(private val weatherAPI: WeatherAPI) : WeatherReposito
 //    }
     override fun loadWeather(cityName: String): Flow<Either<ErrorData, Weather?>> = flow {
         ApiHelper.launch(
-            apiCall = { weatherAPI.getWeather(key = Constants.KEY, cityName = cityName, "no") },
+            apiCall = { weatherAPI.getWeather(key = BuildConfig.WEATHER_KEY, cityName = cityName, "no") },
             onSuccess = { result -> emit((result).right()) },
             catchOnHttpError = {
                 emit(it.left())
