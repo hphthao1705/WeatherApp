@@ -26,6 +26,8 @@ class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : View
     val errorVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorTitle: MutableLiveData<String> = MutableLiveData("NO RESULTS")
     val errorContent: MutableLiveData<String> = MutableLiveData("Sorry, there are no results for this search.\nPlease try another place")
+    //action
+    val mapClick: MutableLiveData<Boolean> = MutableLiveData()
     private val coroutineScopeIO = CoroutineScope(Dispatchers.IO)
 
     init {
@@ -59,6 +61,10 @@ class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : View
             }
             isSuccessful.postValue(true)
         }
+    }
+
+    fun onMapClick() {
+        mapClick.value = true
     }
 
     override fun onCleared() {

@@ -35,9 +35,13 @@ class DisplayWeatherFragment : Fragment() {
     private lateinit var binding: FragmentDisplayWeatherBinding
     private lateinit var viewModel: DisplayWeatherViewModel
     private val searchViewModel: CityViewModel by lazy {
-        ViewModelProvider(this, CityViewModel.ViewModelFactory(this.requireActivity().application))[CityViewModel::class.java]
+        ViewModelProvider(
+            this,
+            CityViewModel.ViewModelFactory(this.requireActivity().application)
+        )[CityViewModel::class.java]
     }
-//    private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
+
+    //    private var adapter: WeatherAdapter = WeatherAdapter(emptyList())
     private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
@@ -70,7 +74,7 @@ class DisplayWeatherFragment : Fragment() {
         }
 
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
-            if(it == View.VISIBLE) {
+            if (it == View.VISIBLE) {
                 viewModel.dataVisibility.value = View.GONE
                 viewModel.loadingVisibility.value = View.GONE
             }
@@ -97,6 +101,14 @@ class DisplayWeatherFragment : Fragment() {
             mainActivity.replaceFragment(CityFragment())
         }
 
+        viewModel.mapClick.observe(viewLifecycleOwner) {
+            if (it) {
+                mainActivity.openDialog(
+                    this.javaClass.simpleName
+                )
+            }
+        }
+
         binding.viewModel = viewModel
         mainActivity.saveCurrentState(cityName = cityName.orEmpty())
     }
@@ -108,7 +120,8 @@ class DisplayWeatherFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         binding.rcWeather.setHasFixedSize(true)
-        binding.rcWeather.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rcWeather.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     override fun onAttach(context: Context) {
