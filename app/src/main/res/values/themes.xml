@@ -33,6 +33,10 @@
         <item name="android:textColor">@color/back_1</item>
     </style>
 
+    <style name="TextRegular.Black">
+        <item name="android:textColor">@color/back_1</item>
+    </style>
+
     <style name="TextRegular.White.14sp">
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
@@ -62,6 +66,10 @@
     </style>
 
     <style name="TextBold.Black.24sp">
+        <item name="android:textSize">@dimen/text_24sp</item>
+    </style>
+
+    <style name="TextRegular.Black.24sp">
         <item name="android:textSize">@dimen/text_24sp</item>
     </style>
 
