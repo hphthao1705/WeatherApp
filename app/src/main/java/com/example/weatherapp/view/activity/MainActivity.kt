@@ -1,7 +1,11 @@
 package com.example.weatherapp.view.activity
 
+import android.app.Dialog
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
@@ -33,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.loadingVisibility.observe(this) {
             binding.loading.visibility = it
         }
+
+        binding.viewModel = viewModel
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -132,6 +138,26 @@ class MainActivity : AppCompatActivity() {
 //            showOrHideLoader(View.GONE)
             replaceFragment(DisplayWeatherFragment.newInstance(cityName = ""))
         }
+    }
+
+    fun openDialog(className: String) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.custom_dialog)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(getDrawable((R.drawable.customsearchtext)))
+        dialog.setCancelable(false)
+        val tvTitle: AppCompatTextView = dialog.findViewById(R.id.tvTitle)
+        val tvDescription: AppCompatTextView = dialog.findViewById(R.id.tvDescription)
+        val btnCancel: AppCompatButton = dialog.findViewById(R.id.btnCancel)
+        val btnSubmit: AppCompatButton = dialog.findViewById(R.id.btnSubmit)
+
+        tvTitle.text = viewModel.title.value
+        tvDescription.text = viewModel.description.value
+        btnCancel.text = viewModel.cancelText.value
+        btnSubmit.text = viewModel.okText.value
+        dialog.show()
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
     }
 
 }
