@@ -7,6 +7,7 @@ object AppUtils {
     var cityListData: MutableLiveData<ArrayList<CityUIViewModel>> = MutableLiveData(
         arrayListOf()
     )
+    var isCheckNewLocation: Boolean = true
     fun saveListCity(list: List<CityUIViewModel?>) {
         if(list.isNotEmpty()) {
             cityListData.value?.clear()
