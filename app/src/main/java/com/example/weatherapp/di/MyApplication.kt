@@ -7,6 +7,7 @@ import com.example.weatherapp.di.module.apiModule
 import com.example.weatherapp.di.module.repositoryModule
 import com.example.weatherapp.di.module.useCaseModule
 import com.example.weatherapp.di.module.viewmodelModule
+import com.example.weatherapp.utils.Prefs
 import com.example.weatherapp.utils.common.LoadImage
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache
 import com.nostra13.universalimageloader.core.DisplayImageOptions
@@ -19,13 +20,15 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class MyApplication:Application() {
+class MyApplication : Application() {
     companion object {
         lateinit var instance: MyApplication
             private set
     }
+
     override fun onCreate() {
         super.onCreate()
+        Prefs.init(this)
         initImageLoader()
         instance = this
         LoadImage.init(this)
