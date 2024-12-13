@@ -15,7 +15,4 @@
 <p>The app uses MVVM architecture</p>
 <img src="mvvm_model.png">
 <h1>Outputs</h1>
- <video width="640" height="360" controls autoplay>
-    <source src="https://github.com/user-attachments/assets/4cbd8cda-45e4-4f5c-8bfa-b06d787ff964" type="video/mp4">
-    Your browser does not support video tags. Please update your browser.
-  </video>
+![app_demo](https://github.com/user-attachments/assets/69d4d066-cc8b-4ac1-b0a6-c5c8c237ec84)
