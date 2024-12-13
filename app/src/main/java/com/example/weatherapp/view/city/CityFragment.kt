@@ -1,7 +1,11 @@
 package com.example.weatherapp.view.city
 
 import android.content.Context
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +17,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.data.model.CityData
 import com.example.weatherapp.databinding.FragmentCityBinding
 import com.example.weatherapp.utils.AppUtils
+import com.example.weatherapp.utils.Prefs
+import com.example.weatherapp.utils.location.LocationProvider
+import com.example.weatherapp.utils.location.LocationUtils
 import com.example.weatherapp.view.activity.MainActivity
 import com.example.weatherapp.view.city.adapter.CityAdapter
 import com.example.weatherapp.view.city.adapter.SearchAdapter
 import com.example.weatherapp.view.city.uiViewModel.CityUIViewModel
 import com.example.weatherapp.view.displayWeather.DisplayWeatherFragment
 import com.google.android.gms.common.internal.Preconditions.checkMainThread
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -40,6 +50,9 @@ class CityFragment : Fragment() {
         )[CityViewModel::class.java]
     }
     private lateinit var mainActivity: MainActivity
+    private lateinit var locationProvider: LocationProvider
+    private var dbCity: CityData? = null
+    private val coroutineScopeIO = CoroutineScope(Dispatchers.IO)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +72,12 @@ class CityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
         binding.lifecycleOwner = this
+
+        dbCity = Prefs.getCityData()
+        locationProvider = LocationProvider(
+            mainActivity,
+            this, LocationUtils.getCallBack(this::onSuccess)
+        )
 
         viewModel.getAll()
 
@@ -86,6 +105,10 @@ class CityFragment : Fragment() {
             } else {
                 viewModel.errorVisibility.value = View.GONE
             }
+        }
+
+        if(dbCity?.city.isNullOrBlank() && AppUtils.isCheckNewLocation) {
+            checkLocation(Prefs.getCityData().city)
         }
 
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
@@ -138,7 +161,7 @@ class CityFragment : Fragment() {
         binding.txtSearch.textChanges().debounce(500).onEach { searchCity(it.toString()) }
             .launchIn(lifecycleScope)
 
-        mainActivity.saveCurrentState("")
+        Prefs.saveCurrentState("")
 
         binding.viewModel = viewModel
     }
@@ -200,6 +223,98 @@ class CityFragment : Fragment() {
             viewModel.errorContent.value = viewModel.emptyContentFavorite.value
         }
     }
+
+    private fun checkLocation(dbCity: String?) {
+        if (dbCity != null) {
+            locationProvider.onLocation()
+        }
+    }
+
+    fun onSuccess(location: Location?) {
+        if (location != null) {
+            val addresses: List<Address>?
+            val geoCoder = Geocoder(mainActivity)
+            locationProvider.removeGetLocation()
+            try {
+                if (Geocoder.isPresent()) {
+                    addresses = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                    if (!addresses.isNullOrEmpty()) {
+                        var city: String? = addresses[0].locality
+                        if (city.isNullOrEmpty()) {
+                            city = addresses[0].adminArea
+                        }
+
+                        if (!city.isNullOrEmpty() && !dbCity?.city.isNullOrEmpty() && city != dbCity?.city && AppUtils.isCheckNewLocation) {
+                            val distance = calculateDistance(location) //km
+                            if (distance > 100) {
+                                Log.d("Thao Ho", "distance > 100")
+//                                mainActivity.showDialogNewLocation(
+//                                    viewModel.titleDialog.value ?: "",
+//                                    viewModel.descriptionDialog.value ?: "",
+//                                    viewModel.updateButton.value ?: "",
+//                                    viewModel.keepButton.value ?: "",
+//                                    location
+//                                ) {
+//                                    applyNewLocation(
+//                                        city,
+//                                        addresses[0].countryName,
+//                                        location
+//                                    )
+//                                }
+                            }
+                            AppUtils.isCheckNewLocation = false
+                            return
+                        }
+//                        if (!city.isNullOrEmpty() && city != viewModel.citySelected.value?.location || !city.isNullOrEmpty() && AppUtils.isChangeCity) {
+////                            applyNewLocation(city, addresses[0].countryName ?: "New York", location)
+//                        }
+                    } else {
+                        AppUtils.isCheckNewLocation = false
+                    }
+                }
+            } catch (_: Exception) {
+
+            }
+
+        } else {
+            locationProvider.onLocation()
+            locationProvider.startLocationUpdates()
+        }
+    }
+
+    private fun calculateDistance(location: Location): Float {
+        val newLocation = Location("")
+        newLocation.latitude = location.latitude
+        newLocation.longitude = location.longitude
+
+        val oldLocation = Location("")
+        oldLocation.latitude = Prefs.latitude.toDoubleOrNull() ?: 0.0
+        oldLocation.longitude = Prefs.longitude.toDoubleOrNull() ?: 0.0
+
+
+        if (oldLocation.latitude == 0.0 || oldLocation.longitude == 0.0) {
+            return 0f
+        }
+
+        return oldLocation.distanceTo(newLocation) / 1000
+    }
+
+//    private fun applyNewLocation(city: String, countryName: String?, location: Location) {
+//        coroutineScopeIO.launch {
+//            ExploredUtils.cacheCity(city, countryName, isLocate = true)
+//
+//            withContext(Dispatchers.Main) {
+//                viewModel.getWeather(location.latitude, location.longitude)
+//                Prefs.latitude = location.latitude.toString()
+//                Prefs.longitude = location.longitude.toString()
+//                AppUtils.isCheckNewLocation = false
+//                AppUtils.isChangeCity = true
+//                sharedViewModel.citySelected.value = ExploredUtils.getSelectedCity()
+//            }
+//        }
+//    }
+
 
     @ExperimentalCoroutinesApi
     @CheckResult

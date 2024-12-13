@@ -16,6 +16,12 @@ class MainActivityViewModel(private val cityUseCase: CityUseCase) : ViewModel() 
     val doneAPI: MutableLiveData<Boolean> = MutableLiveData()
     var errorVisibility: MutableLiveData<Int> = MutableLiveData()
 
+    //dialog
+    val title = MutableLiveData<String>("Update location")
+    val description = MutableLiveData<String>("Turn on location")
+    val cancelText = MutableLiveData<String>("Cancel")
+    val okText = MutableLiveData<String>("OK")
+
     init {
 //        loadCities()
         loadCities2()
