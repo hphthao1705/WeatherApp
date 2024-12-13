@@ -15,4 +15,5 @@
 <p>The app uses MVVM architecture</p>
 <img src="mvvm_model.png">
 <h1>Outputs</h1>
+
 ![app_demo](https://github.com/user-attachments/assets/69d4d066-cc8b-4ac1-b0a6-c5c8c237ec84)
