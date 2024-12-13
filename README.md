@@ -1,5 +1,5 @@
 <h1>Weather App</h1>
-<p>A simple app to view the weather in the city you want</p>
+<p>A simple app to search and view the weather in the city you want. After searching, the 10 most recently searched cities will be saved.</p>
 <h1>Libraries</h1>
 <ul>
   <li>Coroutines</li>
@@ -9,8 +9,6 @@
   <li>Retrofit2</li>
   <li>Room</li>
   <li>Shared Preferences</li>
-  <li>JUnit4</li>
-  <li>Espresso</li>
   <li>Koin</li>
 </ul>
 <h1>Architecture</h1>
