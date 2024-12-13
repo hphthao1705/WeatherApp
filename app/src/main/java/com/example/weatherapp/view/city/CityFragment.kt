@@ -82,9 +82,9 @@ class CityFragment : Fragment() {
                         )
                     }
                 })
-                viewModel.favoriteVisibility.value = View.GONE
+                viewModel.favoriteVisibility.value = View.VISIBLE
             } else {
-                viewModel.errorVisibility.value = View.VISIBLE
+                viewModel.errorVisibility.value = View.GONE
             }
         }
 
@@ -95,13 +95,6 @@ class CityFragment : Fragment() {
                 setErrorMessageDisplay()
             }
             viewModel.loadingVisibility.value = View.GONE
-//            if (it == View.GONE) {
-//
-//            } else {
-//                setErrorMessageDisplay()
-//                viewModel.searchVisibility.value = View.GONE
-//                viewModel.favoriteVisibility.value = View.GONE
-//            }
         }
 
         viewModel.searchVisibility.observe(viewLifecycleOwner) {
@@ -129,7 +122,6 @@ class CityFragment : Fragment() {
                             )
                         }
                     })
-                    viewModel.favoriteVisibility.value = View.GONE
                     viewModel.searchVisibility.value = View.GONE
                     viewModel.errorVisibility.value = View.GONE
                 }
@@ -198,16 +190,6 @@ class CityFragment : Fragment() {
         binding.recyclerviewSearch.setHasFixedSize(true)
         binding.recyclerviewSearch.layoutManager = LinearLayoutManager(context)
     }
-
-//    private fun setVisibility(isSearch: Boolean) {
-//        if (isSearch) {
-//            viewModel.searchVisibility.value = View.VISIBLE
-//            viewModel.favoriteVisibility.value = View.GONE
-//        } else {
-//            viewModel.favoriteVisibility.value = View.VISIBLE
-//            viewModel.searchVisibility.value = View.GONE
-//        }
-//    }
 
     private fun setErrorMessageDisplay() {
         if (viewModel.isSearch.value == true) {
