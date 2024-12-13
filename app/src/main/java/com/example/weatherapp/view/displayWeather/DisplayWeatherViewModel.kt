@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : ViewModel() {
-    var weather: WeatherUIViewModel = WeatherUIViewModel()
+    private var weather: WeatherUIViewModel = WeatherUIViewModel()
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val city: MutableLiveData<String> = MutableLiveData()
     val condition: MutableLiveData<String> = MutableLiveData()
@@ -39,27 +39,26 @@ class DisplayWeatherViewModel(private val weatherUseCase: WeatherUseCase) : View
         coroutineScopeIO.launch {
             weatherUseCase.getWeather(cityName).collect {
                 it.onRight {data ->
-                    data?.let {
-                        weather = it
+                    data?.let { weatherData ->
+                        weather = weatherData
                         withContext(Dispatchers.Main) {
                             city.value = data.city.orEmpty()
                             condition.value = data.condition.orEmpty()
                             tempurature.value = data.tempurature.orEmpty()
                             imageWeather.value = "https:${data.image}"
-                            data.properties?.let {
-                                weatherAdapter.setData(it)
+                            data.properties?.let { weatherProperties ->
+                                weatherAdapter.setData(weatherProperties)
                             } ?: run {
                                 weatherAdapter.setData(arrayListOf())
                             }
+                            isSuccessful.postValue(true)
                         }
-                        weather = it
                     }
                 }
                 it.onLeft {
                     errorVisibility.postValue(View.VISIBLE)
                 }
             }
-            isSuccessful.postValue(true)
         }
     }
 

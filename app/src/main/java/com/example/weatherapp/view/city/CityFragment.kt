@@ -101,9 +101,9 @@ class CityFragment : Fragment() {
                         )
                     }
                 })
-                viewModel.errorVisibility.value = View.GONE
+                viewModel.favoriteVisibility.value = View.VISIBLE
             } else {
-                viewModel.errorVisibility.value = View.VISIBLE
+                viewModel.errorVisibility.value = View.GONE
             }
         }
 
@@ -112,15 +112,46 @@ class CityFragment : Fragment() {
         }
 
         viewModel.errorVisibility.observe(viewLifecycleOwner) {
-            if (it == View.GONE) {
-                viewModel.isSearch.value?.let { it1 -> setVisibility(it1) }
-                    ?: run { setVisibility(false) }
-            } else {
-                setErrorMessageDisplay()
+            if(it == View.VISIBLE) {
                 viewModel.searchVisibility.value = View.GONE
                 viewModel.favoriteVisibility.value = View.GONE
+                setErrorMessageDisplay()
             }
             viewModel.loadingVisibility.value = View.GONE
+        }
+
+        viewModel.searchVisibility.observe(viewLifecycleOwner) {
+            if(it == View.VISIBLE) {
+                viewModel.favoriteVisibility.value = View.GONE
+                viewModel.errorVisibility.value = View.GONE
+            }
+        }
+
+
+        viewModel.favoriteVisibility.observe(viewLifecycleOwner) {
+            if(it == View.VISIBLE) {
+                if (viewModel.favoriteCities.isNotEmpty()) {
+                    setUpFavoriteRecyclerView()
+                    viewModel.favoriteAdapter.setDataList(viewModel.favoriteCities.asSequence().map {
+                        CityUIViewModel.from(it)
+                    }.toList())
+                    viewModel.favoriteAdapter.setOnClickListener(object : CityAdapter.OnClickListener {
+                        override fun onClick(city: CityUIViewModel) {
+                            mainActivity.replaceFragment(
+                                DisplayWeatherFragment.newInstance(
+                                    cityName = city.city,
+                                    image = city.image
+                                )
+                            )
+                        }
+                    })
+                    viewModel.searchVisibility.value = View.GONE
+                    viewModel.errorVisibility.value = View.GONE
+                }
+                else {
+                    viewModel.errorVisibility.value = View.VISIBLE
+                }
+            }
         }
 
         viewModel.loadingVisibility.observe(viewLifecycleOwner) {
@@ -159,7 +190,7 @@ class CityFragment : Fragment() {
 
             filterList?.let {
                 if (it.isNotEmpty()) {
-                    viewModel.errorVisibility.value = View.GONE
+                    viewModel.searchVisibility.value = View.VISIBLE
                 } else {
                     viewModel.errorVisibility.value = View.VISIBLE
                 }
@@ -169,7 +200,7 @@ class CityFragment : Fragment() {
         } else {
             //If user is not search anymore, back to favorite list
             viewModel.isSearch.value = false
-            viewModel.errorVisibility.value = View.GONE
+            viewModel.favoriteVisibility.value = View.VISIBLE
         }
     }
 
@@ -181,16 +212,6 @@ class CityFragment : Fragment() {
     private fun setUpSearchRecyclerView() {
         binding.recyclerviewSearch.setHasFixedSize(true)
         binding.recyclerviewSearch.layoutManager = LinearLayoutManager(context)
-    }
-
-    private fun setVisibility(isSearch: Boolean) {
-        if (isSearch) {
-            viewModel.searchVisibility.value = View.VISIBLE
-            viewModel.favoriteVisibility.value = View.GONE
-        } else {
-            viewModel.favoriteVisibility.value = View.VISIBLE
-            viewModel.searchVisibility.value = View.GONE
-        }
     }
 
     private fun setErrorMessageDisplay() {
